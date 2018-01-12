@@ -1,11 +1,9 @@
 package org.usfirst.frc.team85.robot;
 
-import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.*;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -16,15 +14,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private TalonSRX _motoruno = new TalonSRX(1);
-	private TalonSRX _motordos = new TalonSRX(2);
+	private TalonSRX _motor0 = new TalonSRX(0);
+	private TalonSRX _motor1 = new TalonSRX(1);
+	private TalonSRX _motor2 = new TalonSRX(2);
+	private TalonSRX _motor3 = new TalonSRX(3);
 	
-	private TalonSRX _motortes = new TalonSRX(3);
-	private TalonSRX _motorcuatro = new TalonSRX(4);
-	private Joystick _controller = new Joystick(0);
 	private Relay _light = new Relay(0);
 	
-
+	private Joystick _controller = new Joystick(0);
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -33,6 +31,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
 		
+		SmartDashboard.putNumber("/motors/motor0", 1);
+		SmartDashboard.putNumber("/motors/motor1", 1);
+		SmartDashboard.putNumber("/motors/motor2", 1);
+		SmartDashboard.putNumber("/motors/motor3", 1);
+
 	}
 
 	/**
@@ -65,12 +68,17 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		_motoruno.set(ControlMode.PercentOutput, _controller.getX());
-/**		if (_controller.getRawButton(1)) {
+		_motor0.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor0", 0));
+		_motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor1", 0));
+		_motor2.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor2", 0));
+		_motor3.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor3", 0));
+
+		 if (_controller.getRawButton(1)) {
 			_light.set(Relay.Value.kForward);
-		} else {
+		 } else {
 			_light.set(Relay.Value.kOff);
-	**/
+		 }
+		
 		while(_controller.getRawButton(1)) {
 			_light.set(Relay.Value.kForward);
 			try {
