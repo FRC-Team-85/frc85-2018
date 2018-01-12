@@ -14,14 +14,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private TalonSRX _motor0 = new TalonSRX(0);
 	private TalonSRX _motor1 = new TalonSRX(1);
 	private TalonSRX _motor2 = new TalonSRX(2);
 	private TalonSRX _motor3 = new TalonSRX(3);
+	private TalonSRX _motor4 = new TalonSRX(4);
 	
 	private Relay _light = new Relay(0);
 	
+	private Compressor _compressor = new Compressor(0);
+	private Solenoid _solenoid1 = new Solenoid(0,1);
+	private Solenoid _solenoid2 = new Solenoid(0,3);
+	
 	private Joystick _controller = new Joystick(0);
+	
+	private double motorSpeed = 0;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,10 +37,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
 		
-		SmartDashboard.putNumber("/motors/motor0", 1);
-		SmartDashboard.putNumber("/motors/motor1", 1);
-		SmartDashboard.putNumber("/motors/motor2", 1);
-		SmartDashboard.putNumber("/motors/motor3", 1);
+		SmartDashboard.putNumber("/motors/motor1", 0);
+		SmartDashboard.putNumber("/motors/motor2", 0);
+		SmartDashboard.putNumber("/motors/motor3", 0);
+		SmartDashboard.putNumber("/motors/motor4", 0);
+		
+		_compressor.setClosedLoopControl(true);
 
 	}
 
@@ -68,12 +76,40 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		_motor0.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor0", 0));
-		_motor1.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor1", 0));
-		_motor2.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor2", 0));
-		_motor3.set(ControlMode.PercentOutput, SmartDashboard.getNumber("/motors/motor3", 0));
+		motorSpeed = -_controller.getRawAxis(1);
+		
+		_motor1.set(ControlMode.PercentOutput, motorSpeed);
+		_motor2.set(ControlMode.PercentOutput, motorSpeed);
+		_motor3.set(ControlMode.PercentOutput, motorSpeed);
+		_motor4.set(ControlMode.PercentOutput, motorSpeed);
+		
+		SmartDashboard.putNumber("/motors/speed", motorSpeed);
 
-		 if (_controller.getRawButton(1)) {
+		/*if(_controller.getRawButton(1)) {
+			motorSpeed += 0.01;
+		}
+		
+		if(_controller.getRawButton(2)) {
+			motorSpeed -= 0.01;
+		}*/
+		
+		//B controls solenoid1
+		if(_controller.getRawButton(3)) {
+			_solenoid1.set(true);
+		}
+		else {
+			_solenoid1.set(false);
+		}
+		
+		//Y controls solenoid2
+		if(_controller.getRawButton(4)) {
+			_solenoid2.set(true);
+		}
+		else {
+			_solenoid2.set(false);
+		}
+		
+		 /*if (_controller.getRawButton(1)) {
 			_light.set(Relay.Value.kForward);
 		 } else {
 			_light.set(Relay.Value.kOff);
@@ -94,7 +130,7 @@ public class Robot extends IterativeRobot {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	}
+			*/
 	}
 
 	/**
