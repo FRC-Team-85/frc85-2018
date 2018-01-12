@@ -1,6 +1,8 @@
 package org.usfirst.frc.team85.robot;
 
 import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.*;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -14,11 +16,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private CANTalon _motoruno = new CANTalon(1);
-	private CANTalon _motordos = new CANTalon(2);
+	private TalonSRX _motoruno = new TalonSRX(1);
+	private TalonSRX _motordos = new TalonSRX(2);
 	
-	private CANTalon _motortes = new CANTalon(3);
-	private CANTalon _motorcuatro = new CANTalon(4);
+	private TalonSRX _motortes = new TalonSRX(3);
+	private TalonSRX _motorcuatro = new TalonSRX(4);
 	private Joystick _controller = new Joystick(0);
 	private Relay _light = new Relay(0);
 	
@@ -63,7 +65,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		_motoruno.set(_controller.getX());
+		_motoruno.set(ControlMode.PercentOutput, _controller.getX());
 /**		if (_controller.getRawButton(1)) {
 			_light.set(Relay.Value.kForward);
 		} else {
