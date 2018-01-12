@@ -1,6 +1,8 @@
 package org.usfirst.frc.team85.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
+import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,10 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
+	private CANTalon _motoruno = new CANTalon(1);
+	private CANTalon _motordos = new CANTalon(2);
+	
+	private CANTalon _motortes = new CANTalon(3);
+	private CANTalon _motorcuatro = new CANTalon(4);
+	private Joystick _controller = new Joystick(0);
+	private Relay _light = new Relay(0);
+	
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -23,9 +29,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		CameraServer.getInstance().startAutomaticCapture();
+		
 	}
 
 	/**
@@ -41,10 +46,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
+		
 	}
 
 	/**
@@ -52,22 +54,37 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
+		
 		}
-	}
+	
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
 	public void teleopPeriodic() {
+		_motoruno.set(_controller.getX());
+/**		if (_controller.getRawButton(1)) {
+			_light.set(Relay.Value.kForward);
+		} else {
+			_light.set(Relay.Value.kOff);
+	**/
+		while(_controller.getRawButton(1)) {
+			_light.set(Relay.Value.kForward);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			_light.set(Relay.Value.kOff);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
 	}
 
 	/**
