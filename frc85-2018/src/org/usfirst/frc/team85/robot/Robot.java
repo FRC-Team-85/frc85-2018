@@ -29,7 +29,6 @@ public class Robot extends IterativeRobot {
 	 */
 
 	private Joystick _controller = new Joystick(0);
-	private Joystick _controller2 = new Joystick(1);
 
 	// private double motorSpeed = 0;
 
@@ -94,10 +93,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		_motor1Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("motors/axis/motor1Axis", 0));
-		_motor2Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("motors/axis/motor2Axis", 1));
-		_motor3Speed = -_controller2.getRawAxis((int) SmartDashboard.getNumber("motors/axis/motor3Axis", 0));
-		_motor4Speed = -_controller2.getRawAxis((int) SmartDashboard.getNumber("motors/axis/motor4Axis", 1));
+		_motor1Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor1Axis", 0));
+		_motor2Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor2Axis", 1));
+		_motor3Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor3Axis", 0));
+		_motor4Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor4Axis", 1));
 
 		_motor1.set(ControlMode.PercentOutput, _motor1Speed);
 		_motor2.set(ControlMode.PercentOutput, _motor2Speed);
