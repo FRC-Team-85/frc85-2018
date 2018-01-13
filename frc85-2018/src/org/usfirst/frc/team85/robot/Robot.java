@@ -8,13 +8,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the manifest file in the resource
- * directory.
- */
 public class Robot extends IterativeRobot {
 	private TalonSRX _motor1 = new TalonSRX(1);
 	private TalonSRX _motor2 = new TalonSRX(2);
@@ -35,10 +28,6 @@ public class Robot extends IterativeRobot {
 	private double _motor3Speed = 0;
 	private double _motor4Speed = 0;
 
-	/**
-	 * This function is run when the robot is first started up and should be used
-	 * for any initialization code.
-	 */
 	@Override
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
@@ -55,35 +44,20 @@ public class Robot extends IterativeRobot {
 
 		// _compressor.setClosedLoopControl(true);
 
+		// MotorGroup leftDriveTrain = new MotorGroup(new int[] { 0, 1, 2, 3 });
+		// logs.add(leftDriveTrain);
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable chooser
-	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
-	 * remove all of the chooser code and uncomment the getString line to get the
-	 * auto name from the text box below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * switch structure below with additional strings. If using the SendableChooser
-	 * make sure to add them to the chooser code above as well.
-	 */
 	@Override
 	public void autonomousInit() {
 
 	}
 
-	/**
-	 * This function is called periodically during autonomous
-	 */
 	@Override
 	public void autonomousPeriodic() {
 
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
 	@Override
 	public void teleopPeriodic() {
 		_motor1Speed = -_controller.getRawAxis(1);
@@ -100,11 +74,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("/motors/motor2", _motor2Speed);
 		SmartDashboard.putNumber("/motors/motor3", _motor3Speed);
 		SmartDashboard.putNumber("/motors/motor4", _motor4Speed);
-
-		SmartDashboard.putNumber("/motors/current/motor1Current", _motor1.getOutputCurrent());
-		SmartDashboard.putNumber("/motors/current/motor2Current", _motor2.getOutputCurrent());
-		SmartDashboard.putNumber("/motors/current/motor3Current", _motor3.getOutputCurrent());
-		SmartDashboard.putNumber("/motors/current/motor4Current", _motor4.getOutputCurrent());
 
 		/*
 		 * if(_controller.getRawButton(1)) { motorSpeed += 0.01; }
@@ -132,9 +101,6 @@ public class Robot extends IterativeRobot {
 		 */
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
 	public void testPeriodic() {
 	}

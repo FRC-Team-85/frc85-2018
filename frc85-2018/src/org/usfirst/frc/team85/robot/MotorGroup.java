@@ -21,13 +21,13 @@ public class MotorGroup {
 			motors[i].set(ControlMode.PercentOutput, power);
 		}
 	}
-	
+
 	public double[] getCurrent() {
 		double[] current = new double[motors.length];
 		for (int i = 0; i < motors.length; i++) {
 			current[i] = motors[i].getOutputCurrent();
 		}
-		
+
 		return current;
 	}
 }
