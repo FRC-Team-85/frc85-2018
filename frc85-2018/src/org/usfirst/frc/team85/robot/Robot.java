@@ -28,7 +28,8 @@ public class Robot extends IterativeRobot {
 	 * Solenoid(0, 3);
 	 */
 
-	private Joystick _controller = new Joystick(0);
+	Controller driveStick = new Controller(0);
+	Controller opStick = new Controller(1);
 
 	// private double motorSpeed = 0;
 
@@ -44,16 +45,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		CameraServer.getInstance().startAutomaticCapture();
-
-		SmartDashboard.putNumber("/motors/axis/motor1Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/motor2Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/motor3Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/motor4Axis", 0);
-		
-		SmartDashboard.putNumber("/motors/axis/test/motor1Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/test/motor2Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/test/motor3Axis", 0);
-		SmartDashboard.putNumber("/motors/axis/test/motor4Axis", 0);
 
 		SmartDashboard.putNumber("/motors/motor1", 0);
 		SmartDashboard.putNumber("/motors/motor2", 0);
@@ -98,16 +89,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		_motor1Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor1Axis", 0));
-		_motor2Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor2Axis", 0));
-		_motor3Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor3Axis", 0));
-		_motor4Speed = -_controller.getRawAxis((int) SmartDashboard.getNumber("/motors/axis/motor4Axis", 0));
+		_motor1Speed = -driveStick.getRawAxis(1);
+		_motor2Speed = -driveStick.getRawAxis(1);
+		_motor3Speed = -driveStick.getRawAxis(3);
+		_motor4Speed = -driveStick.getRawAxis(3);
 		
-		SmartDashboard.putNumber("/motors/axis/test/motor1Axis", (int) SmartDashboard.getNumber("/motors/axis/motor1Axis", 0));
-		SmartDashboard.putNumber("/motors/axis/test/motor2Axis", (int) SmartDashboard.getNumber("/motors/axis/motor2Axis", 0));
-		SmartDashboard.putNumber("/motors/axis/test/motor3Axis", (int) SmartDashboard.getNumber("/motors/axis/motor3Axis", 0));
-		SmartDashboard.putNumber("/motors/axis/test/motor4Axis", (int) SmartDashboard.getNumber("/motors/axis/motor4Axis", 0));
-
 		_motor1.set(ControlMode.PercentOutput, _motor1Speed);
 		_motor2.set(ControlMode.PercentOutput, _motor2Speed);
 		_motor3.set(ControlMode.PercentOutput, _motor3Speed);
