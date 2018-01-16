@@ -7,8 +7,8 @@ public class Robot extends IterativeRobot {
 
 	private Joystick _controller = new Joystick(0);
 
-	MotorGroup motorGroupRight = new MotorGroup(new int[] { 0, 1 });
-	MotorGroup motorGroupLeft = new MotorGroup(new int[] { 2, 3 });
+	MotorGroup motorGroupRight = new MotorGroup(new int[] { 1, 2 });
+	MotorGroup motorGroupLeft = new MotorGroup(new int[] { 3, 4 });
 
 	private double _speedRight = 0;
 	private double _speedLeft = 0;
@@ -30,8 +30,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		_speedRight = _controller.getRawAxis(1);
-		_speedLeft = _controller.getRawAxis(3);
+		_speedRight = _controller.getRawAxis(3);
+		_speedLeft = _controller.getRawAxis(1);
 
 		motorGroupRight.setPower(_speedRight);
 		motorGroupLeft.setPower(_speedLeft);
