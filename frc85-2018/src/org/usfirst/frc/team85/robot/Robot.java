@@ -1,14 +1,12 @@
 package org.usfirst.frc.team85.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
 	private Controller _driveStick;
-	
-	private Prototype group1, group2;
+	private Prototype pair1, pair2;
 
 	@Override
 	public void robotInit() {
@@ -17,8 +15,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("motor1", 1);
 		SmartDashboard.putNumber("motor2", 2);
 		
-		group1 = new Prototype(SmartDashboard.getNumber("motor1", 1), Controller.a, Controller.b, _driveStick);
-		group2 = new Prototype(SmartDashboard.getNumber("motor2", 2), Controller.x, Controller.y, _driveStick);
+		pair1 = new Prototype(SmartDashboard.getNumber("motor1", 1), Controller.a, Controller.b, _driveStick);
+		pair2 = new Prototype(SmartDashboard.getNumber("motor2", 2), Controller.x, Controller.y, _driveStick);
 	}
 
 	@Override
@@ -33,8 +31,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		group1.setButtonPairs();
-		group2.setButtonPairs();
+		pair1.setMotors();
+		pair2.setMotors();
 		
 	}
 

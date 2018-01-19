@@ -21,7 +21,7 @@ public class Controller {
 	public static final int leftClick = 11;
 	public static final int rightClick = 12;
 	
-	Joystick _controller;
+	private Joystick _controller;
 	
 	public Controller(int id) {
 		_controller = new Joystick(id);
