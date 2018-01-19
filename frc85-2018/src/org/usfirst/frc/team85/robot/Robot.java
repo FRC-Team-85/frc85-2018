@@ -2,20 +2,23 @@ package org.usfirst.frc.team85.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-
-	private Joystick _controller = new Joystick(0);
-
-	MotorGroup motorGroupRight = new MotorGroup(new int[] { 1, 2 });
-	MotorGroup motorGroupLeft = new MotorGroup(new int[] { 3, 4 });
-
-	private double _speedRight = 0;
-	private double _speedLeft = 0;
+	
+	private Controller _driveStick;
+	
+	private Prototype group1, group2;
 
 	@Override
 	public void robotInit() {
-
+		_driveStick = new Controller(0);
+		
+		SmartDashboard.putNumber("motor1", 1);
+		SmartDashboard.putNumber("motor2", 2);
+		
+		group1 = new Prototype(SmartDashboard.getNumber("motor1", 1), Controller.a, Controller.b, _driveStick);
+		group2 = new Prototype(SmartDashboard.getNumber("motor2", 2), Controller.x, Controller.y, _driveStick);
 	}
 
 	@Override
@@ -30,11 +33,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		_speedRight = _controller.getRawAxis(3);
-		_speedLeft = _controller.getRawAxis(1);
-
-		motorGroupRight.setPower(_speedRight);
-		motorGroupLeft.setPower(_speedLeft);
+		group1.setButtonPairs();
+		group2.setButtonPairs();
+		
 	}
 
 	@Override
