@@ -17,6 +17,10 @@ public class Robot extends IterativeRobot {
 		_leftJoystick = new Joystick (0);
 		_rightJoystick = new Joystick (1);
 		
+		_drive = new Drive(1, 2, 4, 3);
+		
+		_controller = new Controller();
+		
 		SmartDashboard.putNumber("motor1", 1);
 		SmartDashboard.putNumber("motor2", 2);
 		
@@ -38,10 +42,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		//pair1.setMotors();
 		//pair2.setMotors();
-		_drive.setLeftSpeed(_controller.getAxisLeft());
-		_drive.setRightSpeed(_controller.getAxisRight());
 		
-		_drive.setMotors();
+		_drive.setMotors(_controller.getAxisLeft(), _controller.getAxisRight());
 		
 	}
 

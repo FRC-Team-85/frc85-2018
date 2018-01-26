@@ -33,7 +33,7 @@ public class Controller {
 	
 	public double getAxisLeft() {
 		if (Math.abs(_leftJoystick.getRawAxis(yAxis)) >= .15) {
-			return -1 * _leftJoystick.getRawAxis(yAxis);
+			return _leftJoystick.getRawAxis(yAxis);
 		} 
 		else {
 			return 0;
@@ -42,7 +42,7 @@ public class Controller {
 	
 	public double getAxisRight() {
 		if (Math.abs(_rightJoystick.getRawAxis(yAxis)) >= .15) {
-			return -1 * _rightJoystick.getRawAxis(yAxis);
+			return _rightJoystick.getRawAxis(yAxis);
 		} 
 		else {
 			return 0;

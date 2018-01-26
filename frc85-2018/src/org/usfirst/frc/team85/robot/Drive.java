@@ -42,14 +42,14 @@ public class Drive {
 	/**
 	 * Sets all motors to their appropriate speeds
 	 */
-	public void setMotors() {
-		for(TalonSRX motor : left) {
-			motor.set(ControlMode.PercentOutput, _leftSpeed);
-		}
-		for(TalonSRX motor : right) {
-			motor.set(ControlMode.PercentOutput, _rightSpeed);
-		}
+	public void setMotors(double _leftV, double _rightV) {
+		leftFront.set(ControlMode.PercentOutput, _leftV);
+		leftBack.set(ControlMode.PercentOutput, _leftV);
+		rightFront.set(ControlMode.PercentOutput, _rightV);
+		rightBack.set(ControlMode.PercentOutput, _rightV);
+	
 	}
+	
 	
 	/**
 	 * Mutator method for _leftSpeed
