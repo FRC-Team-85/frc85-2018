@@ -4,13 +4,12 @@ import org.usfirst.frc.team85.robot.auto.Auto;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
 
 public class SuperStructure extends IterativeRobot {
 
 	protected static SuperStructure structure = null;
 
-	protected Joystick controller;
+	protected Controller controller;
 	protected MotorGroup mgLeft;
 	protected MotorGroup mgRight;
 	protected ADXRS450_Gyro gyro;
@@ -25,7 +24,7 @@ public class SuperStructure extends IterativeRobot {
 		return structure;
 	}
 
-	public Joystick getController() {
+	public Controller getController() {
 		return controller;
 	}
 
