@@ -11,14 +11,15 @@ public class Auto {
 	public Auto(String fieldKey) {
 		_fieldKey = fieldKey;
 
-		_movementActions.add(new Action(ActionType.ACCEL, new double[] { 0, .85, 5 },
-				new InputSource(InputType.RANGE, new double[] { 3, 4 }),
-				new InputSource(InputType.GYRO, new double[] { 0 }), null));
+		_movementActions.add(new Action(ActionType.ACCEL, new double[] { .50, .2 },
+				new InputSource(InputType.GYRO, new double[] { 0 }), null, null));
 
-		_movementActions.add(new Action(ActionType.STRAIGHT, new double[] { .85, 100 },
-				new InputSource(InputType.GYRO, new double[] { 0 }),
-				new InputSource(InputType.RANGE, new double[] { 3, 4 }),
-				new InputSource(InputType.RANGE, new double[] { 2, 30 })));
+		_movementActions.add(new Action(ActionType.STRAIGHT, new double[] { .50 },
+				new InputSource(InputType.GYRO, new double[] { 0 }), null,
+				new InputSource(InputType.ENCODER, new double[] { 20, 20 })));
+
+		_movementActions.add(new Action(ActionType.DECEL, new double[] { 0, .2 },
+				new InputSource(InputType.GYRO, new double[] { 0 }), null, null));
 	}
 
 	public static void terminate() {
@@ -27,11 +28,9 @@ public class Auto {
 		}
 	}
 
-	public void autoTick() {
+	public double[] autoTick() {
 		double[] movement = _movementActions.get(0).returnSpeed();
 
-		if (movement != null) {
-			// set Drivetrain values
-		}
+		return movement;
 	}
 }

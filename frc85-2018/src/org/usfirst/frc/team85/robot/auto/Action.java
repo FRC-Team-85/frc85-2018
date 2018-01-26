@@ -1,5 +1,8 @@
 package org.usfirst.frc.team85.robot.auto;
 
+import org.usfirst.frc.team85.robot.MotorGroup;
+import org.usfirst.frc.team85.robot.SuperStructure;
+
 public class Action {
 
 	private ActionType _type;
@@ -7,6 +10,8 @@ public class Action {
 	private InputSource _firstSource;
 	private InputSource _secondSource;
 	private InputSource _terminationSource;
+
+	private double timeStamp = System.currentTimeMillis();
 
 	public Action(ActionType type, double[] param, InputSource firstSource, InputSource secondSource,
 			InputSource terminationSource) {
@@ -18,19 +23,19 @@ public class Action {
 
 		switch (_type) {
 		case ACCEL:
-			if (_param.length != 3) {
+			if (_param.length != 2) {
 				Auto.terminate();
 				System.err.println("ACCEL _param did not have adequate values");
 			}
 			break;
 		case DECEL:
-			if (_param.length != 3) {
+			if (_param.length != 2) {
 				Auto.terminate();
 				System.err.println("DECEL _param did not have adequate values");
 			}
 			break;
 		case STRAIGHT:
-			if (_param.length != 2) {
+			if (_param.length != 1) {
 				Auto.terminate();
 				System.err.println("STRAIGHT _param did not have adequate values");
 			}
@@ -48,6 +53,9 @@ public class Action {
 		double[] output = new double[2];
 		// { left, right}
 
+		MotorGroup mgLeft = SuperStructure.getInstance().getMotorGroupLeft();
+		MotorGroup mgRight = SuperStructure.getInstance().getMotorGroupRight();
+
 		if (_terminationSource != null && _terminationSource.isSatisfied()) {
 			Auto.terminate();
 			return null;
@@ -55,22 +63,28 @@ public class Action {
 
 		switch (_type) {
 		case ACCEL:
-			// { start, stop, increment(?) }
+			// { stop, %changePerSecond }
 
-			if (_param[0] >= _param[1]) {
+			if (mgLeft.getSpeed() >= _param[0] || mgRight.getSpeed() >= _param[0]) {
 				Auto.terminate();
 			}
 
-			_param[0] = output[0] = output[1] = _param[0] + _param[2];
+			output[0] = mgLeft.getSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[1] = mgRight.getSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+
+			timeStamp = System.currentTimeMillis();
 			break;
 		case DECEL:
-			// { start, stop, increment }
+			// { stop, %changePerSecond }
 
-			if (_param[0] <= _param[1]) {
+			if (mgLeft.getSpeed() <= _param[0] || mgRight.getSpeed() <= _param[0]) {
 				Auto.terminate();
 			}
 
-			_param[0] = output[0] = output[1] = _param[0] - _param[2];
+			output[0] = mgLeft.getSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[1] = mgRight.getSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+
+			timeStamp = System.currentTimeMillis();
 
 			break;
 		case STRAIGHT:

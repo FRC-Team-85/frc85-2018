@@ -1,5 +1,10 @@
 package org.usfirst.frc.team85.robot.auto;
 
+import org.usfirst.frc.team85.robot.MotorGroup;
+import org.usfirst.frc.team85.robot.SuperStructure;
+
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+
 public class InputSource {
 
 	private InputType _type;
@@ -47,6 +52,8 @@ public class InputSource {
 		double[] corrections = new double[2];
 		// { left, right}
 
+		ADXRS450_Gyro gyro = SuperStructure.getInstance().getGyro();
+
 		switch (_type) {
 		case ENCODER:
 			// { }
@@ -54,6 +61,15 @@ public class InputSource {
 			break;
 		case GYRO:
 			// { heading }
+
+			double angle = gyro.getAngle();
+			if (angle > _param[0]) {
+				corrections[0] = -.1 * angle - _param[0];
+				corrections[1] = 0;
+			} else {
+				corrections[0] = 0;
+				corrections[1] = gyro.pidGet();
+			}
 
 			break;
 		case RANGE:
@@ -72,9 +88,19 @@ public class InputSource {
 	}
 
 	public boolean isSatisfied() {
+		MotorGroup mgLeft = SuperStructure.getInstance().getMotorGroupLeft();
+		MotorGroup mgRight = SuperStructure.getInstance().getMotorGroupRight();
+
 		switch (_type) {
 		case ENCODER:
 			// { leftDistance, rightDistance }
+			if (mgLeft.getDistance() == -1 || mgRight.getDistance() == -1) {
+				return false;
+			}
+
+			if (mgLeft.getDistance() >= _param[0] || mgRight.getDistance() >= _param[1]) {
+				return true;
+			}
 
 			break;
 		case RANGE:
