@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Prototype {
-	
+/*
 	private TalonSRX _talon;
 	private Controller _stick;
 	private int _speed;
@@ -29,5 +29,5 @@ public class Prototype {
 			_speed--;
 		}
 	}
-
+*/
 }

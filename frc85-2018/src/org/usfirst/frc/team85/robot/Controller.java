@@ -3,7 +3,7 @@ package org.usfirst.frc.team85.robot;
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Controller {
-	
+/*	
 	public static final int a = 2;
 	public static final int b = 3;
 	public static final int x = 1;
@@ -20,13 +20,37 @@ public class Controller {
 	
 	public static final int leftClick = 11;
 	public static final int rightClick = 12;
+*/	
+	public static final int yAxis = 1;
 	
-	private Joystick _controller;
-	
-	public Controller(int id) {
-		_controller = new Joystick(id);
+	private Joystick _leftJoystick;
+	private Joystick _rightJoystick;
+
+	public Controller() {
+		_leftJoystick = new Joystick(0);
+		_rightJoystick = new Joystick(1);
 	}
 	
+	public double getAxisLeft() {
+		if (Math.abs(_leftJoystick.getRawAxis(yAxis)) >= .15) {
+			return -1 * _leftJoystick.getRawAxis(yAxis);
+		} 
+		else {
+			return 0;
+		}
+	}
+	
+	public double getAxisRight() {
+		if (Math.abs(_rightJoystick.getRawAxis(yAxis)) >= .15) {
+			return -1 * _rightJoystick.getRawAxis(yAxis);
+		} 
+		else {
+			return 0;
+		}
+	}
+
+
+/*
 	public boolean getButton(int button) {
 		return _controller.getRawButton(button);
 	}
@@ -77,5 +101,5 @@ public class Controller {
 	
 	public boolean getRightClick() {
 		return _controller.getRawButton(rightClick);
-	}
+	} */
 }
