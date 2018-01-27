@@ -5,8 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 public class MotorGroup {
 
 	public static final double GEAR_RATIO = 6.64;
@@ -30,8 +28,8 @@ public class MotorGroup {
 	}
 
 	public double getDistance() {
-		SmartDashboard.putNumber("Encoder Value", motors[0].getSelectedSensorPosition(0));
-		return motors[0].getSelectedSensorPosition(0);
+		// return motors[0].getSelectedSensorPosition(0);
+		return 0;
 	}
 
 	public double getSpeed() {

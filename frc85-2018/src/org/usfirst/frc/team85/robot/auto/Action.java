@@ -50,7 +50,7 @@ public class Action {
 	}
 
 	public double[] returnSpeed() {
-		double[] output = new double[2];
+		double[] output = new double[] { 0, 0 };
 		// { left, right}
 
 		MotorGroup mgLeft = SuperStructure.getInstance().getMotorGroupLeft();
@@ -58,7 +58,7 @@ public class Action {
 
 		if (_terminationSource != null && _terminationSource.isSatisfied()) {
 			Auto.terminate();
-			return null;
+			return new double[] { 0, 0 };
 		}
 
 		switch (_type) {
@@ -124,7 +124,6 @@ public class Action {
 			output[1] += corr2[1] * secondWeight;
 
 		}
-
 		return output;
 	}
 }

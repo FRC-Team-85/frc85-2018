@@ -2,8 +2,8 @@ package org.usfirst.frc.team85.robot.auto;
 
 public class PID {
 
-	private double P = .5;
-	private double I = .3569874456465314;
+	private double P = 1.0;
+	private double I = .5;
 	private double D = 0;
 
 	private double _target;

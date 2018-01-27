@@ -11,8 +11,7 @@ public class Auto {
 	public Auto(String fieldKey) {
 		_fieldKey = fieldKey;
 
-		_movementActions.add(new Action(ActionType.ACCEL, new double[] { .50, .2 },
-				new InputSource(InputType.GYRO, new double[] { 0 }), null, null));
+		_movementActions.add(new Action(ActionType.ACCEL, new double[] { .50, .02 }, null, null, null));
 
 		_movementActions.add(new Action(ActionType.STRAIGHT, new double[] { .50 },
 				new InputSource(InputType.GYRO, new double[] { 0 }), null,

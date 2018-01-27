@@ -113,4 +113,8 @@ public class InputSource {
 
 		return false;
 	}
+
+	public InputType getType() {
+		return _type;
+	}
 }

@@ -3,17 +3,17 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.auto.Auto;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends SuperStructure {
 
 	@Override
 	public void robotInit() {
-		_leftJoystick = new Joystick(0);
-		_rightJoystick = new Joystick(1);
+		_leftJoystick = new Joystick(4);
+		_rightJoystick = new Joystick(0);
 
 		try {
 			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
@@ -63,22 +63,23 @@ public class Robot extends SuperStructure {
 		}
 
 		if (_rightJoystick.getRawButton(6)) {
-			power = 1;
-		} else if (_rightJoystick.getRawButton(7)) {
-			power = 3;
+			if (power == 1) {
+				power = 3;
+			} else if (power == 3) {
+				power = 1;
+			}
 		}
 		if (_rightJoystick.getRawButton(1) && (Math.abs(_rightJoystick.getRawAxis(1))) > .1) {
 			if (_leftJoystick.getRawAxis(0) > .1) {
 				speedLeft = (_rightJoystick.getRawAxis(1) - .3);
-			}else if (_rightJoystick.getRawAxis(0) < .1) {
+			} else if (_rightJoystick.getRawAxis(0) < .1) {
 				speedRight = (_rightJoystick.getRawAxis(1) - .3);
 			}
-				
-			
+
 			speedLeft = (_rightJoystick.getRawAxis(1));
 			speedRight = (_rightJoystick.getRawAxis(1));
-			
-	}
+
+		}
 		// else if ()
 		mgRight.setPower(speedRight);
 		mgLeft.setPower(speedLeft);
