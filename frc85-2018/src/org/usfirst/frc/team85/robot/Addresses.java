@@ -22,4 +22,8 @@ public class Addresses {
 	public final static int rightIntakeSolenoid = 15;
 	public final static int leftIntakeSolenoid = 16;
 	
+	//ultrasonic rangefinders
+	public final static int rangeFinder = 112;
+	
+	
 }

@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends SuperStructure {
 
+	RangeFinder _rangeFinder = new RangeFinder();
+	
 	@Override
 	public void robotInit() {
 		_leftJoystick = new Joystick(0);
@@ -76,6 +78,8 @@ public class Robot extends SuperStructure {
 		mgLeft.setPower(speedLeft);
 
 		SmartDashboard.putNumber("Power", power);
+		
+		SmartDashboard.putNumber("Range", _rangeFinder.getDistance());
 	}
 
 	@Override
