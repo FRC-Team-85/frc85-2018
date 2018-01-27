@@ -5,32 +5,21 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MotorGroup {
 
 	public static final double GEAR_RATIO = 6.64;
 
 	TalonSRX[] motors;
-	Encoder enc = null;
 
-	public MotorGroup(int[] a, Encoder enc) {
-		this.enc = enc;
-		if (enc != null) {
-			enc.setMaxPeriod(.1);
-			enc.setMinRate(10);
-			enc.setDistancePerPulse((3.14 * (4.0 / 12.0)) / 250.0 / GEAR_RATIO);
-			enc.setReverseDirection(true);
-			enc.setSamplesToAverage(7);
-			enc.reset();
-		}
-
+	public MotorGroup(int[] a) {
 		motors = new TalonSRX[a.length];
 
 		for (int i = 0; i < a.length; i++) {
 			motors[i] = new TalonSRX(a[i]);
 			motors[i].setNeutralMode(NeutralMode.Brake);
-			motors[i].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 1);
+			motors[i].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		}
 	}
 
@@ -41,10 +30,8 @@ public class MotorGroup {
 	}
 
 	public double getDistance() {
-		if (enc != null) {
-			return enc.getDistance();
-		}
-		return -1;
+		SmartDashboard.putNumber("Encoder Value", motors[0].getSelectedSensorPosition(0));
+		return motors[0].getSelectedSensorPosition(0);
 	}
 
 	public double getSpeed() {

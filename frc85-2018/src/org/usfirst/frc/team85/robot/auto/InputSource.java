@@ -3,12 +3,11 @@ package org.usfirst.frc.team85.robot.auto;
 import org.usfirst.frc.team85.robot.MotorGroup;
 import org.usfirst.frc.team85.robot.SuperStructure;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-
 public class InputSource {
 
 	private InputType _type;
 	private double[] _param;
+	private PID _pid;
 
 	public InputSource(InputType type, double[] param) {
 		_type = type;
@@ -24,6 +23,8 @@ public class InputSource {
 			break;
 		case GYRO:
 			// { heading }
+			_pid = new PID(_param[0]);
+
 			if (_param.length != 1) {
 				Auto.terminate();
 				System.err.println("GYRO _param did not have adequate values");
@@ -52,8 +53,6 @@ public class InputSource {
 		double[] corrections = new double[2];
 		// { left, right}
 
-		ADXRS450_Gyro gyro = SuperStructure.getInstance().getGyro();
-
 		switch (_type) {
 		case ENCODER:
 			// { }
@@ -62,13 +61,14 @@ public class InputSource {
 		case GYRO:
 			// { heading }
 
-			double angle = gyro.getAngle();
-			if (angle > _param[0]) {
-				corrections[0] = -.1 * angle - _param[0];
+			double pid = _pid.getCorrection(SuperStructure.getInstance().getGyro().getAngle());
+
+			if (pid > 0) {
+				corrections[0] = 0;
 				corrections[1] = 0;
 			} else {
 				corrections[0] = 0;
-				corrections[1] = gyro.pidGet();
+				corrections[1] = 0;
 			}
 
 			break;
