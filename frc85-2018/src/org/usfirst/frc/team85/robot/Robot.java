@@ -14,6 +14,7 @@ public class Robot extends SuperStructure {
 	
 	@Override
 	public void robotInit() {
+		System.out.println("Starting up!");
 		_leftJoystick = new Joystick(0);
 		_rightJoystick = new Joystick(1);
 
@@ -85,5 +86,10 @@ public class Robot extends SuperStructure {
 	@Override
 	public void testPeriodic() {
 
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+		//System.out.println("Range finder verify: " + _rangeFinder.verify());
 	}
 }
