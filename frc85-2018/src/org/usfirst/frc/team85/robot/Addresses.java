@@ -21,4 +21,5 @@ public class Addresses {
 	public final static int rightIntakeTalon = 8;
 	public final static int rightIntakeSolenoid = 15;
 	public final static int leftIntakeSolenoid = 16;
+	
 }

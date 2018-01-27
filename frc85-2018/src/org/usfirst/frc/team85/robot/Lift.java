@@ -2,7 +2,7 @@ package org.usfirst.frc.team85.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Lift {
 	
@@ -22,18 +22,21 @@ public class Lift {
 		_rightSlaveMotorTwo.follow(_rightMotor);
 	}
 	
-	public void setLiftMotors(boolean direction, double speed) {
-		if (direction) {
+	DigitalInput _toplimit,
+				_bottomlimit;
+	//Lift limits
+	public void setLiftMotors(boolean up, double speed) {
+		if (up && _toplimit.get()
+			|| !up && _bottomlimit.get()) {
+			_rightMotor.set(ControlMode.PercentOutput, 0);
+			_leftMotor.set(ControlMode.PercentOutput,  0);
+
 			_rightMotor.set(ControlMode.PercentOutput, speed);
 			_leftMotor.set(ControlMode.PercentOutput, speed);
 		} else {
-			_rightMotor.set(ControlMode.PercentOutput, -speed);
-			_leftMotor.set(ControlMode.PercentOutput, -speed);
+			_rightMotor.set(ControlMode.PercentOutput, -1 * speed); 
+			_leftMotor.set(ControlMode.PercentOutput, -1 * speed);
 		}
-	}
-	
-	public void closeIntake() {
-		
 	}
 	
 }
