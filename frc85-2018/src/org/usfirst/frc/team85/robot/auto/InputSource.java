@@ -65,9 +65,9 @@ public class InputSource {
 
 			if (pid > 0) {
 				corrections[0] = 0;
-				corrections[1] = 0;
+				corrections[1] = -19 * pid;
 			} else {
-				corrections[0] = 0;
+				corrections[0] = -19 * pid;
 				corrections[1] = 0;
 			}
 

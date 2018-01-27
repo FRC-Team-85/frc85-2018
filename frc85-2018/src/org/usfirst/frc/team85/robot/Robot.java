@@ -12,7 +12,7 @@ public class Robot extends SuperStructure {
 
 	@Override
 	public void robotInit() {
-		_leftJoystick = new Joystick(4);
+		_leftJoystick = new Joystick(1);
 		_rightJoystick = new Joystick(0);
 
 		try {
@@ -28,7 +28,7 @@ public class Robot extends SuperStructure {
 			gyro.setPIDSourceType(PIDSourceType.kDisplacement);
 			gyro.calibrate();
 		} catch (Exception e) {
-			System.err.println("Gyro instantiation failed");
+			System.err.println(e.getMessage());
 		}
 	}
 
@@ -62,27 +62,26 @@ public class Robot extends SuperStructure {
 			speedLeft = 0;
 		}
 
-		if (_rightJoystick.getRawButton(6)) {
-			if (power == 1) {
-				power = 3;
-			} else if (power == 3) {
-				power = 1;
-			}
+		if (_rightJoystick.getRawButton(7)) {
+			power = 1;
 		}
-		if (_rightJoystick.getRawButton(1) && (Math.abs(_rightJoystick.getRawAxis(1))) > .1) {
-			if (_leftJoystick.getRawAxis(0) > .1) {
-				speedLeft = (_rightJoystick.getRawAxis(1) - .3);
-			} else if (_rightJoystick.getRawAxis(0) < .1) {
-				speedRight = (_rightJoystick.getRawAxis(1) - .3);
-			}
+		if (_rightJoystick.getRawButton(8)) {
+			power = 3;
+		}
 
+		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
 			speedLeft = (_rightJoystick.getRawAxis(1));
 			speedRight = (_rightJoystick.getRawAxis(1));
 
+			if (_leftJoystick.getRawAxis(0) > .1) {
+				speedLeft = (_rightJoystick.getRawAxis(1) - .3);
+			} else if (_leftJoystick.getRawAxis(0) < -.1) {
+				speedRight = (_rightJoystick.getRawAxis(1) - .3);
+			}
 		}
-		// else if ()
-		mgRight.setPower(speedRight);
-		mgLeft.setPower(speedLeft);
+
+		mgRight.setPower(-speedRight);
+		mgLeft.setPower(-speedLeft);
 
 		SmartDashboard.putNumber("Power", power);
 	}

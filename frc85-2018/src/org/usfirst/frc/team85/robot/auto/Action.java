@@ -65,24 +65,24 @@ public class Action {
 		case ACCEL:
 			// { stop, %changePerSecond }
 
-			if (mgLeft.getSpeed() >= _param[0] || mgRight.getSpeed() >= _param[0]) {
+			if (mgLeft.getPercentSpeed() >= _param[0] || mgRight.getPercentSpeed() >= _param[0]) {
 				Auto.terminate();
 			}
 
-			output[0] = mgLeft.getSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
-			output[1] = mgRight.getSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[0] = mgLeft.getPercentSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[1] = mgRight.getPercentSpeed() + (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
 
 			timeStamp = System.currentTimeMillis();
 			break;
 		case DECEL:
 			// { stop, %changePerSecond }
 
-			if (mgLeft.getSpeed() <= _param[0] || mgRight.getSpeed() <= _param[0]) {
+			if (mgLeft.getPercentSpeed() <= _param[0] || mgRight.getPercentSpeed() <= _param[0]) {
 				Auto.terminate();
 			}
 
-			output[0] = mgLeft.getSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
-			output[1] = mgRight.getSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[0] = mgLeft.getPercentSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
+			output[1] = mgRight.getPercentSpeed() - (System.currentTimeMillis() - timeStamp) / 1000 * _param[1];
 
 			timeStamp = System.currentTimeMillis();
 
