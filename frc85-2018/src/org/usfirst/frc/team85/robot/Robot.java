@@ -3,7 +3,6 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.auto.Auto;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,12 +14,11 @@ public class Robot extends SuperStructure {
 		controller = new Controller(0);
 
 		try {
-			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon }, new Encoder(0, 1));
-			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon },
-					new Encoder(0, 1));
+			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
+			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 		} catch (Exception e) {
-			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon }, null);
-			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon }, null);
+			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
+			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 		}
 
 		try {
