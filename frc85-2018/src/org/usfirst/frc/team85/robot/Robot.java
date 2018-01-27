@@ -68,9 +68,17 @@ public class Robot extends SuperStructure {
 			power = 3;
 		}
 		if (_rightJoystick.getRawButton(1) && (Math.abs(_rightJoystick.getRawAxis(1))) > .1) {
+			if (_leftJoystick.getRawAxis(0) > .1) {
+				speedLeft = (_rightJoystick.getRawAxis(1) - .3);
+			}else if (_rightJoystick.getRawAxis(0) < .1) {
+				speedRight = (_rightJoystick.getRawAxis(1) - .3);
+			}
+				
+			
 			speedLeft = (_rightJoystick.getRawAxis(1));
 			speedRight = (_rightJoystick.getRawAxis(1));
-		}
+			
+	}
 		// else if ()
 		mgRight.setPower(speedRight);
 		mgLeft.setPower(speedLeft);
