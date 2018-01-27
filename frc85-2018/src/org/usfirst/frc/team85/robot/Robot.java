@@ -6,12 +6,14 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
 
 public class Robot extends SuperStructure {
 
 	@Override
 	public void robotInit() {
-		controller = new Controller(0);
+		_leftJoystick = new Joystick(0);
+		_rightJoystick = new Joystick(1);
 
 		try {
 			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
@@ -48,31 +50,28 @@ public class Robot extends SuperStructure {
 		double speedRight = 0;
 		double speedLeft = 0;
 		int power = (int) SmartDashboard.getNumber("Power", 1);
-
-		if (Math.abs(controller.getAxis(3)) >= .1) {
-			speedRight = Math.pow(controller.getAxis(3), power);
-		} else if ((Math.abs(controller.getAxis(3)) < .1) && (Math.abs(controller.getAxis(3)) >= .01)) {
-			speedRight = .1;
-		} else if (Math.abs(controller.getAxis(3)) < .01) {
+		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
+			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
 			speedRight = 0;
 		}
 
-		if (Math.abs(controller.getAxis(1)) >= .1) {
-			speedLeft = Math.pow(controller.getAxis(1), power);
-		} else if ((Math.abs(controller.getAxis(1)) < .1) && (Math.abs(controller.getAxis(1)) >= .01)) {
-			speedLeft = .1;
-		} else if (Math.abs(controller.getAxis(1)) < .01) {
+		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
+			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
 			speedLeft = 0;
 		}
 
-		if (controller.getX()) {
+		if (_rightJoystick.getRawButton(6)) {
 			power = 1;
-		} else if (controller.getA()) {
-			power = 2;
-		} else if (controller.getB()) {
+		} else if (_rightJoystick.getRawButton(7)) {
 			power = 3;
 		}
-
+		if (_rightJoystick.getRawButton(1) && (Math.abs(_rightJoystick.getRawAxis(1))) > .1) {
+			speedLeft = (_rightJoystick.getRawAxis(1));
+			speedRight = (_rightJoystick.getRawAxis(1));
+		}
+		// else if ()
 		mgRight.setPower(speedRight);
 		mgLeft.setPower(speedLeft);
 
