@@ -1,42 +1,85 @@
 package org.usfirst.frc.team85.robot;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team85.robot.auto.Auto;
 
-public class Robot extends IterativeRobot {
-	
-	private Controller _driveStick;
-	private Prototype pair1, pair2;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Joystick;
+
+public class Robot extends SuperStructure {
 
 	@Override
 	public void robotInit() {
-		_driveStick = new Controller(0);
-		
-		SmartDashboard.putNumber("motor1", 1);
-		SmartDashboard.putNumber("motor2", 2);
-		
-		pair1 = new Prototype(SmartDashboard.getNumber("motor1", 1), Controller.a, Controller.b, _driveStick);
-		pair2 = new Prototype(SmartDashboard.getNumber("motor2", 2), Controller.x, Controller.y, _driveStick);
+		_leftJoystick = new Joystick(0);
+		_rightJoystick = new Joystick(1);
+
+		try {
+			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
+			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
+		} catch (Exception e) {
+			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
+			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
+		}
+
+		try {
+			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+			gyro.setPIDSourceType(PIDSourceType.kDisplacement);
+			gyro.calibrate();
+		} catch (Exception e) {
+			System.err.println("Gyro instantiation failed");
+		}
 	}
 
 	@Override
 	public void autonomousInit() {
-
+		auto = new Auto("LRL");
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		double[] temp = auto.autoTick();
 
+		mgLeft.setPower(temp[0]);
+		mgRight.setPower(temp[1]);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		pair1.setMotors();
-		pair2.setMotors();
-		
+		double speedRight = 0;
+		double speedLeft = 0;
+		int power = (int) SmartDashboard.getNumber("Power", 1);
+		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
+			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+			speedRight = 0;
+		}
+
+		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
+			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+			speedLeft = 0;
+		}
+
+		if (_rightJoystick.getRawButton(6)) {
+			power = 1;
+		} else if (_rightJoystick.getRawButton(7)) {
+			power = 3;
+		}
+		if (_rightJoystick.getRawButton(1) && (Math.abs(_rightJoystick.getRawAxis(1))) > .1) {
+			speedLeft = (_rightJoystick.getRawAxis(1));
+			speedRight = (_rightJoystick.getRawAxis(1));
+		}
+		// else if ()
+		mgRight.setPower(speedRight);
+		mgLeft.setPower(speedLeft);
+
+		SmartDashboard.putNumber("Power", power);
 	}
 
 	@Override
 	public void testPeriodic() {
+
 	}
 }
