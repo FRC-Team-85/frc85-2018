@@ -44,7 +44,7 @@ public class Robot extends SuperStructure {
 	public void teleopPeriodic() {
 		double speedRight = 0;
 		double speedLeft = 0;
-		int power = (int) SmartDashboard.getNumber("Power", 1);
+		double power = (double) SmartDashboard.getNumber("Power", 1);
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
 			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
 		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
@@ -58,7 +58,7 @@ public class Robot extends SuperStructure {
 		}
 
 		if (_rightJoystick.getRawButton(7)) {
-			power = 1;
+			power = 1.5;
 		}
 		if (_rightJoystick.getRawButton(8)) {
 			power = 3;
