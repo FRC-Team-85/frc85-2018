@@ -15,13 +15,8 @@ public class Robot extends SuperStructure {
 		_leftJoystick = new Joystick(1);
 		_rightJoystick = new Joystick(0);
 
-		try {
-			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
-			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
-		} catch (Exception e) {
-			mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
-			mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
-		}
+		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
+		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
 		try {
 			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);

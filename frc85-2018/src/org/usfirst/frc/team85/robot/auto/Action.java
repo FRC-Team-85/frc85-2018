@@ -2,6 +2,7 @@ package org.usfirst.frc.team85.robot.auto;
 
 import org.usfirst.frc.team85.robot.MotorGroup;
 import org.usfirst.frc.team85.robot.SuperStructure;
+import org.usfirst.frc.team85.robot.auto.InputSource.InputSource;
 
 public class Action {
 

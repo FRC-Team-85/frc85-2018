@@ -2,6 +2,9 @@ package org.usfirst.frc.team85.robot.auto;
 
 import java.util.ArrayList;
 
+import org.usfirst.frc.team85.robot.auto.InputSource.EncoderSource;
+import org.usfirst.frc.team85.robot.auto.InputSource.GyroSource;
+
 public class Auto {
 
 	String _fieldKey;
@@ -9,17 +12,9 @@ public class Auto {
 
 	public Auto(String fieldKey) {
 		_fieldKey = fieldKey;
-		/*
-		 * _movementActions.add(new Action(ActionType.ACCEL, new double[] { .50, .02 },
-		 * new InputSource(InputType.GYRO, new double[] { 0 }), null, null));
-		 */
-		_movementActions.add(new Action(ActionType.STRAIGHT, new double[] { .50 },
-				new InputSource(InputType.GYRO, new double[] { 0 }), null,
-				new InputSource(InputType.ENCODER, new double[] { 20000, 20000 })));
-		/*
-		 * _movementActions.add(new Action(ActionType.DECEL, new double[] { 0, .2 }, new
-		 * InputSource(InputType.GYRO, new double[] { 0 }), null, null));
-		 */
+
+		_movementActions.add(
+				new Action(ActionType.STRAIGHT, new double[] { .85 }, new GyroSource(0), null, new EncoderSource(40)));
 	}
 
 	public static void terminate() {
