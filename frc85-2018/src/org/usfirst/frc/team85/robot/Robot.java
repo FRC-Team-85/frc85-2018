@@ -18,6 +18,8 @@ public class Robot extends SuperStructure {
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
+		rangeFinder = new RangeFinder();
+
 		try {
 			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 			gyro.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -78,9 +80,9 @@ public class Robot extends SuperStructure {
 			power = 3;
 		}
 		if (_leftJoystick.getRawButton(1)) {
-			amplitude = .75;
+			amplitude = .50;
 		} else {
-			amplitude = .5;
+			amplitude = .25;
 		}
 
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
@@ -107,6 +109,7 @@ public class Robot extends SuperStructure {
 
 		SmartDashboard.putNumber("Power", power);
 		SmartDashboard.putNumber("Amplitude", amplitude);
+		SmartDashboard.putNumber("RangeFinder", rangeFinder.getDistance());
 	}
 
 	@Override
