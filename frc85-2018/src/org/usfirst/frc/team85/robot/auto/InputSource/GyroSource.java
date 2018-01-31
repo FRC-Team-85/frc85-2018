@@ -11,6 +11,7 @@ public class GyroSource extends InputSource {
 		super();
 		_heading = heading;
 		setSetpoint(_heading);
+		enable();
 	}
 
 	@Override

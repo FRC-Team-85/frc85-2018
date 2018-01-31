@@ -1,6 +1,10 @@
 package org.usfirst.frc.team85.robot.auto.InputSource;
 
+import org.usfirst.frc.team85.robot.SuperStructure;
+
 public class RangeSource extends InputSource {
+
+	private byte[] _buffer = new byte[4];
 
 	public RangeSource() {
 		super();
@@ -20,7 +24,7 @@ public class RangeSource extends InputSource {
 
 	@Override
 	protected double returnPIDInput() {
-
+		SuperStructure.getInstance().getI2C().readOnly(_buffer, 4);
 		return 0;
 	}
 

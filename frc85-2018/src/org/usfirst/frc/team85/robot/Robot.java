@@ -45,20 +45,37 @@ public class Robot extends SuperStructure {
 		double speedRight = 0;
 		double speedLeft = 0;
 		double power = (double) SmartDashboard.getNumber("Power", 1);
-		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
-		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
-			speedRight = 0;
+
+		/*
+		 * if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) { speedRight =
+		 * Math.pow(_rightJoystick.getRawAxis(1), power); } else if
+		 * (Math.abs(_rightJoystick.getRawAxis(1)) < .1) { speedRight = 0; }
+		 * 
+		 * if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) { speedLeft =
+		 * Math.pow(_leftJoystick.getRawAxis(1), power); } else if
+		 * (Math.abs(_leftJoystick.getRawAxis(1)) < .1) { speedLeft = 0; }
+		 */
+
+		if (Math.abs(_leftJoystick.getRawAxis(1)) <= .1) {
+			speedLeft = 0;
+		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .9) {
+			speedLeft = 2.5 * _leftJoystick.getRawAxis(1) * _leftJoystick.getRawAxis(1)
+					- 1.25 * _leftJoystick.getRawAxis(1) + .1;
+		} else {
+			speedLeft = 1;
 		}
 
-		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
-		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
-			speedLeft = 0;
+		if (Math.abs(_rightJoystick.getRawAxis(1)) <= .1) {
+			speedRight = 0;
+		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .9) {
+			speedRight = 2.5 * _rightJoystick.getRawAxis(1) * _rightJoystick.getRawAxis(1)
+					- 1.25 * _rightJoystick.getRawAxis(1) + .1;
+		} else {
+			speedRight = 1;
 		}
 
 		if (_rightJoystick.getRawButton(7)) {
-			power = 1.5;
+			power = .5;
 		}
 		if (_rightJoystick.getRawButton(8)) {
 			power = 3;
@@ -69,9 +86,9 @@ public class Robot extends SuperStructure {
 			speedRight = (_rightJoystick.getRawAxis(1));
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
-				speedLeft = (_rightJoystick.getRawAxis(1) - .3);
+				speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * .5;
 			} else if (_leftJoystick.getRawAxis(0) < -.1) {
-				speedRight = (_rightJoystick.getRawAxis(1) - .3);
+				speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * .5;
 			}
 		}
 
