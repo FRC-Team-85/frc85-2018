@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Drive {
 
 	private static MotorGroup _mgLeft = SuperStructure.getInstance().getMotorGroupLeft();
-	private static MotorGroup _mgRight = SuperStructure.getInstance().getMotorGroupLeft();
+	private static MotorGroup _mgRight = SuperStructure.getInstance().getMotorGroupRight();
 
 	private static Joystick _leftJoystick = SuperStructure.getInstance().getLeftJoystick();
 	private static Joystick _rightJoystick = SuperStructure.getInstance().getRightJoystick();
@@ -58,6 +58,7 @@ public class Drive {
 			speedRight = (_rightJoystick.getRawAxis(1));
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
+
 				if (_rightJoystick.getRawAxis(1) > 0) {
 					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
 				} else {
@@ -69,6 +70,10 @@ public class Drive {
 				} else {
 					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
 				}
+			}
+			if (Math.abs(_rightJoystick.getRawAxis(1)) > .8) {
+				speedRight = .8;
+				speedLeft = .8;
 			}
 		}
 
