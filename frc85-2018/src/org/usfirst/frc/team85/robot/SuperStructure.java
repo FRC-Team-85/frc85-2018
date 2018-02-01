@@ -10,8 +10,8 @@ public class SuperStructure extends IterativeRobot {
 
 	protected static SuperStructure structure = null;
 
-	protected Joystick _leftJoystick;
-	protected Joystick _rightJoystick;
+	protected Joystick leftJoystick;
+	protected Joystick rightJoystick;
 	protected MotorGroup mgLeft; // Left Drive Train
 	protected MotorGroup mgRight; // Right Drive Train
 	protected ADXRS450_Gyro gyro;
@@ -25,6 +25,14 @@ public class SuperStructure extends IterativeRobot {
 
 	public static SuperStructure getInstance() {
 		return structure;
+	}
+	
+	public Joystick getLeftJoystick() {
+		return leftJoystick;
+	}
+	
+	public Joystick getRightJoystick() {
+		return rightJoystick;
 	}
 
 	public MotorGroup getMotorGroupLeft() {

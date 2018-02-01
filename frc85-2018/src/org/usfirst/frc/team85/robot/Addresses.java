@@ -23,6 +23,6 @@ public class Addresses {
 	public final static int leftIntakeSolenoid = 16;
 
 	// sensors
-	public final static int rangeFinder = 44;
+	public final static int rangeFinder = 0;
 
 }
