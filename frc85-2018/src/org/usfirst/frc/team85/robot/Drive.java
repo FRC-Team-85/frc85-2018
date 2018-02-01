@@ -54,11 +54,10 @@ public class Drive {
 		}
 
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
-			speedLeft = (_rightJoystick.getRawAxis(1));
-			speedRight = (_rightJoystick.getRawAxis(1));
+			speedLeft = _rightJoystick.getRawAxis(1);
+			speedRight = _rightJoystick.getRawAxis(1);
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
-
 				if (_rightJoystick.getRawAxis(1) > 0) {
 					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
 				} else {
@@ -71,9 +70,17 @@ public class Drive {
 					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
 				}
 			}
-			if (Math.abs(_rightJoystick.getRawAxis(1)) > .8) {
+
+			if (speedRight > .8) {
 				speedRight = .8;
+			} else if (speedRight < -.8) {
+				speedRight = -.8;
+			}
+
+			if (speedLeft > .8) {
 				speedLeft = .8;
+			} else if (speedLeft < -.8) {
+				speedLeft = -.8;
 			}
 		}
 
