@@ -21,7 +21,7 @@ public class MotorGroup {
 			_motors[i].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
 		}
 
-		resetDistance();
+		resetCountVariable();
 	}
 
 	public void setPower(double power) {
@@ -38,7 +38,7 @@ public class MotorGroup {
 		return _motors[0].getMotorOutputPercent();
 	}
 
-	public void resetDistance() {
+	public void resetCountVariable() {
 		_count = _motors[0].getSelectedSensorPosition(0);
 	}
 }

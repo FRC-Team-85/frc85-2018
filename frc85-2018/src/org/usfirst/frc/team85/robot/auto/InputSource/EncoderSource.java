@@ -6,7 +6,6 @@ public class EncoderSource extends InputSource {
 
 	private double _distance;
 
-	/** { distance } **/
 	public EncoderSource(double distance) {
 		super();
 		_distance = distance;
@@ -19,7 +18,8 @@ public class EncoderSource extends InputSource {
 
 	@Override
 	public boolean isSatisfied() {
-		if (SuperStructure.getInstance().getMotorGroupLeft().getDistance() > _distance) {
+		if (SuperStructure.getInstance().getMotorGroupLeft().getDistance() > _distance
+				|| SuperStructure.getInstance().getMotorGroupRight().getDistance() > _distance) {
 			return true;
 		}
 		return false;
