@@ -35,16 +35,15 @@ public class Diagnostics {
 
 	public void log(ArrayList<Double> data) {
 		try {
-			
+
 			String output = "";
 			for (double d : data) {
 				output += d + ",";
 			}
 			output = output.substring(0, output.length() - 1);
 
-			
-				out.append(output);
-				out.newLine();
+			out.append(output);
+			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());
 		}
