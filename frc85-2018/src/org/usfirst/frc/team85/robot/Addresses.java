@@ -24,5 +24,6 @@ public class Addresses {
 
 	// sensors
 	public final static int rangeFinder = 0;
+	public final static int tempTalon = 44; //Talon that the IMU is plugged into.
 
 }
