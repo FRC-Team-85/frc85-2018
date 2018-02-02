@@ -24,5 +24,9 @@ public class Addresses {
 
 	// sensors
 	public final static int rangeFinder = 0;
-
+	
+	// joysticks
+	public final static int leftDriveStick = 0;
+	public final static int rightDriveStick = 0;
+	
 }

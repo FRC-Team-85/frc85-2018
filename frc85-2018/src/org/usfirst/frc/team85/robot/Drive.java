@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
-	private static MotorGroup _mgLeft = SuperStructure.getInstance().getMotorGroupLeft();
-	private static MotorGroup _mgRight = SuperStructure.getInstance().getMotorGroupRight();
+	private static MotorGroup _mgLeft = Globals.getInstance().getMotorGroupLeft();
+	private static MotorGroup _mgRight = Globals.getInstance().getMotorGroupRight();
 
-	private static Joystick _leftJoystick = SuperStructure.getInstance().getLeftJoystick();
-	private static Joystick _rightJoystick = SuperStructure.getInstance().getRightJoystick();
+	private static Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
+	private static Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
 
 	public static void periodic() {
 		double speedRight = 0;
@@ -53,6 +53,7 @@ public class Drive {
 			amplitude = .25;
 		}
 
+		// 
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
 			speedLeft = _rightJoystick.getRawAxis(1);
 			speedRight = _rightJoystick.getRawAxis(1);
@@ -89,7 +90,7 @@ public class Drive {
 
 		SmartDashboard.putNumber("Power", power);
 		SmartDashboard.putNumber("Amplitude", amplitude);
-		SmartDashboard.putNumber("RangeFinder", SuperStructure.getInstance().getRangeFinder().getDistance());
+		//SmartDashboard.putNumber("RangeFinder", SuperStructure.getInstance().getRangeFinder().getDistance());
 	}
 
 }

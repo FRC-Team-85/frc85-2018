@@ -1,6 +1,6 @@
 package org.usfirst.frc.team85.robot.auto.InputSource;
 
-import org.usfirst.frc.team85.robot.SuperStructure;
+import org.usfirst.frc.team85.robot.Globals;
 
 public class EncoderSource extends InputSource {
 
@@ -18,8 +18,8 @@ public class EncoderSource extends InputSource {
 
 	@Override
 	public boolean isSatisfied() {
-		if (SuperStructure.getInstance().getMotorGroupLeft().getDistance() > _distance
-				|| SuperStructure.getInstance().getMotorGroupRight().getDistance() > _distance) {
+		if (Globals.getInstance().getMotorGroupLeft().getDistance() > _distance
+				|| Globals.getInstance().getMotorGroupRight().getDistance() > _distance) {
 			return true;
 		}
 		return false;

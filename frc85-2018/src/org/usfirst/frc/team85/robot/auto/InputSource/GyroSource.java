@@ -1,6 +1,6 @@
 package org.usfirst.frc.team85.robot.auto.InputSource;
 
-import org.usfirst.frc.team85.robot.SuperStructure;
+import org.usfirst.frc.team85.robot.Globals;
 
 public class GyroSource extends InputSource {
 
@@ -26,7 +26,7 @@ public class GyroSource extends InputSource {
 
 	@Override
 	protected double returnPIDInput() {
-		return SuperStructure.getInstance().getGyro().getAngle();
+		return Globals.getInstance().getGyro().getAngle();
 	}
 
 	@Override

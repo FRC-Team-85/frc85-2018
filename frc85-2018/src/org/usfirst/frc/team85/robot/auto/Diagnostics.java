@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
-import org.usfirst.frc.team85.robot.SuperStructure;
+import org.usfirst.frc.team85.robot.Globals;
 
 public class Diagnostics {
 
-	SuperStructure struct = SuperStructure.getInstance();
+	Globals struct = Globals.getInstance();
 
 	File log;
 	BufferedWriter out = null;

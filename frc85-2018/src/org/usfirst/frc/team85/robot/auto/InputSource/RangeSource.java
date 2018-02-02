@@ -1,6 +1,6 @@
 package org.usfirst.frc.team85.robot.auto.InputSource;
 
-import org.usfirst.frc.team85.robot.SuperStructure;
+import org.usfirst.frc.team85.robot.Globals;
 
 public class RangeSource extends InputSource {
 
@@ -22,7 +22,7 @@ public class RangeSource extends InputSource {
 
 	@Override
 	protected double returnPIDInput() {
-		return SuperStructure.getInstance().getRangeFinder().getDistance();
+		return Globals.getInstance().getRangeFinder().getDistance();
 	}
 
 	@Override
