@@ -16,30 +16,22 @@ public class Drive {
 		double speedLeft = 0;
 		double power = (double) SmartDashboard.getNumber("Power", 1);
 		double amplitude = (double) SmartDashboard.getNumber("Amplitude", .5);
+		double RAxis0 = (_rightJoystick.getRawAxis(0));
+		double RAxis1 = (_rightJoystick.getRawAxis(1));
+		double LAxis0 = (_leftJoystick.getRawAxis(0));
+		double LAxis1 = (_leftJoystick.getRawAxis(1));
 
-		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
-		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+		if (Math.abs(RAxis1) >= .1) {
+			speedRight = Math.pow(RAxis1, power);
+		} else if (Math.abs(RAxis1) < .1) {
 			speedRight = 0;
 		}
 
-		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
-		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+		if (Math.abs(LAxis1) >= .1) {
+			speedLeft = Math.pow(LAxis1, power);
+		} else if (Math.abs(LAxis1) < .1) {
 			speedLeft = 0;
 		}
-
-		/*
-		 * if (Math.abs(leftJoystick.getRawAxis(1)) <= .1) { speedLeft = 0; } else if
-		 * (Math.abs(leftJoystick.getRawAxis(1)) < .9) { speedLeft = 2.5 *
-		 * leftJoystick.getRawAxis(1) * leftJoystick.getRawAxis(1) - 1.25 *
-		 * leftJoystick.getRawAxis(1) + .1; } else { speedLeft = 1; }
-		 * 
-		 * if (Math.abs(rightJoystick.getRawAxis(1)) <= .1) { speedRight = 0; } else if
-		 * (Math.abs(rightJoystick.getRawAxis(1)) < .9) { speedRight = 2.5 *
-		 * rightJoystick.getRawAxis(1) * rightJoystick.getRawAxis(1) - 1.25 *
-		 * rightJoystick.getRawAxis(1) + .1; } else { speedRight = 1; }
-		 */
 
 		if (_rightJoystick.getRawButton(7)) {
 			power = 1;
@@ -53,34 +45,27 @@ public class Drive {
 			amplitude = .25;
 		}
 
-		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
-			speedLeft = _rightJoystick.getRawAxis(1);
-			speedRight = _rightJoystick.getRawAxis(1);
+		if (_rightJoystick.getRawButton(1) && Math.abs(RAxis1) > .1) {
+			speedLeft = (RAxis1);
+			speedRight = (RAxis1);
 
-			if (_leftJoystick.getRawAxis(0) > .1) {
-				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+			if (LAxis0 > .1) {
+
+				if (RAxis1 > 0) {
+					speedRight = RAxis1 - LAxis0 * amplitude;
 				} else {
-					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+					speedRight = RAxis1 + LAxis0 * amplitude;
 				}
-			} else if (_leftJoystick.getRawAxis(0) < -.1) {
-				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+			} else if (LAxis0 < -.1) {
+				if (RAxis1 > 0) {
+					speedLeft = RAxis1 + LAxis0 * amplitude;
 				} else {
-					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+					speedLeft = RAxis1 - LAxis0 * amplitude;
 				}
 			}
-
-			if (speedRight > .8) {
+			if (Math.abs(RAxis1) > .8) {
 				speedRight = .8;
-			} else if (speedRight < -.8) {
-				speedRight = -.8;
-			}
-
-			if (speedLeft > .8) {
 				speedLeft = .8;
-			} else if (speedLeft < -.8) {
-				speedLeft = -.8;
 			}
 		}
 
