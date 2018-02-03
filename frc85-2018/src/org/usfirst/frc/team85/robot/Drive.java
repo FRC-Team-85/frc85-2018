@@ -20,7 +20,7 @@ public class Drive {
 		double RAxis1 = (_rightJoystick.getRawAxis(1));
 		double LAxis0 = (_leftJoystick.getRawAxis(0));
 		double LAxis1 = (_leftJoystick.getRawAxis(1));
-
+		// throttle
 		if (_rightJoystick.getRawButton(1) && Math.abs(RAxis1) > .1) {
 			speedLeft = (RAxis1);
 			speedRight = (RAxis1);
@@ -39,20 +39,28 @@ public class Drive {
 					speedLeft = RAxis1 - LAxis0 * multLAxis0;
 				}
 			}
-
-		} else {
-			double startTime = System.currentTimeMillis();
-			double p1 = RAxis1;
-			double startTime2 = System.currentTimeMillis();
-			double p2 = RAxis1;
-			double startTime3 = System.currentTimeMillis();
-			double p3 = RAxis1;
-			double Vel1 = (p2 - p1) / (startTime2 - startTime);
-			double Vel2 = (p3 - p2) / (startTime3 - startTime2);
-			if ((Vel2 / Vel1) > .9) {
-				power = (0);
+			if (_leftJoystick.getRawButton(1)) {
+				multLAxis0 = .50;
+			} else {
+				multLAxis0 = .25;
 			}
-			if ((Vel2 / Vel1) < .9) {
+		} else {
+			if (RAxis1 > .09 && RAxis1 < .1) {
+				double startTime = System.currentTimeMillis();
+				double p1 = RAxis1;
+				double startTime2 = System.currentTimeMillis();
+				double p2 = RAxis1;
+				double startTime3 = System.currentTimeMillis();
+				double p3 = RAxis1;
+				double Vel1 = (p2 - p1) / (startTime2 - startTime);
+				double Vel2 = (p3 - p2) / (startTime3 - startTime2);
+				if ((Vel2 / Vel1) > .9) {
+					power = (0);
+				}
+				if ((Vel2 / Vel1) <= .9) {
+					power = 3;
+				}
+			} else {
 				power = 3;
 			}
 
@@ -71,10 +79,12 @@ public class Drive {
 			if (_rightJoystick.getRawButton(8)) {
 				power = 3;
 			}
-			/*
-			 * if (_leftJoystick.getRawButton(1)) { multLAxis0 = .50; } else { multLAxis0 =
-			 * .25; }
-			 */
+			if (RAxis0 < 0) {
+				speedRight = (-speedRight);
+			}
+			if (LAxis0 < 0) {
+				speedLeft = (-speedLeft);
+			}
 		}
 
 		_mgRight.setPower(-speedRight);

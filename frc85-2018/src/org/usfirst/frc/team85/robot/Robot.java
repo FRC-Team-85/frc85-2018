@@ -45,7 +45,7 @@ public class Robot extends SuperStructure {
 	@Override
 	public void teleopPeriodic() {
 		Drive.periodic();
-		SmartDashboard.putNumber("RangeFinder", rangeFinder.getDistance());
+		
 	}
 
 	@Override
