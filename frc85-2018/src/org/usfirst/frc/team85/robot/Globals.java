@@ -23,7 +23,8 @@ public class Globals {
 	protected RangeFinder rangeFinder;
 	protected TalonSRX leftIntakeWheel, rightIntakeWheel;
 	protected Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
-
+	protected Intake intake;
+	
 	private Globals() {
 	}
 	
@@ -74,5 +75,9 @@ public class Globals {
 
 	public RangeFinder getRangeFinder() {
 		return rangeFinder;
+	}
+	
+	public Intake getIntake() {
+		return intake;
 	}
 }
