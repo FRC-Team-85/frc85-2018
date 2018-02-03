@@ -43,9 +43,9 @@ public class GyroSource extends InputSource {
 
 		if (correction > 0) {
 			temp[0] = 0;
-			temp[1] = -correction;
+			temp[1] = correction;
 		} else {
-			temp[0] = -correction;
+			temp[0] = correction;
 			temp[1] = 0;
 		}
 	}
