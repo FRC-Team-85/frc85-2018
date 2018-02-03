@@ -90,8 +90,10 @@ public class Drive {
 		//Transmission
 		if (_leftJoystick.getRawButton(4)) {
 			_pneumatics.setTransmission(true);
+			SmartDashboard.putString("Transmission Gear", "Low Gear");
 		} else if (_leftJoystick.getRawButton(5)) {
 			_pneumatics.setTransmission(false);
+			SmartDashboard.putString("Transmission Gear", "High Gear");
 		}
 
 		_mgRight.setPower(-speedRight);
