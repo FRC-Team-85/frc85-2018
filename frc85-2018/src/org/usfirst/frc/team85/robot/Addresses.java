@@ -26,8 +26,8 @@ public class Addresses {
 	public final static int rangeFinder = 112;
 	
 	// joysticks
-	public final static int leftDriveStick = 0;
+	public final static int leftDriveStick = 1;
 	public final static int rightDriveStick = 0;
 
-	public final static int tempTalon = 44; //Talon that the IMU is plugged into.
+	public final static int tempTalon = 44; // Talon that the IMU is plugged into.
 }

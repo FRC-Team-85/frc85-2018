@@ -15,7 +15,7 @@ public class Drive {
 		double speedRight = 0;
 		double speedLeft = 0;
 		double power = (double) SmartDashboard.getNumber("Power", 1);
-		double amplitude = (double) SmartDashboard.getNumber("Amplitude", .5);
+		double amplitude = .35;
 
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
 			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
@@ -48,12 +48,12 @@ public class Drive {
 			power = 3;
 		}
 		if (_leftJoystick.getRawButton(1)) {
-			amplitude = .50;
+			amplitude = SmartDashboard.getNumber("High Amplitude", .65);
 		} else {
-			amplitude = .25;
+			amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
 		}
 
-		// 
+		//
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
 			speedLeft = _rightJoystick.getRawAxis(1);
 			speedRight = _rightJoystick.getRawAxis(1);
@@ -71,26 +71,14 @@ public class Drive {
 					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
 				}
 			}
-
-			if (speedRight > .8) {
-				speedRight = .8;
-			} else if (speedRight < -.8) {
-				speedRight = -.8;
-			}
-
-			if (speedLeft > .8) {
-				speedLeft = .8;
-			} else if (speedLeft < -.8) {
-				speedLeft = -.8;
-			}
 		}
 
 		_mgRight.setPower(-speedRight);
 		_mgLeft.setPower(-speedLeft);
 
 		SmartDashboard.putNumber("Power", power);
-		SmartDashboard.putNumber("Amplitude", amplitude);
-		//SmartDashboard.putNumber("RangeFinder", SuperStructure.getInstance().getRangeFinder().getDistance());
+		// SmartDashboard.putNumber("RangeFinder",
+		// SuperStructure.getInstance().getRangeFinder().getDistance());
 	}
 
 }
