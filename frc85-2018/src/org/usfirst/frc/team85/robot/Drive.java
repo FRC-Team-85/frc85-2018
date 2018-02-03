@@ -1,107 +1,96 @@
 package org.usfirst.frc.team85.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
-	private TalonSRX leftFront, rightFront, leftBack, rightBack;
-	private TalonSRX[] left = { leftFront, leftBack };
-	private TalonSRX[] right = { rightFront, rightBack };
 
-	private double _leftSpeed;
-	private double _rightSpeed;
+	private static MotorGroup _mgLeft = Globals.getInstance().getMotorGroupLeft();
+	private static MotorGroup _mgRight = Globals.getInstance().getMotorGroupRight();
 
-	private static Drive instance = null;
+	private static Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
+	private static Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
 
-	/**
-	 * Singleton for Drive class
-	 * 
-	 * @return The single instance of Drive class
-	 */
-	public static Drive getInstance() {
-		if (instance == null) {
-			instance = new Drive(Addresses.leftFrontTalon, Addresses.leftBackTalon, Addresses.rightFrontTalon,
-					Addresses.rightBackTalon);
+	public static void periodic() {
+		double speedRight = 0;
+		double speedLeft = 0;
+		double power = (double) SmartDashboard.getNumber("Power", 1);
+		double amplitude = (double) SmartDashboard.getNumber("Amplitude", .5);
+
+		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
+			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+			speedRight = 0;
 		}
-		return instance;
+
+		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
+			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+			speedLeft = 0;
+		}
+
+		/*
+		 * if (Math.abs(leftJoystick.getRawAxis(1)) <= .1) { speedLeft = 0; } else if
+		 * (Math.abs(leftJoystick.getRawAxis(1)) < .9) { speedLeft = 2.5 *
+		 * leftJoystick.getRawAxis(1) * leftJoystick.getRawAxis(1) - 1.25 *
+		 * leftJoystick.getRawAxis(1) + .1; } else { speedLeft = 1; }
+		 * 
+		 * if (Math.abs(rightJoystick.getRawAxis(1)) <= .1) { speedRight = 0; } else if
+		 * (Math.abs(rightJoystick.getRawAxis(1)) < .9) { speedRight = 2.5 *
+		 * rightJoystick.getRawAxis(1) * rightJoystick.getRawAxis(1) - 1.25 *
+		 * rightJoystick.getRawAxis(1) + .1; } else { speedRight = 1; }
+		 */
+
+		if (_rightJoystick.getRawButton(7)) {
+			power = 1;
+		}
+		if (_rightJoystick.getRawButton(8)) {
+			power = 3;
+		}
+		if (_leftJoystick.getRawButton(1)) {
+			amplitude = .50;
+		} else {
+			amplitude = .25;
+		}
+
+		// 
+		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
+			speedLeft = _rightJoystick.getRawAxis(1);
+			speedRight = _rightJoystick.getRawAxis(1);
+
+			if (_leftJoystick.getRawAxis(0) > .1) {
+				if (_rightJoystick.getRawAxis(1) > 0) {
+					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+				} else {
+					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+				}
+			} else if (_leftJoystick.getRawAxis(0) < -.1) {
+				if (_rightJoystick.getRawAxis(1) > 0) {
+					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+				} else {
+					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+				}
+			}
+
+			if (speedRight > .8) {
+				speedRight = .8;
+			} else if (speedRight < -.8) {
+				speedRight = -.8;
+			}
+
+			if (speedLeft > .8) {
+				speedLeft = .8;
+			} else if (speedLeft < -.8) {
+				speedLeft = -.8;
+			}
+		}
+
+		_mgRight.setPower(-speedRight);
+		_mgLeft.setPower(-speedLeft);
+
+		SmartDashboard.putNumber("Power", power);
+		SmartDashboard.putNumber("Amplitude", amplitude);
+		//SmartDashboard.putNumber("RangeFinder", SuperStructure.getInstance().getRangeFinder().getDistance());
 	}
 
-	/**
-	 * Constructor for Drive class
-	 * 
-	 * @param id1
-	 *            ID of leftFront Talon
-	 * @param id2
-	 *            ID of leftBack Talon
-	 * @param id3
-	 *            ID of rightFront Talon
-	 * @param id4
-	 *            ID of rightBack Talon
-	 */
-	public Drive(int id1, int id2, int id3, int id4) {
-		leftFront = new TalonSRX(id1);
-		leftBack = new TalonSRX(id2);
-		rightFront = new TalonSRX(id3);
-		rightBack = new TalonSRX(id4);
-	}
-
-	/**
-	 * Sets all motors to their appropriate speeds
-	 */
-	public void setMotors(double _leftV, double _rightV) {
-		leftFront.set(ControlMode.PercentOutput, _leftV);
-		leftBack.set(ControlMode.PercentOutput, _leftV);
-		rightFront.set(ControlMode.PercentOutput, _rightV);
-		rightBack.set(ControlMode.PercentOutput, _rightV);
-
-	}
-
-	/**
-	 * Mutator method for _leftSpeed
-	 * 
-	 * @param speed
-	 *            Desired speed for left motors
-	 */
-	public void setLeftSpeed(double speed) {
-		_leftSpeed = speed;
-	}
-
-	/**
-	 * Mutator method for _rightSpeed
-	 * 
-	 * @param speed
-	 *            Desired speed for right motors
-	 */
-	public void setRightSpeed(double speed) {
-		_rightSpeed = speed;
-	}
-
-	/**
-	 * Combined mutator method for _leftSpeed and _rightSpeed
-	 * 
-	 * @param speed
-	 *            Desired speed for right motors
-	 */
-	public void setSpeed(double speed) {
-		_leftSpeed = speed;
-		_rightSpeed = speed;
-	}
-
-	/**
-	 * Accessor method for _leftSpeed
-	 * 
-	 * @return Desired speed for left motors
-	 */
-	public double getLeftSpeed() {
-		return _leftSpeed;
-	}
-
-	/**
-	 * Accessor method for _rightSpeed
-	 * 
-	 * @return Desired speed for right motors
-	 */
-	public double getRightSpeed() {
-		return _rightSpeed;
-	}
 }
