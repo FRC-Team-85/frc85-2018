@@ -15,7 +15,7 @@ public class Drive {
 		double speedRight = 0;
 		double speedLeft = 0;
 		double power = (double) SmartDashboard.getNumber("Power", 1);
-		double amplitude = (double) SmartDashboard.getNumber("Amplitude", .5);
+		double multLAxis0 = (double) SmartDashboard.getNumber("Left Joystick Turning Multiplier", .5);
 		double RAxis0 = (_rightJoystick.getRawAxis(0));
 		double RAxis1 = (_rightJoystick.getRawAxis(1));
 		double LAxis0 = (_leftJoystick.getRawAxis(0));
@@ -40,9 +40,9 @@ public class Drive {
 			power = 3;
 		}
 		if (_leftJoystick.getRawButton(1)) {
-			amplitude = .50;
+			multLAxis0 = .50;
 		} else {
-			amplitude = .25;
+			multLAxis0 = .25;
 		}
 
 		if (_rightJoystick.getRawButton(1) && Math.abs(RAxis1) > .1) {
@@ -52,15 +52,15 @@ public class Drive {
 			if (LAxis0 > .1) {
 
 				if (RAxis1 > 0) {
-					speedRight = RAxis1 - LAxis0 * amplitude;
+					speedRight = RAxis1 - LAxis0 * multLAxis0;
 				} else {
-					speedRight = RAxis1 + LAxis0 * amplitude;
+					speedRight = RAxis1 + LAxis0 * multLAxis0;
 				}
 			} else if (LAxis0 < -.1) {
 				if (RAxis1 > 0) {
-					speedLeft = RAxis1 + LAxis0 * amplitude;
+					speedLeft = RAxis1 + LAxis0 * multLAxis0;
 				} else {
-					speedLeft = RAxis1 - LAxis0 * amplitude;
+					speedLeft = RAxis1 - LAxis0 * multLAxis0;
 				}
 			}
 			if (Math.abs(RAxis1) > .8) {
@@ -73,7 +73,7 @@ public class Drive {
 		_mgLeft.setPower(-speedLeft);
 
 		SmartDashboard.putNumber("Power", power);
-		SmartDashboard.putNumber("Amplitude", amplitude);
+		SmartDashboard.putNumber("Left Joystick Turning Multiplier", multLAxis0);
 		SmartDashboard.putNumber("RangeFinder", SuperStructure.getInstance().getRangeFinder().getDistance());
 	}
 
