@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends SuperStructure {
 
@@ -45,7 +44,6 @@ public class Robot extends SuperStructure {
 	@Override
 	public void teleopPeriodic() {
 		Drive.periodic();
-		SmartDashboard.putNumber("RangeFinder", rangeFinder.getDistance());
 	}
 
 	@Override
