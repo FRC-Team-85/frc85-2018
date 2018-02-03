@@ -14,6 +14,8 @@ public class DriveStraightAction extends Action {
 
 	@Override
 	public double[] returnSpeed() {
+		checkSatisfaction();
+
 		double[] speed = new double[2];
 		double[] corrections = getCorrections();
 
