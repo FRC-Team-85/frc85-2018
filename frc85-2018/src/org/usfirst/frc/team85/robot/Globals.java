@@ -5,6 +5,7 @@ import org.usfirst.frc.team85.robot.auto.Auto;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -23,6 +24,9 @@ public class Globals {
 	protected RangeFinder rangeFinder;
 	protected TalonSRX leftIntakeWheel, rightIntakeWheel;
 	protected Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
+	protected Compressor compressor;
+	protected Solenoid transmissionSolenoid;
+	protected Pneumatics pneumatics;
 
 	private Globals() {
 	}
@@ -74,5 +78,13 @@ public class Globals {
 
 	public RangeFinder getRangeFinder() {
 		return rangeFinder;
+	}
+	
+	public Compressor getCompressor() {
+		return compressor;
+	}
+	
+	public Pneumatics getPneumatics() {
+		return pneumatics;
 	}
 }

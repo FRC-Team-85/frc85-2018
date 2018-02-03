@@ -10,6 +10,8 @@ public class Drive {
 
 	private static Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
 	private static Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
+	
+	private static Pneumatics _pneumatics = Globals.getInstance().getPneumatics();
 
 	public static void periodic() {
 		double speedRight = 0;
@@ -83,6 +85,13 @@ public class Drive {
 			} else if (speedLeft < -.8) {
 				speedLeft = -.8;
 			}
+		}
+		
+		//Transmission
+		if (_leftJoystick.getRawButton(4)) {
+			_pneumatics.setTransmission(true);
+		} else if (_leftJoystick.getRawButton(5)) {
+			_pneumatics.setTransmission(false);
 		}
 
 		_mgRight.setPower(-speedRight);
