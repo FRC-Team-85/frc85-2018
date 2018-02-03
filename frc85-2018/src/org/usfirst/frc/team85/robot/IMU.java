@@ -10,10 +10,12 @@ public class IMU {
 
 	private TalonSRX _tempTalon = new TalonSRX(Addresses.tempTalon);
 	private PigeonIMU _pigeon = new PigeonIMU(_tempTalon);
-
+	// Hey you guys followed the download 
 	private PigeonIMU.GeneralStatus genStatus = new PigeonIMU.GeneralStatus();
-
+	//_pigeon.GetGeneralStatus(genStatus);
 	private double[] ypr = new double[3];
+	//_pigeon.GetYawPitchRoll(ypr);
+	//System.out.println("Yaw:" + ypr[0]);
 
 	public ErrorCode getStatus() {
 		return _pigeon.getGeneralStatus(genStatus);
