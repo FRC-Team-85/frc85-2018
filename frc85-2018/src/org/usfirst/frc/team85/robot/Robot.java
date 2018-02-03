@@ -44,4 +44,9 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 
 	}
+	
+	@Override
+	public void disabledPeriodic() {
+		//System.out.println("Range finder verify: " + _rangeFinder.verify());
+	}
 }
