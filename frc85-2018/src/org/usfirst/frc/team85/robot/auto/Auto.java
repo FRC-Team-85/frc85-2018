@@ -2,7 +2,6 @@ package org.usfirst.frc.team85.robot.auto;
 
 import java.util.ArrayList;
 
-import org.usfirst.frc.team85.robot.auto.InputSource.EncoderSource;
 import org.usfirst.frc.team85.robot.auto.InputSource.GyroSource;
 import org.usfirst.frc.team85.robot.auto.action.Action;
 import org.usfirst.frc.team85.robot.auto.action.DriveStraightAction;
@@ -15,7 +14,7 @@ public class Auto {
 	public Auto(String fieldKey) {
 		_fieldKey = fieldKey;
 
-		_movementActions.add(new DriveStraightAction(.85, new GyroSource(0), null, new EncoderSource(40)));
+		_movementActions.add(new DriveStraightAction(.85, new GyroSource(0), null, null));
 	}
 
 	public static void terminate() {
@@ -25,6 +24,9 @@ public class Auto {
 	}
 
 	public double[] autoTick() {
-		return _movementActions.get(0).returnSpeed();
+		if (_movementActions.size() > 0) {
+			return _movementActions.get(0).returnSpeed();
+		}
+		return new double[] { 0, 0 };
 	}
 }

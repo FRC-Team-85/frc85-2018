@@ -20,7 +20,7 @@ public class Action {
 	}
 
 	public double[] getCorrections() {
-		double[] output = new double[2];
+		double[] output = new double[] { 0, 0 };
 
 		double firstWeight = .75;
 		double secondWeight = .25;

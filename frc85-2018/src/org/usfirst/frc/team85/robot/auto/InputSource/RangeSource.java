@@ -8,19 +8,16 @@ public class RangeSource extends InputSource {
 
 	@Override
 	public double[] getCorrectionValues() {
-
 		return null;
 	}
 
 	@Override
 	public boolean isSatisfied() {
-
 		return false;
 	}
 
 	@Override
 	protected double returnPIDInput() {
-		// return Globals.getInstance().getRangeFinder().getDistance();
 		return 0;
 	}
 
