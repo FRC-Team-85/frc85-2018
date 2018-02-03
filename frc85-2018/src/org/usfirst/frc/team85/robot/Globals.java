@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Globals {
 
 	protected static Globals instance = null;
-
+	
+	protected PowerDistributionPanel powerDistributionPanel;
 	protected Joystick leftJoystick;
 	protected Joystick rightJoystick;
 	protected MotorGroup mgLeft; // Left Drive Train
@@ -32,6 +34,8 @@ public class Globals {
 	}
 	
 	public void init() {
+		powerDistributionPanel = new PowerDistributionPanel(Addresses.powerDistributionPanel);
+		
 		leftJoystick = new Joystick(Addresses.leftDriveStick);
 		rightJoystick = new Joystick(Addresses.rightDriveStick);
 
@@ -54,6 +58,10 @@ public class Globals {
 			instance = new Globals();
 		}
 		return instance;
+	}
+	
+	public PowerDistributionPanel getPowerDistributionPanel() {
+		return powerDistributionPanel;
 	}
 	
 	public Joystick getLeftJoystick() {

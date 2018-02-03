@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
@@ -11,6 +12,8 @@ public class Drive {
 	private static Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
 	private static Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
 	
+	private static PowerDistributionPanel _pdp = Globals.getInstance().getPowerDistributionPanel();
+	
 	private static Pneumatics _pneumatics = Globals.getInstance().getPneumatics();
 
 	public static void periodic() {
@@ -18,7 +21,13 @@ public class Drive {
 		double speedLeft = 0;
 		double power = (double) SmartDashboard.getNumber("Power", 1);
 		double amplitude = (double) SmartDashboard.getNumber("Amplitude", .5);
-
+		
+		double leftFrontCurrent = 0;
+		double leftBackCurrent = 0;
+		
+		double rightFrontCurrent = 0;
+		double rightBackCurrent = 0;
+		
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
 			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
 		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
@@ -94,6 +103,19 @@ public class Drive {
 		} else if (_leftJoystick.getRawButton(5)) {
 			_pneumatics.setTransmission(false);
 			SmartDashboard.putString("Transmission Gear", "High Gear");
+		}
+		
+		//Automatic Transmission
+		leftFrontCurrent = _pdp.getCurrent(Addresses.leftFrontTalon);
+		leftBackCurrent = _pdp.getCurrent(Addresses.leftBackTalon);
+		
+		rightFrontCurrent = _pdp.getCurrent(Addresses.rightFrontTalon);
+		rightBackCurrent = _pdp.getCurrent(Addresses.rightBackTalon);
+		
+		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 200) { //Implement && current speed later
+			_pneumatics.setTransmission(true);
+		} else {
+			_pneumatics.setTransmission(false); //Defaulted to high gear
 		}
 
 		_mgRight.setPower(-speedRight);
