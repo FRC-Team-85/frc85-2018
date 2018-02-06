@@ -24,6 +24,7 @@ public class Globals {
 	protected TalonSRX leftIntakeWheel, rightIntakeWheel;
 	protected Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
 	protected Intake intake;
+	protected Lift lift;
 	
 	private Globals() {
 	}
@@ -34,8 +35,6 @@ public class Globals {
 
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
-
-		rangeFinder = new RangeFinder();
 
 		try {
 			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
@@ -80,4 +79,9 @@ public class Globals {
 	public Intake getIntake() {
 		return intake;
 	}
+	
+	public Lift getLift() {
+		return lift;
+	}
+	
 }
