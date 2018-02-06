@@ -7,7 +7,7 @@ public class Intake {
 	Globals globals = Globals.getInstance();
 
 	private boolean isIntakeOpen;
-	private double wheelSpeed; // optimal wheel speed determined by tests. later theoretical support for
+	private double wheelSpeed;	// optimal wheel speed determined by tests. later theoretical support for
 								// smartdashboard
 
 	public Intake() {
@@ -15,15 +15,9 @@ public class Intake {
 	}
 
 	public void setIntakePosition(boolean open) {
-		if (open) {
-			globals.getLeftIntakeSolenoid().set(true);
-			globals.getRightIntakeSolenoid().set(true);
-			isIntakeOpen = true;
-		} else {
-			globals.getLeftIntakeSolenoid().set(false);
-			globals.getRightIntakeSolenoid().set(false);
-			isIntakeOpen = false;
-		}
+		globals.getLeftIntakeSolenoid().set(open);
+		globals.getRightIntakeSolenoid().set(open);
+		isIntakeOpen = open;
 	}
 
 	public boolean getIntakePosition() {
