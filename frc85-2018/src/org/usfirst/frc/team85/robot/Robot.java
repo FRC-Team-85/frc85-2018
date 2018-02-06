@@ -36,8 +36,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Drive.periodic();
-		// SmartDashboard.putNumber("RangeFinder",
-		// global.getRangeFinder().getDistance());
+		SmartDashboard.putNumber("RangeFinder", global.getRangeFinder().getDistance());
 	}
 
 	@Override
