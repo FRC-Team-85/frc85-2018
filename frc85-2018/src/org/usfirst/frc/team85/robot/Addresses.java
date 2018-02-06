@@ -21,13 +21,13 @@ public class Addresses {
 	public final static int rightIntakeTalon = 8;
 	public final static int rightIntakeSolenoid = 15;
 	public final static int leftIntakeSolenoid = 16;
-
-	// sensors
-	public final static int rangeFinder = 0;
+	
+	//ultrasonic rangefinders
+	public final static int rangeFinder = 112;
+	
 	// joysticks
-	public final static int leftDriveStick = 0;
+	public final static int leftDriveStick = 1;
 	public final static int rightDriveStick = 0;
 
-	public final static int tempTalon = 44; //Talon that the IMU is plugged into.
-
+	public final static int tempTalon = 44; // Talon that the IMU is plugged into.
 }
