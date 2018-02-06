@@ -6,23 +6,20 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class Pneumatics {
 	
 	Globals globals = Globals.getInstance();
+	
+	private static Compressor _compressor = Globals.getInstance().getCompressor();
+	private static Solenoid _transmissionSolenoid = Globals.getInstance().getTransmissionSolenoid();
 
 	//The status of the compressor. Whether it is running or !running.
 	private boolean isCompressorOn;
 	
-	public Pneumatics() {
-		globals.compressor = new Compressor(Addresses.compressor);
-		
-		globals.transmissionSolenoid = new Solenoid(Addresses.transmissionSolenoid);
-	}
-	
 	//Compressor section
 	public void setCompressor(boolean on) { //see getCompressorOn method for information on the loop.
-		globals.compressor.setClosedLoopControl(on);
+		_compressor.setClosedLoopControl(on);
 	}
 	
 	public boolean getCompressorEnabled() { //The status of the loop. 
-		return globals.compressor.enabled();
+		return _compressor.enabled();
 	}
 	
 	public boolean getCompressorOn() { 
@@ -30,20 +27,20 @@ public class Pneumatics {
 		 *  The PCM automatically turns the compressor on or off when this is true.
 		 *  The compressor is always off when this is false.
 		 */
-		return globals.compressor.getClosedLoopControl();
+		return _compressor.getClosedLoopControl();
 	}
 	
 	public double getCompressrCurrent() { //The current draw (power) of the compressor.
-		return globals.compressor.getCompressorCurrent();
+		return _compressor.getCompressorCurrent();
 	}
 	
 	//Transmission section
 	public void setTransmission(boolean open) { //Needs testing to see if true = low gear or high gear.
-		globals.transmissionSolenoid.set(open);
+		_transmissionSolenoid.set(open);
 	}
 	
 	public boolean getTransmissionPosition() {
-		return globals.transmissionSolenoid.get();
+		return _transmissionSolenoid.get();
 	}
 	
 }

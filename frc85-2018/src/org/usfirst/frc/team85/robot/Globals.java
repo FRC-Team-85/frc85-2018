@@ -1,7 +1,5 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.auto.Auto;
-
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
@@ -10,51 +8,53 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Globals {
 
 	protected static Globals instance = null;
-	
-	protected PowerDistributionPanel powerDistributionPanel;
-	protected Joystick leftJoystick;
-	protected Joystick rightJoystick;
-	protected MotorGroup mgLeft; // Left Drive Train
-	protected MotorGroup mgRight; // Right Drive Train
-	protected ADXRS450_Gyro gyro;
-	protected RangeFinder rangeFinder;
-	protected TalonSRX leftIntakeWheel, rightIntakeWheel;
-	protected Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
-	protected Compressor compressor;
-	protected Solenoid transmissionSolenoid;
-	protected Pneumatics pneumatics;
+
+	private Joystick leftJoystick;
+	private Joystick rightJoystick;
+	private MotorGroup mgLeft; // Left Drive Train
+	private MotorGroup mgRight; // Right Drive Train
+	private ADXRS450_Gyro gyro;
+	// private IMU imu;
+	private RangeFinder rangeFinder;
+	private TalonSRX leftIntakeWheel, rightIntakeWheel;
+	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
+	private Compressor compressor;
+	private Solenoid transmissionSolenoid;
+	private Pneumatics pneumatics;
+	private PowerDistributionPanel powerDistributionPanel;
 
 	private Globals() {
-	}
-	
-	public void init() {
-		powerDistributionPanel = new PowerDistributionPanel(Addresses.powerDistributionPanel);
-		
+
 		leftJoystick = new Joystick(Addresses.leftDriveStick);
 		rightJoystick = new Joystick(Addresses.rightDriveStick);
 
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
-		rangeFinder = new RangeFinder();
+		rangeFinder = RangeFinder.getInstance();
 
-		try {
-			gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
-			gyro.setPIDSourceType(PIDSourceType.kDisplacement);
-			gyro.calibrate();
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-		}
+		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
+
+		// imu = new IMU();
+		
+		powerDistributionPanel = new PowerDistributionPanel(Addresses.powerDistributionPanel);
+
+		// leftIntakeWheel = new TalonSRX(Addresses.leftIntakeTalon);
+		// rightIntakeWheel = new TalonSRX(Addresses.rightIntakeTalon);
+
+		// leftIntakeSolenoid = new Solenoid(Addresses.leftIntakeSolenoid);
+		// rightIntakeSolenoid = new Solenoid(Addresses.rightIntakeSolenoid);
 	}
 
 	public static Globals getInstance() {
-		if(instance.equals(null)) {
+		if (instance == null) {
 			instance = new Globals();
 		}
 		return instance;
@@ -67,7 +67,7 @@ public class Globals {
 	public Joystick getLeftJoystick() {
 		return leftJoystick;
 	}
-	
+
 	public Joystick getRightJoystick() {
 		return rightJoystick;
 	}
@@ -80,12 +80,32 @@ public class Globals {
 		return mgRight;
 	}
 
+	// IMU getIMU() {
+	// return imu;
+	// }
+
+	public RangeFinder getRangeFinder() {
+		return rangeFinder;
+	}
+
 	public ADXRS450_Gyro getGyro() {
 		return gyro;
 	}
 
-	public RangeFinder getRangeFinder() {
-		return rangeFinder;
+	public TalonSRX getLeftIntakeWheel() {
+		return leftIntakeWheel;
+	}
+
+	public TalonSRX getRightIntakeWheel() {
+		return rightIntakeWheel;
+	}
+
+	public Solenoid getLeftIntakeSolenoid() {
+		return leftIntakeSolenoid;
+	}
+
+	public Solenoid getRightIntakeSolenoid() {
+		return rightIntakeSolenoid;
 	}
 	
 	public Compressor getCompressor() {
@@ -94,5 +114,9 @@ public class Globals {
 	
 	public Pneumatics getPneumatics() {
 		return pneumatics;
+	}
+	
+	public Solenoid getTransmissionSolenoid() {
+		return transmissionSolenoid;
 	}
 }

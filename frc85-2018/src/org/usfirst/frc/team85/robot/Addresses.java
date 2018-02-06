@@ -2,6 +2,8 @@ package org.usfirst.frc.team85.robot;
 
 public class Addresses {
 
+	public final static int powerDistributionPanel = 0;
+	
 	// drive motors
 	public final static int leftFrontTalon = 11;
 	public final static int leftBackTalon = 12;
@@ -24,15 +26,17 @@ public class Addresses {
 	// intake pneumatics
 	public final static int rightIntakeSolenoid = 15;
 	public final static int leftIntakeSolenoid = 16;
-
-	// sensors
-	public final static int rangeFinder = 0;
+	
+	//ultrasonic rangefinders
+	public final static int rangeFinder = 112;
+	
 	// joysticks
-	public final static int leftDriveStick = 0;
+	public final static int leftDriveStick = 1;
 	public final static int rightDriveStick = 0;
 
 	public final static int tempTalon = 44; //Talon that the IMU is plugged into.
 	
 	// general pneumatics
 	public final static int compressor = 0; //0 Is the default PCM node id.
+
 }

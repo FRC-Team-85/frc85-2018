@@ -2,22 +2,21 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.auto.Auto;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	
-	Globals global = Globals.getInstance();
+
+	Globals global;
 	Auto auto;
 
 	@Override
 	public void robotInit() {
-		global.init();
+		global = Globals.getInstance();
+
+		SmartDashboard.putNumber("High Amplitude", .65);
+		SmartDashboard.putNumber("Low Amplitude", .35);
 	}
 
 	@Override
@@ -30,18 +29,24 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		double[] temp = auto.autoTick();
 
-		global.mgLeft.setPower(temp[0]);
-		global.mgRight.setPower(temp[1]);
+		global.getMotorGroupLeft().setPower(temp[0]);
+		global.getMotorGroupRight().setPower(temp[1]);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		Drive.periodic();
-		SmartDashboard.putNumber("RangeFinder", global.rangeFinder.getDistance());
+		// SmartDashboard.putNumber("RangeFinder",
+		// global.getRangeFinder().getDistance());
 	}
 
 	@Override
 	public void testPeriodic() {
 
+	}
+	
+	@Override
+	public void disabledPeriodic() {
+		//System.out.println("Range finder verify: " + _rangeFinder.verify());
 	}
 }
