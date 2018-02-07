@@ -5,80 +5,109 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive {
 
-	private static MotorGroup _mgLeft = Globals.getInstance().getMotorGroupLeft();
-	private static MotorGroup _mgRight = Globals.getInstance().getMotorGroupRight();
+	protected static Drive instance = null;
 
-	private static Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
-	private static Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
+	private MotorGroup _mgLeft = Globals.getInstance().getMotorGroupLeft();
+	private MotorGroup _mgRight = Globals.getInstance().getMotorGroupRight();
 
-	public static void periodic() {
-		double speedRight = 0;
-		double speedLeft = 0;
-		double power = (double) SmartDashboard.getNumber("Power", 1);
-		double amplitude = .35;
+	private Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
+	private Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
 
+	private double _speedRight = 0;
+	private double _speedLeft = 0;
+
+	private double _power = (double) SmartDashboard.getNumber("Power", 1);
+	private double _amplitude = .35;
+
+	/**
+	 * Singleton for Drive class
+	 * 
+	 * @return The single instance of Drive
+	 */
+	public static Drive getInstance() {
+		if (instance == null) {
+			instance = new Drive();
+		}
+		return instance;
+	}
+
+	/**
+	 * Called throughout teleop
+	 */
+	public void periodic() {
+
+		powerButtons();
+		tankDrive();
+
+		if (_rightJoystick.getRawButton(1)) {
+			fpsDrive();
+		}
+
+		_mgRight.setPower(-_speedRight);
+		_mgLeft.setPower(-_speedLeft);
+
+		SmartDashboard.putNumber("Power", _power);
+		SmartDashboard.putNumber("High Amplitude", .65);
+		SmartDashboard.putNumber("Low Amplitude", .35);
+		// SmartDashboard.putNumber("RangeFinder",global.getRangeFinder().getDistance());
+	}
+
+	/**
+	 * Primary drive mode
+	 */
+	private void tankDrive() {
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+			_speedRight = Math.pow(_rightJoystick.getRawAxis(1), _power);
 		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
-			speedRight = 0;
+			_speedRight = 0;
 		}
 
 		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+			_speedLeft = Math.pow(_leftJoystick.getRawAxis(1), _power);
 		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
-			speedLeft = 0;
+			_speedLeft = 0;
 		}
+	}
 
-		/*
-		 * if (Math.abs(leftJoystick.getRawAxis(1)) <= .1) { speedLeft = 0; } else if
-		 * (Math.abs(leftJoystick.getRawAxis(1)) < .9) { speedLeft = 2.5 *
-		 * leftJoystick.getRawAxis(1) * leftJoystick.getRawAxis(1) - 1.25 *
-		 * leftJoystick.getRawAxis(1) + .1; } else { speedLeft = 1; }
-		 * 
-		 * if (Math.abs(rightJoystick.getRawAxis(1)) <= .1) { speedRight = 0; } else if
-		 * (Math.abs(rightJoystick.getRawAxis(1)) < .9) { speedRight = 2.5 *
-		 * rightJoystick.getRawAxis(1) * rightJoystick.getRawAxis(1) - 1.25 *
-		 * rightJoystick.getRawAxis(1) + .1; } else { speedRight = 1; }
-		 */
-
-		if (_rightJoystick.getRawButton(7)) {
-			power = 1;
-		}
-		if (_rightJoystick.getRawButton(8)) {
-			power = 3;
-		}
-		if (_leftJoystick.getRawButton(1)) {
-			amplitude = SmartDashboard.getNumber("High Amplitude", .65);
-		} else {
-			amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
-		}
-
-		//
-		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
-			speedLeft = _rightJoystick.getRawAxis(1);
-			speedRight = _rightJoystick.getRawAxis(1);
+	/**
+	 * A modifier to TankDrive, not a drive mode in itself(?)
+	 */
+	private void fpsDrive() {
+		if (Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
+			_speedLeft = _rightJoystick.getRawAxis(1);
+			_speedRight = _rightJoystick.getRawAxis(1);
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
 				} else {
-					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
 				}
 			} else if (_leftJoystick.getRawAxis(0) < -.1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
 				} else {
-					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
 				}
 			}
 		}
+	}
 
-		_mgRight.setPower(-speedRight);
-		_mgLeft.setPower(-speedLeft);
-
-		SmartDashboard.putNumber("Power", power);
-		// SmartDashboard.putNumber("RangeFinder",
-		// SuperStructure.getInstance().getRangeFinder().getDistance());
+	/**
+	 * Modifies the power/amp of joystick inputs
+	 */
+	private void powerButtons() {
+		if (_rightJoystick.getRawButton(7)) {
+			_power = 1;
+		}
+		if (_rightJoystick.getRawButton(8)) {
+			_power = 3;
+		}
+		if (_leftJoystick.getRawButton(1)) {
+			_amplitude = SmartDashboard.getNumber("High Amplitude", .65);
+		} else {
+			_amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
+		}
 	}
 
 }

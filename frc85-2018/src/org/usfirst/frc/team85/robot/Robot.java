@@ -8,36 +8,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	Globals global;
-	Auto auto;
+	private Globals _globals;
+	private Drive _drive;
+	private Auto _auto;
 
 	@Override
 	public void robotInit() {
-		global = Globals.getInstance();
-
-		SmartDashboard.putNumber("High Amplitude", .65);
-		SmartDashboard.putNumber("Low Amplitude", .35);
+		_globals = Globals.getInstance();
+		_drive = Drive.getInstance();
 	}
 
 	@Override
 	public void autonomousInit() {
 		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		auto = new Auto(fieldKey);
+		_auto = new Auto(fieldKey);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		double[] temp = auto.autoTick();
+		double[] temp = _auto.autoTick();
 
-		global.getMotorGroupLeft().setPower(temp[0]);
-		global.getMotorGroupRight().setPower(temp[1]);
+		_globals.getMotorGroupLeft().setPower(temp[0]);
+		_globals.getMotorGroupRight().setPower(temp[1]);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		Drive.periodic();
-		// SmartDashboard.putNumber("RangeFinder",
-		// global.getRangeFinder().getDistance());
+		_drive.periodic();
 	}
 
 	@Override
