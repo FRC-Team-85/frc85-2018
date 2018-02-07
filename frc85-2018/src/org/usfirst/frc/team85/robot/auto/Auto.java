@@ -25,7 +25,8 @@ public class Auto {
 
 	public double[] autoTick() {
 		if (_movementActions.size() > 0) {
-			return _movementActions.get(0).returnSpeed();
+			double[] output = _movementActions.get(0).returnSpeed();
+			return output;
 		}
 		return new double[] { 0, 0 };
 	}

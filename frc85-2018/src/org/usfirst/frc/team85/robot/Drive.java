@@ -29,31 +29,19 @@ public class Drive {
 			speedLeft = 0;
 		}
 
-		/*
-		 * if (Math.abs(leftJoystick.getRawAxis(1)) <= .1) { speedLeft = 0; } else if
-		 * (Math.abs(leftJoystick.getRawAxis(1)) < .9) { speedLeft = 2.5 *
-		 * leftJoystick.getRawAxis(1) * leftJoystick.getRawAxis(1) - 1.25 *
-		 * leftJoystick.getRawAxis(1) + .1; } else { speedLeft = 1; }
-		 * 
-		 * if (Math.abs(rightJoystick.getRawAxis(1)) <= .1) { speedRight = 0; } else if
-		 * (Math.abs(rightJoystick.getRawAxis(1)) < .9) { speedRight = 2.5 *
-		 * rightJoystick.getRawAxis(1) * rightJoystick.getRawAxis(1) - 1.25 *
-		 * rightJoystick.getRawAxis(1) + .1; } else { speedRight = 1; }
-		 */
-
 		if (_rightJoystick.getRawButton(7)) {
 			power = 1;
 		}
 		if (_rightJoystick.getRawButton(8)) {
 			power = 3;
 		}
+
 		if (_leftJoystick.getRawButton(1)) {
 			amplitude = SmartDashboard.getNumber("High Amplitude", .65);
 		} else {
 			amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
 		}
 
-		//
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
 			speedLeft = _rightJoystick.getRawAxis(1);
 			speedRight = _rightJoystick.getRawAxis(1);

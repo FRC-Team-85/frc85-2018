@@ -17,7 +17,7 @@ public class Globals {
 	private MotorGroup mgRight; // Right Drive Train
 	private ADXRS450_Gyro gyro;
 	// private IMU imu;
-	// private RangeFinder rangeFinder;
+	private RangeFinder rangeFinder;
 	private TalonSRX leftIntakeWheel, rightIntakeWheel;
 	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
 
@@ -28,7 +28,7 @@ public class Globals {
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
-		// rangeFinder = new RangeFinder();
+		rangeFinder = new RangeFinder();
 
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
@@ -68,9 +68,9 @@ public class Globals {
 	// return imu;
 	// }
 
-	// public RangeFinder getRangeFinder() {
-	// return rangeFinder;
-	// }
+	public RangeFinder getRangeFinder() {
+		return rangeFinder;
+	}
 
 	public ADXRS450_Gyro getGyro() {
 		return gyro;

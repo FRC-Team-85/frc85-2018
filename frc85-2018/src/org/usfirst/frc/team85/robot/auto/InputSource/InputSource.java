@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 public abstract class InputSource extends PIDSubsystem {
 
-	private static double P = .75, I = 0.5, D = 0.0;
+	private static double P = 1 / 90, I = 0.5, D = 0.0;
 
 	public InputSource() {
 		super(P, I, D);

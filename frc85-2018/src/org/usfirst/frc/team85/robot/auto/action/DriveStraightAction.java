@@ -19,8 +19,8 @@ public class DriveStraightAction extends Action {
 		double[] speed = new double[] { 0, 0 };
 		double[] corrections = getCorrections();
 
-		speed[0] = _speed += corrections[0];
-		speed[1] = _speed += corrections[1];
+		speed[0] = _speed + corrections[0];
+		speed[1] = _speed + corrections[1];
 
 		return speed;
 	}

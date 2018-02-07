@@ -44,13 +44,13 @@ public class Action {
 			output[0] += corr2[0] * secondWeight;
 			output[1] += corr2[1] * secondWeight;
 		}
-
 		return output;
 	}
 
-	public void checkSatisfaction() {
+	public boolean checkSatisfaction() {
 		if (_terminationSource != null && _terminationSource.isSatisfied()) {
 			Auto.terminate();
 		}
+		return (_terminationSource != null && _terminationSource.isSatisfied());
 	}
 }

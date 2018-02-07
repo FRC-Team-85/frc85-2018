@@ -3,16 +3,14 @@ package org.usfirst.frc.team85.robot.auto;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
 import org.usfirst.frc.team85.robot.Globals;
 
 public class Diagnostics {
 
-	Globals struct = Globals.getInstance();
-
 	File log;
 	BufferedWriter out = null;
+	private long _timestamp = System.currentTimeMillis();
 
 	public void init() {
 		try {
@@ -24,25 +22,22 @@ public class Diagnostics {
 			if (log.exists() == false) {
 				log.createNewFile();
 				out = new BufferedWriter(new FileWriter(log, true));
-				out.append("GyroPIDError");
+				out.append("Match Time,Gyro Angle,Gyro PID output");
 				out.newLine();
 			}
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
 		}
-
+		_timestamp = System.currentTimeMillis();
 	}
 
-	public void log(ArrayList<Double> data) {
+	public void log(double correction) {
 		try {
 
-			String output = "";
-			for (double d : data) {
-				output += d + ",";
-			}
-			output = output.substring(0, output.length() - 1);
+			String matchTime = Double.toString(System.currentTimeMillis() - _timestamp);
+			String gyroAngle = Double.toString(Globals.getInstance().getGyro().getAngle());
 
-			out.append(output);
+			out.append(matchTime + "," + gyroAngle + "," + correction);
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());
