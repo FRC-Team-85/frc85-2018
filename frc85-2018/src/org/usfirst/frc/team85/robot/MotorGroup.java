@@ -40,7 +40,7 @@ public class MotorGroup {
 		return _motors[0].getMotorOutputPercent();
 	}
 
-	public double getInstantaneousVel() {
+	public int getInstantaneousVel() {
 		// there seem to be 3 ways to get velocity, we should investigate which
 		// one to use
 		return _motors[0].getSensorCollection().getQuadratureVelocity();
