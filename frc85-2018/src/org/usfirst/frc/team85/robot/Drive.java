@@ -29,30 +29,42 @@ public class Drive {
 		
 		double amplitude = .35;
 
+		// Right joystick controls right speed
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
 			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
 		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
 			speedRight = 0;
 		}
 
+		// Left joystick controls left speed
 		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
 			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
 		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
 			speedLeft = 0;
 		}
 
-		/*
-		 * if (Math.abs(leftJoystick.getRawAxis(1)) <= .1) { speedLeft = 0; } else if
-		 * (Math.abs(leftJoystick.getRawAxis(1)) < .9) { speedLeft = 2.5 *
-		 * leftJoystick.getRawAxis(1) * leftJoystick.getRawAxis(1) - 1.25 *
-		 * leftJoystick.getRawAxis(1) + .1; } else { speedLeft = 1; }
-		 * 
-		 * if (Math.abs(rightJoystick.getRawAxis(1)) <= .1) { speedRight = 0; } else if
-		 * (Math.abs(rightJoystick.getRawAxis(1)) < .9) { speedRight = 2.5 *
-		 * rightJoystick.getRawAxis(1) * rightJoystick.getRawAxis(1) - 1.25 *
-		 * rightJoystick.getRawAxis(1) + .1; } else { speedRight = 1; }
-		 */
+		// Hold down button (trigger?) and move R joystick (Y) sets speed for both side
+		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
+			speedLeft = _rightJoystick.getRawAxis(1);
+			speedRight = _rightJoystick.getRawAxis(1);
 
+			// L joystick turns robot
+			if (_leftJoystick.getRawAxis(0) > .1) {
+				if (_rightJoystick.getRawAxis(1) > 0) {
+					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+				} else {
+					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+				}	
+			} else if (_leftJoystick.getRawAxis(0) < -.1) {
+				if (_rightJoystick.getRawAxis(1) > 0) {
+					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+				} else {
+					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+				}
+			}
+		}
+		
+		// Sets power
 		if (_rightJoystick.getRawButton(7)) {
 			power = 1;
 		}
@@ -64,28 +76,8 @@ public class Drive {
 		} else {
 			amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
 		}
-
-		//
-		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
-			speedLeft = _rightJoystick.getRawAxis(1);
-			speedRight = _rightJoystick.getRawAxis(1);
-
-			if (_leftJoystick.getRawAxis(0) > .1) {
-				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
-				} else {
-					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
-				}
-			} else if (_leftJoystick.getRawAxis(0) < -.1) {
-				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
-				} else {
-					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
-				}
-			}
-		}
 		
-		//Transmission
+		//Manual Transmission
 		if (_leftJoystick.getRawButton(4)) {
 			_pneumatics.setTransmission(true);
 			SmartDashboard.putString("Transmission Gear", "Low Gear");
@@ -101,7 +93,7 @@ public class Drive {
 		rightFrontCurrent = _pdp.getCurrent(Addresses.rightFrontTalon);
 		rightBackCurrent = _pdp.getCurrent(Addresses.rightBackTalon);
 		
-		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 200) { //Implement && current speed later
+		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 150) { //Implement && current speed later
 			_pneumatics.setTransmission(true);
 		} else {
 			_pneumatics.setTransmission(false); //Defaulted to high gear
