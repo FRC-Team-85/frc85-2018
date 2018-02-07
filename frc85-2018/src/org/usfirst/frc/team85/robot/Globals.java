@@ -22,6 +22,7 @@ public class Globals {
 	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
 	private Intake intake;
 	private Lift lift;
+	private Joystick opBoard;
 
 	private Globals() {
 		leftJoystick = new Joystick(Addresses.leftDriveStick);
@@ -100,6 +101,10 @@ public class Globals {
 	
 	public Lift getLift() {
 		return lift;
+	}
+	
+	public Joystick getOpBoard() {
+		return opBoard;
 	}
 	
 }

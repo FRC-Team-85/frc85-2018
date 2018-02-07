@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
 //import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 public class Lift {
@@ -31,21 +30,24 @@ public class Lift {
 				_bottomlimit;
 	//Lift limits
 	public void setLiftMotors(boolean up, double speed) {
-		if (up && _toplimit.get()
+		if (up && _toplimit.get()									// first, check if it can even move
 			|| !up && _bottomlimit.get()) {
 			_rightMotor.set(ControlMode.PercentOutput, 0);
 			_leftMotor.set(ControlMode.PercentOutput,  0);
-
+		} else if (up) {											// then, see if it's going up
 			_rightMotor.set(ControlMode.PercentOutput, speed);
 			_leftMotor.set(ControlMode.PercentOutput, speed);
-		} else {
+		} else if (!up) {											// then, see if it's going down
 			_rightMotor.set(ControlMode.PercentOutput, -1 * speed); 
 			_leftMotor.set(ControlMode.PercentOutput, -1 * speed);
+		} else {													// lastly, stop if neither of the others; otherwise, will continue going in the last set direction
+			_rightMotor.set(ControlMode.PercentOutput, 0);
+			_leftMotor.set(ControlMode.PercentOutput,  0);
 		}
 	}
 	
 	private int height = 0;
-	public Joystick _board = new Joystick(20);
+	private OpBoard _opBoard = OpBoard.getInstance();
 	
 	//encoder for lift
 	private Encoder _liftEncoder = new Encoder(1, 1);
@@ -54,27 +56,19 @@ public class Lift {
 	
 	public void liftMoving() {
 		if (_liftEncoder.get() > height) {
-				_leftMotor.set(ControlMode.PercentOutput, -.5);
-				_rightMotor.set(ControlMode.PercentOutput, -.5);
+				setLiftMotors(false, -.5);
 		} else if (_liftEncoder.get() < height) {
-				_leftMotor.set(ControlMode.PercentOutput, .5);
-				_rightMotor.set(ControlMode.PercentOutput, .5);
+				setLiftMotors(true, .5);
 		}
 	}
 	
 	//manually adjusting the lift
-	public void operator() {
-		if (_board.getRawAxis(1) > .2) {
-			_leftMotor.set(ControlMode.PercentOutput, -.5);
-			_rightMotor.set(ControlMode.PercentOutput, -.5);
-			height = _liftEncoder.get();
-		} else if (_board.getRawAxis(1) < -.2) {
-			_leftMotor.set(ControlMode.PercentOutput, .5);
-			_rightMotor.set(ControlMode.PercentOutput, .5);
+	public void operateLift(double speed) {				// why are we doing the check for the axis inside here?
+		if (Math.abs(_opBoard.getLiftStick()) > .2) {	// also, my logic might not actually work here um
+			setLiftMotors(true, .5);
 			height = _liftEncoder.get();
 		} else {
-			_leftMotor.set(ControlMode.PercentOutput, 0);
-			_rightMotor.set(ControlMode.PercentOutput, 0);
+			setLiftMotors(true, 0);
 		}
 	}
 	
