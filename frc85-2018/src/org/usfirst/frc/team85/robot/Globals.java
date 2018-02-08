@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot;
 
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Gripper;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
@@ -19,7 +20,7 @@ public class Globals {
 	private static Intake _intake;
 
 	private static ADXRS450_Gyro _gyro;
-	// private static RangeFinder _rangeFinder;
+	private static RangeFinder _rangeFinder;
 
 	private Globals() {
 		_driveTrain = DriveTrain.getInstance();
@@ -28,6 +29,7 @@ public class Globals {
 		_intake = Intake.getInstance();
 
 		_gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+		_rangeFinder = RangeFinder.getInstance();
 
 		SmartDashboard.putData(_driveTrain);
 		SmartDashboard.putData(_lift);
@@ -58,6 +60,10 @@ public class Globals {
 
 	public ADXRS450_Gyro getGyro() {
 		return _gyro;
+	}
+
+	public RangeFinder getRangeFinder() {
+		return _rangeFinder;
 	}
 
 }

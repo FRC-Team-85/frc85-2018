@@ -22,18 +22,18 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DriveStraight extends Command {
 	private PIDController m_pid;
+	private double _speed = 0;
 
-	public DriveStraight(double distance) {
+	public DriveStraight(double speed, double heading) {
 		requires(Globals.getInstance().getDriveTrain());
+		_speed = speed;
 
 		m_pid = new PIDController(4, 0, 0, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			@Override
 			public double pidGet() {
-				// return Robot.driveTrain.getDistance();
-				// get Gyro Data
-				return 0;
+				return Globals.getInstance().getGyro().getAngle();
 			}
 
 			@Override
@@ -45,10 +45,18 @@ public class DriveStraight extends Command {
 			public PIDSourceType getPIDSourceType() {
 				return m_sourceType;
 			}
-		}, d -> Globals.getInstance().getDriveTrain().drive(d, d));
+		}, d -> applyCorrection(d));
 
 		m_pid.setAbsoluteTolerance(0.01);
-		m_pid.setSetpoint(distance);
+		m_pid.setSetpoint(heading);
+	}
+
+	public void applyCorrection(double correction) {
+		if (correction > 0) {
+			Globals.getInstance().getDriveTrain().drive(_speed - Math.sin(Math.abs(correction)), _speed);
+		} else {
+			Globals.getInstance().getDriveTrain().drive(_speed, _speed - Math.sin(Math.abs(correction)));
+		}
 	}
 
 	// Called just before this Command runs the first time

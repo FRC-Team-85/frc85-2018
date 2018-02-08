@@ -49,6 +49,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void log() {
-		// log to dashboard
+
 	}
 }
