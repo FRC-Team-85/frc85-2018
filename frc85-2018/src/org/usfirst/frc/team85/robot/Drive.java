@@ -37,10 +37,12 @@ public class Drive {
 	public void periodic() {
 
 		powerButtons();
-		tankDrive();
 
 		if (_rightJoystick.getRawButton(1)) {
 			fpsDrive();
+		}
+		else {
+			tankDrive();
 		}
 
 		_mgRight.setPower(-_speedRight);
