@@ -28,7 +28,7 @@ public class Globals {
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
-		rangeFinder = new RangeFinder();
+		rangeFinder = RangeFinder.getInstance();
 
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
