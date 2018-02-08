@@ -48,7 +48,7 @@ public class Lift {
 	public Joystick _board = new Joystick(20);
 	
 	//encoder for lift
-	private Encoder _liftEncoder = new Encoder(1, 1);
+	private Encoder _liftEncoder = new Encoder(Addresses.leftLiftMasterTalon, Addresses.rightLiftMasterTalon);
 	
 	//_leftMotor.configSelectedFeedbackSource(FeedbackDevice.QuadEncoder, 0, 0));
 	
@@ -63,14 +63,14 @@ public class Lift {
 	}
 	
 	//manually adjusting the lift
-	public void operator() {
+	public void operateLift() {
 		if (_board.getRawAxis(1) > .2) {
-			_leftMotor.set(ControlMode.PercentOutput, -.5);
-			_rightMotor.set(ControlMode.PercentOutput, -.5);
-			height = _liftEncoder.get();
-		} else if (_board.getRawAxis(1) < -.2) {
 			_leftMotor.set(ControlMode.PercentOutput, .5);
 			_rightMotor.set(ControlMode.PercentOutput, .5);
+			height = _liftEncoder.get();
+		} else if (_board.getRawAxis(1) < -.2) {
+			_leftMotor.set(ControlMode.PercentOutput, -.5);
+			_rightMotor.set(ControlMode.PercentOutput, -.5);
 			height = _liftEncoder.get();
 		} else {
 			_leftMotor.set(ControlMode.PercentOutput, 0);
