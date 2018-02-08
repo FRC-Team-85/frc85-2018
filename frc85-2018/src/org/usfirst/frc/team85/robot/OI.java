@@ -1,5 +1,8 @@
 package org.usfirst.frc.team85.robot;
 
+import org.usfirst.frc.team85.robot.commands.OpenGripper;
+import org.usfirst.frc.team85.robot.commands.SpinDegrees;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -16,6 +19,9 @@ public class OI {
 
 		JoystickButton rightTrigger = new JoystickButton(_rightJoystick, 1);
 		JoystickButton leftTrigger = new JoystickButton(_leftJoystick, 1);
+
+		rightTrigger.whenPressed(new SpinDegrees(90));
+		leftTrigger.whenPressed(new OpenGripper());
 	}
 
 	public static OI getInstance() {

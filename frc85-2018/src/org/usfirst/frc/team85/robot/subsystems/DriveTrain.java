@@ -14,12 +14,12 @@ public class DriveTrain extends Subsystem {
 	private TalonSRX _leftFrontMotor, _leftBackMotor, _rightFrontMotor, _rightBackMotor;
 
 	private DriveTrain() {
-		_leftFrontMotor = new TalonSRX(Addresses.LEFT_FRONT_MOTOR);
-		_leftBackMotor = new TalonSRX(Addresses.LEFT_BACK_MOTOR);
+		_leftFrontMotor = new TalonSRX(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
+		_leftBackMotor = new TalonSRX(Addresses.DRIVETRAIN_LEFT_BACK_MOTOR);
 		_leftBackMotor.follow(_leftFrontMotor);
 
-		_rightFrontMotor = new TalonSRX(Addresses.RIGHT_FRONT_MOTOR);
-		_rightBackMotor = new TalonSRX(Addresses.RIGHT_BACK_MOTOR);
+		_rightFrontMotor = new TalonSRX(Addresses.DRIVETRAIN_RIGHT_FRONT_MOTOR);
+		_rightBackMotor = new TalonSRX(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
 		_rightBackMotor.follow(_rightFrontMotor);
 	}
 

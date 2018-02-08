@@ -12,8 +12,8 @@ public class Gripper extends Subsystem {
 	private Solenoid _leftSolenoid, _rightSolenoid;
 
 	private Gripper() {
-		_leftSolenoid = new Solenoid(Addresses.LEFT_SOLENOID);
-		_rightSolenoid = new Solenoid(Addresses.RIGHT_SOLENOID);
+		_leftSolenoid = new Solenoid(Addresses.GRIPPER_LEFT_SOLENOID);
+		_rightSolenoid = new Solenoid(Addresses.GRIPPER_RIGHT_SOLENOID);
 	}
 
 	public static Gripper getInstance() {

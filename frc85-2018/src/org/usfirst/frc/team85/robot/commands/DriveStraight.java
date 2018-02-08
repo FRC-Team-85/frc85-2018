@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team85.robot.commands;
 
-import org.usfirst.frc.team85.robot.Robot;
+import org.usfirst.frc.team85.robot.Globals;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
@@ -24,7 +24,7 @@ public class DriveStraight extends Command {
 	private PIDController m_pid;
 
 	public DriveStraight(double distance) {
-		requires(Robot.driveTrain);
+		requires(Globals.getInstance().getDriveTrain());
 
 		m_pid = new PIDController(4, 0, 0, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
@@ -45,7 +45,7 @@ public class DriveStraight extends Command {
 			public PIDSourceType getPIDSourceType() {
 				return m_sourceType;
 			}
-		}, d -> Robot.driveTrain.drive(d, d));
+		}, d -> Globals.getInstance().getDriveTrain().drive(d, d));
 
 		m_pid.setAbsoluteTolerance(0.01);
 		m_pid.setSetpoint(distance);
@@ -73,6 +73,6 @@ public class DriveStraight extends Command {
 	protected void end() {
 		// Stop PID and the wheels
 		m_pid.disable();
-		Robot.driveTrain.drive(0, 0);
+		Globals.getInstance().getDriveTrain().drive(0, 0);
 	}
 }

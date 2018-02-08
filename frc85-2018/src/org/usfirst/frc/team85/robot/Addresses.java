@@ -3,10 +3,10 @@ package org.usfirst.frc.team85.robot;
 public class Addresses {
 
 	// DriveTrain
-	public static final int LEFT_FRONT_MOTOR = 1;
-	public static final int LEFT_BACK_MOTOR = 2;
-	public static final int RIGHT_FRONT_MOTOR = 3;
-	public static final int RIGHT_BACK_MOTOR = 4;
+	public static final int DRIVETRAIN_LEFT_FRONT_MOTOR = 1;
+	public static final int DRIVETRAIN_LEFT_BACK_MOTOR = 2;
+	public static final int DRIVETRAIN_RIGHT_FRONT_MOTOR = 3;
+	public static final int DRIVETRAIN_RIGHT_BACK_MOTOR = 4;
 
 	// Elevator
 	public static final int LIFT_LEFT_ONE = 5;
@@ -22,7 +22,14 @@ public class Addresses {
 	public static final int LEFT_JOYSTICK = 0;
 	public static final int RIGHT_JOYSTICK = 0;
 
+	// Gripper
+	public static final int GRIPPER_LEFT_SOLENOID = 0;
+	public static final int GRIPPER_RIGHT_SOLENOID = 0;
+
 	// Intake
-	public static final int LEFT_SOLENOID = 0;
-	public static final int RIGHT_SOLENOID = 0;
+	public static final int INTAKE_LEFT_MOTOR = 0;
+	public static final int INTAKE_RIGHT_MOTOR = 0;
+
+	// Sensors
+	public static final int RANGEFINDER = 0;
 }
