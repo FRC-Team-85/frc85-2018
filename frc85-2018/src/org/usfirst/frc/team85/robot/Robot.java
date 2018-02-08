@@ -11,6 +11,8 @@ public class Robot extends IterativeRobot {
 
 	Globals global;
 	Auto auto;
+	private DriverAssistCameras _das;
+
 	public static Diagnostics _diagnostics;
 
 	@Override
@@ -18,6 +20,8 @@ public class Robot extends IterativeRobot {
 		global = Globals.getInstance();
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
+
+		_das = new DriverAssistCameras();
 
 		SmartDashboard.putNumber("High Amplitude", .65);
 		SmartDashboard.putNumber("Low Amplitude", .35);
