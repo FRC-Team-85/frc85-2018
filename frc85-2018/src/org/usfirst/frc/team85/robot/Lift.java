@@ -63,13 +63,15 @@ public class Lift {
 	}
 	
 	//manually adjusting the lift
-	public void operateLift(double speed) {				// why are we doing the check for the axis inside here?
-		if (Math.abs(_opBoard.getLiftStick()) > .2) {	// also, my logic might not actually work here um
+	public void operateLift(double speed) {	// why are we doing the check for the stick inside here?
+		if (_opBoard.getLiftStick() > .2) {
 			setLiftMotors(true, .5);
-			height = _liftEncoder.get();
+		} else if (_opBoard.getLiftStick() < -.2) {
+			setLiftMotors(false, -.5);
 		} else {
 			setLiftMotors(true, 0);
 		}
+		height = _liftEncoder.get();
 	}
 	
 	//initial state

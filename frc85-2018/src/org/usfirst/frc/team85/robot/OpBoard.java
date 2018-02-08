@@ -15,7 +15,7 @@ public class OpBoard {
 		return instance;
 	}
 	
-	public double getLiftStick() {
+	public double getLiftStick() { // apparently it's an on/off value?  not sure how that works
 		return _opBoard.getRawAxis(0);
 	}
 	
