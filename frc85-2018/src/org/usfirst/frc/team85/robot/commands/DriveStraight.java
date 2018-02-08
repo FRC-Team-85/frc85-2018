@@ -1,0 +1,78 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
+package org.usfirst.frc.team85.robot.commands;
+
+import org.usfirst.frc.team85.robot.Robot;
+
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.command.Command;
+
+/**
+ * Drive the given distance straight (negative values go backwards). Uses a
+ * local PID controller to run a simple PID loop that is only enabled while this
+ * command is running. The input is the averaged values of the left and right
+ * encoders.
+ */
+public class DriveStraight extends Command {
+	private PIDController m_pid;
+
+	public DriveStraight(double distance) {
+		requires(Robot.driveTrain);
+
+		m_pid = new PIDController(4, 0, 0, new PIDSource() {
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+
+			@Override
+			public double pidGet() {
+				// return Robot.driveTrain.getDistance();
+				// get Gyro Data
+				return 0;
+			}
+
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, d -> Robot.driveTrain.drive(d, d));
+
+		m_pid.setAbsoluteTolerance(0.01);
+		m_pid.setSetpoint(distance);
+	}
+
+	// Called just before this Command runs the first time
+	@Override
+	protected void initialize() {
+		// Get everything in a safe starting state.
+		// Robot.driveTrain.reset();
+		m_pid.reset();
+		m_pid.enable();
+	}
+
+	// Make this return true when this Command no longer needs to run execute()
+	@Override
+	protected boolean isFinished() {
+		// return m_pid.onTarget();
+		// Ultrasonic sensor data
+		return false;
+	}
+
+	// Called once after isFinished returns true
+	@Override
+	protected void end() {
+		// Stop PID and the wheels
+		m_pid.disable();
+		Robot.driveTrain.drive(0, 0);
+	}
+}

@@ -1,52 +1,70 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.auto.Auto;
+import org.usfirst.frc.team85.robot.commands.Autonomous;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	Globals global;
-	Auto auto;
+	Command _autonomous;
+
+	public static DriveTrain driveTrain;
+	public static Lift lift;
+	public static Gripper gripper;
 
 	@Override
 	public void robotInit() {
-		global = Globals.getInstance();
+		driveTrain = DriveTrain.getInstance();
+		lift = Lift.getInstance();
+		gripper = Gripper.getInstance();
 
-		SmartDashboard.putNumber("High Amplitude", .65);
-		SmartDashboard.putNumber("Low Amplitude", .35);
+		_autonomous = new Autonomous();
+
+		// Output?
+		SmartDashboard.putData(driveTrain);
+		SmartDashboard.putData(lift);
 	}
 
 	@Override
 	public void autonomousInit() {
-		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		auto = new Auto(fieldKey);
+		_autonomous.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		double[] temp = auto.autoTick();
+		Scheduler.getInstance().run();
+		log();
+	}
 
-		global.getMotorGroupLeft().setPower(temp[0]);
-		global.getMotorGroupRight().setPower(temp[1]);
+	@Override
+	public void teleopInit() {
+		super.teleopInit();
+		_autonomous.cancel();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		Drive.periodic();
-		// SmartDashboard.putNumber("RangeFinder",
-		// global.getRangeFinder().getDistance());
+		Scheduler.getInstance().run();
+		log();
 	}
 
 	@Override
 	public void testPeriodic() {
 
 	}
-	
+
 	@Override
 	public void disabledPeriodic() {
-		//System.out.println("Range finder verify: " + _rangeFinder.verify());
+
+	}
+
+	private void log() {
+		// log to dashboard
 	}
 }
