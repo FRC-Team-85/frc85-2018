@@ -71,7 +71,7 @@ public class Drive {
 			}
 			
 			// Automated Drive
-			if(_leftJoystick.getRawButton(6) && !_inTurn) {
+			if(_leftJoystick.getRawButton(6)) {
 				_automatedMovement = AutomatedMovement.leftTurn;
 				_gyroInit = _gyro.getAngle();
 			}
