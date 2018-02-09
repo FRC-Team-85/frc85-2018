@@ -1,6 +1,8 @@
 package org.usfirst.frc.team85.robot.commands;
 
 import org.usfirst.frc.team85.robot.Globals;
+import org.usfirst.frc.team85.robot.OI;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -16,15 +18,15 @@ public class SpinDegrees extends Command {
 	@Override
 	protected void execute() {
 		if (_angle > Globals.getInstance().getGyro().getAngle()) {
-			Globals.getInstance().getDriveTrain().drive(.5, -.5);
+			DriveTrain.getInstance().drive(.5, -.5);
 		} else {
-			Globals.getInstance().getDriveTrain().drive(-.5, .5);
+			DriveTrain.getInstance().drive(-.5, .5);
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (!Globals.getInstance().getOI().isFPS()) {
+		if (!OI.getInstance().isFPS()) {
 			return true;
 		}
 

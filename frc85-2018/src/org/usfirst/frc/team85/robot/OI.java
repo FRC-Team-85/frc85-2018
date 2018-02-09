@@ -38,6 +38,7 @@ public class OI {
 		double RAxis1 = (_rightJoystick.getRawAxis(1));
 		double LAxis0 = (_leftJoystick.getRawAxis(0));
 		double LAxis1 = (_leftJoystick.getRawAxis(1));
+
 		// throttle
 		if (_rightJoystick.getRawButton(1) && Math.abs(RAxis1) > .1) {
 			speedLeft = (RAxis1);
@@ -107,8 +108,6 @@ public class OI {
 
 		SmartDashboard.putNumber("Power", power);
 		SmartDashboard.putNumber("Left Joystick Turning Multiplier", multLAxis0);
-		// SmartDashboard.putNumber("RangeFinder",
-		// Globals.getInstance().getRangeFinder().getDistance());
 
 		return new double[] { -speedRight, -speedLeft };
 	}
