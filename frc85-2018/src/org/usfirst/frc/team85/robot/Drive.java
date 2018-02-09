@@ -17,9 +17,9 @@ public class Drive {
 	
 	private Gyro _gyro = Globals.getInstance().getGyro();
 	
-	private static PowerDistributionPanel _pdp = Globals.getInstance().getPowerDistributionPanel();
+	private PowerDistributionPanel _pdp = Globals.getInstance().getPowerDistributionPanel();
 	
-	private static Pneumatics _pneumatics = Globals.getInstance().getPneumatics();
+	private Pneumatics _pneumatics = Globals.getInstance().getPneumatics();
 
 	private double _speedRight = 0;
 	private double _speedLeft = 0;
@@ -92,7 +92,7 @@ public class Drive {
 	}
 
 	/**
-	 * Primary drive mode
+	 * Right joystick sets right side, left joystick sets left side
 	 */
 	private void tankDrive() {
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
@@ -109,7 +109,7 @@ public class Drive {
 	}
 
 	/**
-	 * A modifier to TankDrive, not a drive mode in itself(?)
+	 * Right joystick sets forward/back speed, left joystick turns
 	 */
 	private void fpsDrive() {
 		if (Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
@@ -155,6 +155,10 @@ public class Drive {
 		}
 	}
 	
+	/**
+	 * Sets transmission to low/high gear as specified
+	 * @param lowGear Whether drive is in low gear, else in high
+	 */
 	private void manualTrans(boolean lowGear) {
 		if(lowGear) {
 			_pneumatics.setLowGear(lowGear);
@@ -166,6 +170,9 @@ public class Drive {
 		}
 	}
 	
+	/**
+	 * Sets transmission automatically
+	 */
 	private void autoTrans() {
 		double leftFrontCurrent = _pdp.getCurrent(Addresses.leftFrontTalon);
 		double leftBackCurrent = _pdp.getCurrent(Addresses.leftBackTalon);
@@ -180,6 +187,11 @@ public class Drive {
 		}
 	}
 	
+	/**
+	 * Turn the robot specified degrees
+	 * @param degrees The amount of degrees to turn
+	 * @return Whether turn is complete
+	 */
 	private boolean turnDegrees(double degrees) {
 		if(_automatedMovement == AutomatedMovement.leftTurn &&_gyro.getAngle() < _gyroInit + degrees) {
 			_mgLeft.setPower(1);
