@@ -13,8 +13,7 @@ public class DriveWithJoystick extends Command {
 
 	@Override
 	protected void execute() {
-		double[] speeds = OI.getInstance().getSpeedInput();
-		DriveTrain.getInstance().drive(speeds[0], speeds[1]);
+		DriveTrain.getInstance().drive(OI.getInstance().getSpeedInput());
 	}
 
 	@Override

@@ -47,4 +47,9 @@ public class DriveTrain extends Subsystem {
 		_rightFrontMotor.set(ControlMode.PercentOutput, right);
 	}
 
+	public void drive(double[] speed) {
+		_leftFrontMotor.set(ControlMode.PercentOutput, speed[0]);
+		_rightFrontMotor.set(ControlMode.PercentOutput, speed[1]);
+	}
+
 }
