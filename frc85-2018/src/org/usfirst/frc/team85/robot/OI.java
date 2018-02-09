@@ -1,7 +1,5 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.commands.SpinDegrees;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,8 +18,8 @@ public class OI {
 		JoystickButton spinLeft = new JoystickButton(_leftJoystick, 4);
 		JoystickButton spinRight = new JoystickButton(_leftJoystick, 5);
 
-		spinLeft.whenPressed(new SpinDegrees(90));
-		spinRight.whenPressed(new SpinDegrees(-90));
+		// spinLeft.whenPressed(new SpinDegrees(90));
+		// spinRight.whenPressed(new SpinDegrees(-90));
 	}
 
 	public static OI getInstance() {
@@ -109,7 +107,8 @@ public class OI {
 
 		SmartDashboard.putNumber("Power", power);
 		SmartDashboard.putNumber("Left Joystick Turning Multiplier", multLAxis0);
-		SmartDashboard.putNumber("RangeFinder", Globals.getInstance().getRangeFinder().getDistance());
+		// SmartDashboard.putNumber("RangeFinder",
+		// Globals.getInstance().getRangeFinder().getDistance());
 
 		return new double[] { -speedRight, -speedLeft };
 	}
