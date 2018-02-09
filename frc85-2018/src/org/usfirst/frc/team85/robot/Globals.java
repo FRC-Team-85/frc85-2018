@@ -3,6 +3,11 @@ package org.usfirst.frc.team85.robot;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -20,8 +25,13 @@ public class Globals {
 	private RangeFinder rangeFinder;
 	private TalonSRX leftIntakeWheel, rightIntakeWheel;
 	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
+	private Compressor compressor;
+	private Solenoid transmissionSolenoid;
+	private Pneumatics pneumatics;
+	private PowerDistributionPanel powerDistributionPanel;
 
 	private Globals() {
+
 		leftJoystick = new Joystick(Addresses.leftDriveStick);
 		rightJoystick = new Joystick(Addresses.rightDriveStick);
 
@@ -33,6 +43,8 @@ public class Globals {
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
 
 		// imu = new IMU();
+		
+		powerDistributionPanel = new PowerDistributionPanel(Addresses.powerDistributionPanel);
 
 		// leftIntakeWheel = new TalonSRX(Addresses.leftIntakeTalon);
 		// rightIntakeWheel = new TalonSRX(Addresses.rightIntakeTalon);
@@ -47,7 +59,11 @@ public class Globals {
 		}
 		return instance;
 	}
-
+	
+	public PowerDistributionPanel getPowerDistributionPanel() {
+		return powerDistributionPanel;
+	}
+	
 	public Joystick getLeftJoystick() {
 		return leftJoystick;
 	}
@@ -90,5 +106,17 @@ public class Globals {
 
 	public Solenoid getRightIntakeSolenoid() {
 		return rightIntakeSolenoid;
+	}
+	
+	public Compressor getCompressor() {
+		return compressor;
+	}
+	
+	public Pneumatics getPneumatics() {
+		return pneumatics;
+	}
+	
+	public Solenoid getTransmissionSolenoid() {
+		return transmissionSolenoid;
 	}
 }
