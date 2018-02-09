@@ -12,6 +12,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+		Globals.getInstance();
 		_autonomous = new Autonomous();
 	}
 

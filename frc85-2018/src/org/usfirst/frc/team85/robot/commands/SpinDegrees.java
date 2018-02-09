@@ -15,11 +15,19 @@ public class SpinDegrees extends Command {
 
 	@Override
 	protected void execute() {
-		Globals.getInstance().getDriveTrain().drive(-1, 1);
+		if (_angle > Globals.getInstance().getGyro().getAngle()) {
+			Globals.getInstance().getDriveTrain().drive(.5, -.5);
+		} else {
+			Globals.getInstance().getDriveTrain().drive(-.5, .5);
+		}
 	}
 
 	@Override
 	protected boolean isFinished() {
+		if (!Globals.getInstance().getOI().isFPS()) {
+			return true;
+		}
+
 		return (Globals.getInstance().getGyro().getAngle() <= _angle + _tolerance
 				&& Globals.getInstance().getGyro().getAngle() >= _angle - _tolerance);
 	}

@@ -7,7 +7,6 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Globals {
@@ -22,17 +21,20 @@ public class Globals {
 	private static ADXRS450_Gyro _gyro;
 	private static RangeFinder _rangeFinder;
 
-	private Globals() {
-		_driveTrain = DriveTrain.getInstance();
-		_lift = Lift.getInstance();
-		_gripper = Gripper.getInstance();
-		_intake = Intake.getInstance();
+	private static OI oi;
 
-		_gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
-		_rangeFinder = RangeFinder.getInstance();
+	private Globals() {
+		oi = OI.getInstance();
+		_driveTrain = DriveTrain.getInstance();
+		// _lift = Lift.getInstance();
+		// _gripper = Gripper.getInstance();
+		// _intake = Intake.getInstance();
+
+		// _gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+		// _rangeFinder = RangeFinder.getInstance();
 
 		SmartDashboard.putData(_driveTrain);
-		SmartDashboard.putData(_lift);
+		// SmartDashboard.putData(_lift);
 	}
 
 	public static Globals getInstance() {
@@ -64,6 +66,10 @@ public class Globals {
 
 	public RangeFinder getRangeFinder() {
 		return _rangeFinder;
+	}
+
+	public OI getOI() {
+		return oi;
 	}
 
 }
