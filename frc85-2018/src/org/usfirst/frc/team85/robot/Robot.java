@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends IterativeRobot {
 
-	Command _autonomous;
+	private Command _autonomous;
 
 	@Override
 	public void robotInit() {
 		Globals.getInstance();
 		_autonomous = new Autonomous();
+		new DriverAssistCameras();
 	}
 
 	@Override
