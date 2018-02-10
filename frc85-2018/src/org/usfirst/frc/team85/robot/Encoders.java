@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Encoders {
 
@@ -22,10 +23,12 @@ public class Encoders {
 	public double getLeftDriveEncoderRate() {
 		// Returns the rate (units/sec) which is calculated with DistancePerPulse divided by the period.
 		// https://wpilib.screenstepslive.com/s/currentCS/m/java/l/599717-encoders-measuring-rotation-of-a-wheel-or-other-shaft
+		SmartDashboard.putNumber("Left Drive Encoder Rate", _leftDriveEncoder.getRate());
 		return Math.abs(_leftDriveEncoder.getRate());
 	}
 	
 	public double getRightDriveEncoderRate() {
+		SmartDashboard.putNumber("Right Drive Encoder Rate", _rightDriveEncoder.getRate());
 		return Math.abs(_rightDriveEncoder.getRate());
 	}
 	
