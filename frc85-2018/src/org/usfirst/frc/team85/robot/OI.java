@@ -1,5 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
+import org.usfirst.frc.team85.robot.commands.SpinDegrees;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,11 +17,13 @@ public class OI {
 		_leftJoystick = new Joystick(Addresses.LEFT_JOYSTICK);
 		_rightJoystick = new Joystick(Addresses.RIGHT_JOYSTICK);
 
-		JoystickButton spinLeft = new JoystickButton(_leftJoystick, 4);
-		JoystickButton spinRight = new JoystickButton(_leftJoystick, 5);
+		JoystickButton leftButton2 = new JoystickButton(_leftJoystick, 2);
+		JoystickButton leftButton4 = new JoystickButton(_leftJoystick, 4);
+		JoystickButton leftButton5 = new JoystickButton(_leftJoystick, 5);
 
-		// spinLeft.whenPressed(new SpinDegrees(90));
-		// spinRight.whenPressed(new SpinDegrees(-90));
+		leftButton2.whenPressed(new SpinDegrees(180));
+		leftButton4.whenPressed(new SpinDegrees(90));
+		leftButton5.whenPressed(new SpinDegrees(-90));
 	}
 
 	public static OI getInstance() {

@@ -1,17 +1,11 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.sensors.RangeFinder;
+import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
-
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Globals {
 
 	private static Globals _instance;
-
-	private static ADXRS450_Gyro _gyro;
-	private static RangeFinder _rangeFinder;
 
 	private Globals() {
 		OI.getInstance();
@@ -21,10 +15,8 @@ public class Globals {
 		// Intake.getInstance();
 
 		// _gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
-		// _rangeFinder = RangeFinder.getInstance();
-
-		SmartDashboard.putData(DriveTrain.getInstance());
-		// SmartDashboard.putData(_lift);
+		// RangeFinder.getInstance();
+		IMU.getInstance();
 	}
 
 	public static Globals getInstance() {
@@ -32,13 +24,5 @@ public class Globals {
 			_instance = new Globals();
 		}
 		return _instance;
-	}
-
-	public ADXRS450_Gyro getGyro() {
-		return _gyro;
-	}
-
-	public RangeFinder getRangeFinder() {
-		return _rangeFinder;
 	}
 }

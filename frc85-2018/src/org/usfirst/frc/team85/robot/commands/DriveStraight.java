@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team85.robot.commands;
 
-import org.usfirst.frc.team85.robot.Globals;
+import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -28,7 +28,7 @@ public class DriveStraight extends Command {
 
 			@Override
 			public double pidGet() {
-				return Globals.getInstance().getGyro().getAngle();
+				return IMU.getInstance().getFusedHeading();
 			}
 
 			@Override
