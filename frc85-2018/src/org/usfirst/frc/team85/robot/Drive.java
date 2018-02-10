@@ -176,15 +176,22 @@ public class Drive {
 		double rightFrontCurrent = Math.abs(_pdp.getCurrent(Addresses.rightFrontTalon));
 		double rightBackCurrent = Math.abs(_pdp.getCurrent(Addresses.rightBackTalon));
 		
-		double leftRate = _encoders.getLeftDriveEncoderRate();
+		double leftRate = _encoders.getLeftDriveEncoderRate(); //Already absolute valued in class Encoders.
 		double rightRate = _encoders.getRightDriveEncoderRate();
+		
+		/* RATE DEFINITIONS
+		 * 30 = 6ft/sec
+		 * 
+		 * 
+		 * 
+		 */
 		
 		if (leftRate > 30 || rightRate > 30) {
 			_pneumatics.setHighGear(true);
-		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 80
-				&& (leftRate > 20 || rightRate > 20)) {
+		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 90
+				&& (leftRate < 30 || rightRate < 30)) {
 			_pneumatics.setHighGear(true);
-		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 80
+		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 90
 				&& leftRate < 30 && rightRate < 30) {
 			_pneumatics.setHighGear(false); 
 		} else {
