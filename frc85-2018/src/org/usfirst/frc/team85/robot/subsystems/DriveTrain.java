@@ -52,4 +52,8 @@ public class DriveTrain extends Subsystem {
 		_rightFrontMotor.set(ControlMode.PercentOutput, speed[1]);
 	}
 
+	public double getAverageSpeed() {
+		return (_leftFrontMotor.getMotorOutputPercent() + _rightFrontMotor.getMotorOutputPercent()) / 2;
+	}
+
 }

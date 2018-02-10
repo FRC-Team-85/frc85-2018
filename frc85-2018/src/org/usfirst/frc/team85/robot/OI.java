@@ -18,10 +18,12 @@ public class OI {
 		_rightJoystick = new Joystick(Addresses.RIGHT_JOYSTICK);
 
 		JoystickButton leftButton2 = new JoystickButton(_leftJoystick, 2);
+		JoystickButton leftButton3 = new JoystickButton(_leftJoystick, 3);
 		JoystickButton leftButton4 = new JoystickButton(_leftJoystick, 4);
 		JoystickButton leftButton5 = new JoystickButton(_leftJoystick, 5);
 
-		leftButton2.whenPressed(new SpinDegrees(180));
+		leftButton2.whenPressed(new SpinDegrees(-180));
+		leftButton3.whenPressed(new SpinDegrees(360));
 		leftButton4.whenPressed(new SpinDegrees(90));
 		leftButton5.whenPressed(new SpinDegrees(-90));
 	}

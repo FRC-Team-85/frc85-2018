@@ -19,11 +19,11 @@ public class DriveStraight extends Command {
 	private PIDController m_pid;
 	private double _speed = 0;
 
-	public DriveStraight(double speed, double heading) {
+	public DriveStraight(double speed) {
 		requires(DriveTrain.getInstance());
 		_speed = speed;
 
-		m_pid = new PIDController(4, 0, 0, new PIDSource() {
+		m_pid = new PIDController(1 / 90, 5, 0, new PIDSource() {
 			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
 			@Override
@@ -42,8 +42,8 @@ public class DriveStraight extends Command {
 			}
 		}, d -> applyCorrection(d));
 
-		m_pid.setAbsoluteTolerance(0.01);
-		m_pid.setSetpoint(heading);
+		m_pid.setAbsoluteTolerance(2);
+		m_pid.setSetpoint(IMU.getInstance().getFusedHeading());
 	}
 
 	public void applyCorrection(double correction) {

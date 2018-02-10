@@ -2,6 +2,7 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,7 +14,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		Globals.getInstance();
+		DriveTrain.getInstance();
+		OI.getInstance();
+		IMU.getInstance();
 		_autonomous = new Autonomous();
 		new DriverAssistCameras();
 	}

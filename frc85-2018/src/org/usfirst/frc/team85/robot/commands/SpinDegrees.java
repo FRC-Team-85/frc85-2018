@@ -8,25 +8,29 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinDegrees extends Command {
 
-	// private static final int _tolerance = 5;
 	private double _targetAngle;
 	private double _changeAngle;
 
 	public SpinDegrees(double angle) {
-		_changeAngle = angle;
-		_targetAngle = angle + IMU.getInstance().getFusedHeading();
-
-		if (!OI.getInstance().isFPS()) {
-			end();
+		if (DriveTrain.getInstance().getAverageSpeed() >= .65) {
+			_changeAngle = angle * .75;
+		} else {
+			_changeAngle = angle * .85;
 		}
+	}
+
+	@Override
+	protected void initialize() {
+		super.initialize();
+		_targetAngle = _changeAngle + IMU.getInstance().getFusedHeading();
 	}
 
 	@Override
 	protected void execute() {
 		if (_targetAngle > IMU.getInstance().getFusedHeading()) {
-			DriveTrain.getInstance().drive(-.5, .5);
+			DriveTrain.getInstance().drive(-1, 1);
 		} else {
-			DriveTrain.getInstance().drive(.5, -.5);
+			DriveTrain.getInstance().drive(1, -1);
 		}
 	}
 
