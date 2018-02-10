@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -20,6 +21,8 @@ public class Globals {
 	private Joystick rightJoystick;
 	private MotorGroup mgLeft; // Left Drive Train
 	private MotorGroup mgRight; // Right Drive Train
+	private Encoders encoders; // General encoders class (without individuality)
+	private Encoder leftDriveEncoder, rightDriveEncoder; // Individual encoders
 	private ADXRS450_Gyro gyro;
 	// private IMU imu;
 	private RangeFinder rangeFinder;
@@ -38,6 +41,9 @@ public class Globals {
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
 
+		leftDriveEncoder = new Encoder(Addresses.leftChannelA, Addresses.leftChannelB);
+		rightDriveEncoder = new Encoder(Addresses.rightChannelA, Addresses.rightChannelB);
+		
 		rangeFinder = RangeFinder.getInstance();
 
 		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
@@ -79,7 +85,19 @@ public class Globals {
 	public MotorGroup getMotorGroupRight() {
 		return mgRight;
 	}
+	
+	public Encoders getEncoders() {
+		return encoders;
+	}
 
+	public Encoder getLeftDriveEncoder() {
+		return leftDriveEncoder;
+	}
+	
+	public Encoder getRightDriveEncoder() {
+		return rightDriveEncoder;
+	}
+	
 	// IMU getIMU() {
 	// return imu;
 	// }

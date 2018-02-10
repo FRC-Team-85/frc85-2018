@@ -11,6 +11,8 @@ public class Drive {
 
 	private MotorGroup _mgLeft = Globals.getInstance().getMotorGroupLeft();
 	private MotorGroup _mgRight = Globals.getInstance().getMotorGroupRight();
+	
+	private Encoders _encoders = Globals.getInstance().getEncoders();
 
 	private Joystick _leftJoystick = Globals.getInstance().getLeftJoystick();
 	private Joystick _rightJoystick = Globals.getInstance().getRightJoystick();
@@ -31,7 +33,7 @@ public class Drive {
 	private double _gyroInit = 0;
 	private boolean _inTurn = false;
 	
-	private static final boolean LOW_GEAR = true;
+	private static final boolean HIGH_GEAR = true; //HIGH_GEAR = true = high gear transmission
 	
 	/**
 	 * Singleton for Drive class
@@ -61,12 +63,13 @@ public class Drive {
 			}
 			
 			// Transmission
-			if(_leftJoystick.getRawButton(4)) { //lowgear
-				manualTrans(LOW_GEAR);
+			if(_leftJoystick.getRawButton(4)) { //high gear
+				manualTrans(HIGH_GEAR);
 			}
-			else if(_leftJoystick.getRawButton(5)) {//highgear
-				manualTrans(!LOW_GEAR);
-			} else {
+			else if(_leftJoystick.getRawButton(5)) {//low gear
+				manualTrans(!HIGH_GEAR);
+			} 
+			else {
 				autoTrans();
 			}
 			
@@ -155,28 +158,37 @@ public class Drive {
 		}
 	}
 	
-	private void manualTrans(boolean lowGear) {
-		if(lowGear) {
-			_pneumatics.setLowGear(lowGear);
-			SmartDashboard.putString("Transmission Gear", "Low Gear");
+	private void manualTrans(boolean highGear) {
+		if (highGear) {
+			_pneumatics.setHighGear(highGear);
+			SmartDashboard.putString("Transmission Gear", "High Gear");
 		}
 		else {
-			_pneumatics.setLowGear(!lowGear);
-			SmartDashboard.putString("Transmission Gear", "High Gear");
+			_pneumatics.setHighGear(!highGear);
+			SmartDashboard.putString("Transmission Gear", "Low Gear");
 		}
 	}
 	
 	private void autoTrans() {
-		double leftFrontCurrent = _pdp.getCurrent(Addresses.leftFrontTalon);
-		double leftBackCurrent = _pdp.getCurrent(Addresses.leftBackTalon);
+		double leftFrontCurrent = Math.abs(_pdp.getCurrent(Addresses.leftFrontTalon));
+		double leftBackCurrent = Math.abs(_pdp.getCurrent(Addresses.leftBackTalon));
 		
-		double rightFrontCurrent = _pdp.getCurrent(Addresses.rightFrontTalon);
-		double rightBackCurrent = _pdp.getCurrent(Addresses.rightBackTalon);
+		double rightFrontCurrent = Math.abs(_pdp.getCurrent(Addresses.rightFrontTalon));
+		double rightBackCurrent = Math.abs(_pdp.getCurrent(Addresses.rightBackTalon));
 		
-		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 150) { //Implement && current speed later
-			_pneumatics.setLowGear(true);
+		double leftRate = _encoders.getLeftDriveEncoderRate();
+		double rightRate = _encoders.getRightDriveEncoderRate();
+		
+		if (leftRate > 30 || rightRate > 30) {
+			_pneumatics.setHighGear(true);
+		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 80
+				&& (leftRate > 20 || rightRate > 20)) {
+			_pneumatics.setHighGear(true);
+		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 80
+				&& leftRate < 30 && rightRate < 30) {
+			_pneumatics.setHighGear(false); 
 		} else {
-			_pneumatics.setLowGear(false); //Defaulted to high gear
+			_pneumatics.setHighGear(false); // Defaults to low gear without air
 		}
 	}
 	

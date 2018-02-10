@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Pneumatics {
 	
-	Globals globals = Globals.getInstance();
-	
 	private static Compressor _compressor = Globals.getInstance().getCompressor();
 	private static Solenoid _transmissionSolenoid = Globals.getInstance().getTransmissionSolenoid();
 
@@ -35,8 +33,8 @@ public class Pneumatics {
 	}
 	
 	//Transmission section
-	public void setLowGear(boolean lowGear) { //Needs testing to see if true = low gear or high gear.
-		_transmissionSolenoid.set(lowGear);
+	public void setHighGear(boolean highGear) { //False = low gear
+		_transmissionSolenoid.set(highGear);
 	}
 	
 	public boolean getTransmissionPosition() {
