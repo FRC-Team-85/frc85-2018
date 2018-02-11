@@ -11,12 +11,10 @@ public class SpinDegrees extends Command {
 	private double _targetAngle;
 	private double _changeAngle;
 
+	// left = positive, right = negative
 	public SpinDegrees(double angle) {
-		if (DriveTrain.getInstance().getAverageSpeed() >= .65) {
-			_changeAngle = angle * .75;
-		} else {
-			_changeAngle = angle * .85;
-		}
+		requires(DriveTrain.getInstance());
+		_changeAngle = angle * .8;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -17,6 +18,8 @@ public class Robot extends IterativeRobot {
 		DriveTrain.getInstance();
 		OI.getInstance();
 		IMU.getInstance();
+		RangeFinder.getInstance();
+
 		_autonomous = new Autonomous();
 		new DriverAssistCameras();
 	}
@@ -42,7 +45,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
-		IMU.getInstance().log();
 	}
 
 	@Override
@@ -56,6 +58,6 @@ public class Robot extends IterativeRobot {
 	}
 
 	private void log() {
-
+		IMU.getInstance().log();
 	}
 }

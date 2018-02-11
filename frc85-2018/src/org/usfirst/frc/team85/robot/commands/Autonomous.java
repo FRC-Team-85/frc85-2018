@@ -4,7 +4,15 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
 
+	// Goes in a square
 	public Autonomous() {
-		addParallel(new DriveStraight(.85));
+		addSequential(new DriveStraight(.85, 5));
+		addSequential(new SpinExactDegrees(90));
+		addSequential(new DriveStraight(.85, 5));
+		addSequential(new SpinExactDegrees(90));
+		addSequential(new DriveStraight(.85, 5));
+		addSequential(new SpinExactDegrees(90));
+		addSequential(new DriveStraight(.85, 5));
+		addSequential(new SpinExactDegrees(90));
 	}
 }
