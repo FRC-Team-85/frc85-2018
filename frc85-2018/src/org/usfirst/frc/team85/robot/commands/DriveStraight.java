@@ -12,6 +12,24 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveStraight extends Command {
 
 	private static final double kP = 1 / 90, kI = 0.5, kD = 0.0;
+
+	/*
+	 * 
+	 * Tuning Methods Zeigler-Nichols Zeigler-Nichols tuning method works by
+	 * increasing P until the system starts oscillating, and then using the period
+	 * of the oscillation to calculate I and D.
+	 * 
+	 * Start by setting I and D to 0. 
+	 * Increase P until the system starts oscillating for a period of Tu. 
+	 * You want the oscillation to be large enough that you can time it. 
+	 * This maximum P will be referred to as Ku. 
+	 * Use the chart below to calculate different P, I, and D values. 
+	 * Control Types 
+	 * P   = 0.50*Ku
+	 * PI  = 0.45*Ku	0.54*Ku/Tu
+	 * PID = 0.60*Ku	1.20*Ku/Tu	3*Ku*Tu/40
+	 */
+
 	private PIDController _pid;
 
 	private double _speed;
