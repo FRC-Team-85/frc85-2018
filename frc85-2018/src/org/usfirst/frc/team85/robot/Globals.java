@@ -25,6 +25,9 @@ public class Globals {
 	private RangeFinder rangeFinder;
 	private TalonSRX leftIntakeWheel, rightIntakeWheel;
 	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
+	private Intake intake;
+	private Lift lift;
+	private Joystick opBoard;
 	private Compressor compressor;
 	private Solenoid transmissionSolenoid;
 	private Pneumatics pneumatics;
@@ -107,7 +110,18 @@ public class Globals {
 	public Solenoid getRightIntakeSolenoid() {
 		return rightIntakeSolenoid;
 	}
+
+	public Intake getIntake() {
+		return intake;
+	}
 	
+	public Lift getLift() {
+		return lift;
+	}
+	
+	public Joystick getOpBoard() {
+		return opBoard;
+	}	
 	public Compressor getCompressor() {
 		return compressor;
 	}
@@ -119,4 +133,5 @@ public class Globals {
 	public Solenoid getTransmissionSolenoid() {
 		return transmissionSolenoid;
 	}
+
 }
