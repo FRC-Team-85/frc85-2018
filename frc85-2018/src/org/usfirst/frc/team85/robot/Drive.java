@@ -53,6 +53,13 @@ public class Drive {
 	public void periodic() {
 
 		powerButtons();
+		_encoders.getLeftDriveEncoderRate();
+		_encoders.getRightDriveEncoderRate();
+		
+		SmartDashboard.putNumber("Left Front Talon Current", _pdp.getCurrent(Addresses.leftFrontTalon));
+		SmartDashboard.putNumber("Left Back Talon Current", _pdp.getCurrent(Addresses.leftBackTalon));
+		SmartDashboard.putNumber("Right Front Talon Current", _pdp.getCurrent(Addresses.rightFrontTalon));
+		SmartDashboard.putNumber("Right Back Talon Current", _pdp.getCurrent(Addresses.rightFrontTalon));
 		
 		if(_automatedMovement == AutomatedMovement.none) {
 			// Drivemode
@@ -69,9 +76,9 @@ public class Drive {
 			else if(_leftJoystick.getRawButton(5)) {//low gear
 				manualTrans(!HIGH_GEAR);
 			} 
-			else {
+			/*else {
 				autoTrans();
-			}
+			}*/
 			
 			// Automated Drive
 			if(_leftJoystick.getRawButton(6)) {
@@ -189,7 +196,7 @@ public class Drive {
 		if (leftRate > 30 || rightRate > 30) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 90
-				&& (leftRate < 30 || rightRate < 30)) {
+				&& leftRate < 30 && rightRate < 30) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 90
 				&& leftRate < 30 && rightRate < 30) {
