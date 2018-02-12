@@ -8,10 +8,11 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
-	private static final double kP = 1 / 90, kI = 0.5, kD = 0.0;
+	private static final double kP = 1.0, kI = 10, kD = 1.0;
 
 	/*
 	 * 
@@ -19,15 +20,11 @@ public class DriveStraight extends Command {
 	 * increasing P until the system starts oscillating, and then using the period
 	 * of the oscillation to calculate I and D.
 	 * 
-	 * Start by setting I and D to 0. 
-	 * Increase P until the system starts oscillating for a period of Tu. 
-	 * You want the oscillation to be large enough that you can time it. 
-	 * This maximum P will be referred to as Ku. 
-	 * Use the chart below to calculate different P, I, and D values. 
-	 * Control Types 
-	 * P   = 0.50*Ku
-	 * PI  = 0.45*Ku	0.54*Ku/Tu
-	 * PID = 0.60*Ku	1.20*Ku/Tu	3*Ku*Tu/40
+	 * Start by setting I and D to 0. Increase P until the system starts oscillating
+	 * for a period of Tu. You want the oscillation to be large enough that you can
+	 * time it. This maximum P will be referred to as Ku. Use the chart below to
+	 * calculate different P, I, and D values. Control Types P = 0.50*Ku PI =
+	 * 0.45*Ku 0.54*Ku/Tu PID = 0.60*Ku 1.20*Ku/Tu 3*Ku*Tu/40
 	 */
 
 	private PIDController _pid;
@@ -42,28 +39,33 @@ public class DriveStraight extends Command {
 		// given ultrasonic is in front of robot
 		// distance between wall and front to stop command
 		_distance = distance;
+
+		SmartDashboard.putNumber("PID/kp", kP);
+		SmartDashboard.putNumber("PID/ki", kI);
+		SmartDashboard.putNumber("PID/kd", kD);
 	}
 
 	@Override
 	protected void initialize() {
-		_pid = new PIDController(kP, kI, kD, new PIDSource() {
-			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+		_pid = new PIDController(SmartDashboard.getNumber("PID/kp", kP), SmartDashboard.getNumber("PID/ki", kI),
+				SmartDashboard.getNumber("PID/kd", kD), new PIDSource() {
+					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
-			@Override
-			public double pidGet() {
-				return IMU.getInstance().getFusedHeading();
-			}
+					@Override
+					public double pidGet() {
+						return IMU.getInstance().getFusedHeading();
+					}
 
-			@Override
-			public void setPIDSourceType(PIDSourceType pidSource) {
-				m_sourceType = pidSource;
-			}
+					@Override
+					public void setPIDSourceType(PIDSourceType pidSource) {
+						m_sourceType = pidSource;
+					}
 
-			@Override
-			public PIDSourceType getPIDSourceType() {
-				return m_sourceType;
-			}
-		}, d -> applyCorrection(d));
+					@Override
+					public PIDSourceType getPIDSourceType() {
+						return m_sourceType;
+					}
+				}, d -> applyCorrection(d));
 
 		_pid.setAbsoluteTolerance(2);
 		_pid.setSetpoint(IMU.getInstance().getFusedHeading());

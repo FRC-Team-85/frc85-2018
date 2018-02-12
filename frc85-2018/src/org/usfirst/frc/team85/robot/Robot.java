@@ -8,6 +8,7 @@ import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -59,5 +60,6 @@ public class Robot extends IterativeRobot {
 
 	private void log() {
 		IMU.getInstance().log();
+		SmartDashboard.putNumber("UltraSonic Value", RangeFinder.getInstance().getDistance());
 	}
 }

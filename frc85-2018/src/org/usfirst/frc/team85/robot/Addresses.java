@@ -32,5 +32,5 @@ public class Addresses {
 
 	// Sensors
 	public static final int RANGEFINDER = 112;
-	public static final int IMU_TALON = 5;
+	public static final int IMU_TALON = 13;
 }

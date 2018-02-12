@@ -44,12 +44,12 @@ public class DriveTrain extends Subsystem {
 
 	public void drive(double left, double right) {
 		_leftFrontMotor.set(ControlMode.PercentOutput, left);
-		_rightFrontMotor.set(ControlMode.PercentOutput, right);
+		_rightFrontMotor.set(ControlMode.PercentOutput, -right);
 	}
 
 	public void drive(double[] speed) {
 		_leftFrontMotor.set(ControlMode.PercentOutput, speed[0]);
-		_rightFrontMotor.set(ControlMode.PercentOutput, speed[1]);
+		_rightFrontMotor.set(ControlMode.PercentOutput, -speed[1]);
 	}
 
 	public double getAverageSpeed() {
