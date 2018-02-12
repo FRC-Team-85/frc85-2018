@@ -31,11 +31,19 @@ public class MotorGroup {
 	}
 
 	public long getDistance() {
+		// this method (and others) seem to only get data from the first motors
+		// in array (which seem to be the back ones). is this ok?
 		return _motors[0].getSelectedSensorPosition(0) - _count;
 	}
 
 	public double getPercentSpeed() {
 		return _motors[0].getMotorOutputPercent();
+	}
+
+	public int getInstantaneousVel() {
+		// there seem to be 3 ways to get velocity, we should investigate which
+		// one to use
+		return _motors[0].getSensorCollection().getQuadratureVelocity();
 	}
 
 	public void resetCountVariable() {
