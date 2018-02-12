@@ -29,7 +29,7 @@ public class Lift {
 	DigitalInput _toplimit,
 				_bottomlimit;
 	//Lift limits
-	public void setLiftMotors(boolean up, double speed) {
+	public void setLiftMotors(boolean up, double speed) {			// there should be a better way to do this, currently escaping me
 		if (up && _toplimit.get()									// first, check if it can even move
 			|| !up && _bottomlimit.get()) {
 			_rightMotor.set(ControlMode.PercentOutput, 0);
@@ -46,23 +46,26 @@ public class Lift {
 		}
 	}
 	
-	private int height = 0;
-	private OpBoard _opBoard = OpBoard.getInstance();
 	
 	//encoder for lift
-	private Encoder _liftEncoder = new Encoder(1, 1);
+	private Encoder _liftEncoder = new Encoder(1, 1); // this'll be relevant someday, it WILL NOT currently work
 	
 	//_leftMotor.configSelectedFeedbackSource(FeedbackDevice.QuadEncoder, 0, 0));
 	
-	public void liftMoving() {
-		if (_liftEncoder.get() > height) {
-				setLiftMotors(false, -.5);
-		} else if (_liftEncoder.get() < height) {
+	private double liftTolerance = 1; // testing this tolerance later
+	private double height;
+	
+	public void setLiftHeight(double targetHeight) { // moves the lift to a certain height, adjust tolerance as necessary
+		if (_liftEncoder.get() > (targetHeight + liftTolerance)) {
+				setLiftMotors(false, .5);
+		} else if (_liftEncoder.get() < (targetHeight - liftTolerance)) {
 				setLiftMotors(true, .5);
 		}
+		height = _liftEncoder.get();
 	}
 	
 	//manually adjusting the lift
+	/*
 	public void operateLift(double speed) {	// why are we doing the check for the stick inside here?
 		if (_opBoard.getLiftStick() > .2) {
 			setLiftMotors(true, .5);
@@ -73,6 +76,8 @@ public class Lift {
 		}
 		height = _liftEncoder.get();
 	}
+	// no idea why i'm keeping this*/
+	
 	
 	//initial state
 	public void groundState() { //button 1
