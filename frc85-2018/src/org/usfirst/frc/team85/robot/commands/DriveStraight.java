@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
-	private static final double kP = .01, kI = 0, kD = 1.0;
+	private static final double kP = 0.1, kI = 0.0, kD = 0.0;
 
 	/*
 	 * 
@@ -46,25 +46,24 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void initialize() {
-		_pid = new PIDController(SmartDashboard.getNumber("PID/kp", kP), SmartDashboard.getNumber("PID/ki", kI),
-				SmartDashboard.getNumber("PID/kd", kD), new PIDSource() {
-					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+		_pid = new PIDController(kP, kI, kD, new PIDSource() {
+			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
-					@Override
-					public double pidGet() {
-						return IMU.getInstance().getFusedHeading();
-					}
+			@Override
+			public double pidGet() {
+				return IMU.getInstance().getFusedHeading();
+			}
 
-					@Override
-					public void setPIDSourceType(PIDSourceType pidSource) {
-						m_sourceType = pidSource;
-					}
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+				m_sourceType = pidSource;
+			}
 
-					@Override
-					public PIDSourceType getPIDSourceType() {
-						return m_sourceType;
-					}
-				}, d -> applyCorrection(d));
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return m_sourceType;
+			}
+		}, d -> applyCorrection(d));
 
 		_pid.setAbsoluteTolerance(2);
 		_pid.setSetpoint(IMU.getInstance().getFusedHeading());
@@ -83,6 +82,10 @@ public class DriveStraight extends Command {
 		} else {
 			DriveTrain.getInstance().drive(_speed, _speed - Math.abs(correction));
 		}
+
+		_pid.setP(SmartDashboard.getNumber("PID/kp", kP));
+		_pid.setI(SmartDashboard.getNumber("PID/ki", kI));
+		_pid.setD(SmartDashboard.getNumber("PID/kd", kD));
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot;
 
+import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 
@@ -54,6 +55,10 @@ public class OI {
 				Addresses.OS_MISC_LEFT_CHICKEN_WING);
 		JoystickButton rightChickenWingButton = new JoystickButton(_miscOperatorStation,
 				Addresses.OS_MISC_RIGHT_CHICKEN_WING);
+
+		// gripperButton.whenPressed(new ToggleGripper());
+		compressorOnButton.whenPressed(new CompressorActive(true));
+		compressorOffButton.whenPressed(new CompressorActive(false));
 
 	}
 

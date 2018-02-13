@@ -37,4 +37,8 @@ public class Gripper extends Subsystem {
 		_leftSolenoid.set(false);
 		_rightSolenoid.set(false);
 	}
+
+	public boolean isOpen() {
+		return _leftSolenoid.get();
+	}
 }
