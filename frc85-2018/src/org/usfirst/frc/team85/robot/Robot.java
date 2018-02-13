@@ -5,6 +5,7 @@ import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,12 +15,22 @@ public class Robot extends IterativeRobot {
 
 	private Command _autonomous;
 
+	private static Compressor _compressor;
+	Diagnostics _diagnostics;
+
 	@Override
 	public void robotInit() {
 		DriveTrain.getInstance();
 		OI.getInstance();
 		IMU.getInstance();
 		RangeFinder.getInstance();
+
+		_compressor = new Compressor(0);
+		_compressor.setClosedLoopControl(true);
+		_compressor.start();
+
+		_diagnostics = new Diagnostics();
+		_diagnostics.init();
 
 		_autonomous = new Autonomous();
 		new DriverAssistCameras();
@@ -60,6 +71,11 @@ public class Robot extends IterativeRobot {
 
 	private void log() {
 		IMU.getInstance().log();
-		SmartDashboard.putNumber("UltraSonic Value", RangeFinder.getInstance().getDistance());
+		_diagnostics.log();
+		SmartDashboard.putBoolean("DriveTrain Gear High", DriveTrain.getInstance().getTransmissionHighGear());
+	}
+
+	public static double getCompressorCurrent() {
+		return _compressor.getCompressorCurrent();
 	}
 }

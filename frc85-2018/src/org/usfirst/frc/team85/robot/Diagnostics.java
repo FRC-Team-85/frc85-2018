@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+
 public class Diagnostics {
 
 	File log;
@@ -20,7 +22,7 @@ public class Diagnostics {
 			if (log.exists() == false) {
 				log.createNewFile();
 				out = new BufferedWriter(new FileWriter(log, true));
-				out.append("Match Time,Gyro Angle,Gyro PID output");
+				out.append("Match Time,Left Front,Left Back,Right Front,Right Back,Compressor");
 				out.newLine();
 			}
 		} catch (Exception ex) {
@@ -29,13 +31,17 @@ public class Diagnostics {
 		_timestamp = System.currentTimeMillis();
 	}
 
-	public void log(double correction) {
+	public void log() {
 		try {
 
 			String matchTime = Double.toString(System.currentTimeMillis() - _timestamp);
-			String gyroAngle = Double.toString(0);
+			String LF = Double.toString(DriveTrain.getInstance().getLeftFrontCurrent());
+			String LB = Double.toString(DriveTrain.getInstance().getLeftBackCurrent());
+			String RF = Double.toString(DriveTrain.getInstance().getRightFrontCurrent());
+			String RB = Double.toString(DriveTrain.getInstance().getRightBackCurrent());
+			String comp = Double.toString(Robot.getCompressorCurrent());
 
-			out.append(matchTime + "," + gyroAngle + "," + correction);
+			out.append(matchTime + "," + LF + "," + LB + "," + RF + "," + RB + "," + comp);
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());

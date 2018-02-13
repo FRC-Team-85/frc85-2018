@@ -1,7 +1,6 @@
 package org.usfirst.frc.team85.robot.commands;
 
 import org.usfirst.frc.team85.robot.sensors.IMU;
-import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -12,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
-	private static final double kP = 1.0, kI = 10, kD = 1.0;
+	private static final double kP = .01, kI = 0, kD = 1.0;
 
 	/*
 	 * 
@@ -70,21 +69,26 @@ public class DriveStraight extends Command {
 		_pid.setAbsoluteTolerance(2);
 		_pid.setSetpoint(IMU.getInstance().getFusedHeading());
 
+		_pid.setContinuous(true);
+		_pid.setOutputRange(-.25, .25);
+
 		_pid.reset();
 		_pid.enable();
 	}
 
 	public void applyCorrection(double correction) {
+		SmartDashboard.putNumber("Correction Value", correction);
 		if (correction > 0) {
-			DriveTrain.getInstance().drive(_speed - Math.sin(Math.abs(correction)), _speed);
+			DriveTrain.getInstance().drive(_speed - Math.abs(correction), _speed);
 		} else {
-			DriveTrain.getInstance().drive(_speed, _speed - Math.sin(Math.abs(correction)));
+			DriveTrain.getInstance().drive(_speed, _speed - Math.abs(correction));
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return (RangeFinder.getInstance().getDistance() <= _distance);
+		// return (RangeFinder.getInstance().getDistance() <= _distance);
+		return false;
 	}
 
 	@Override

@@ -7,12 +7,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
 
 	private static DriveTrain _instance = null;
 	private TalonSRX _leftFrontMotor, _leftBackMotor, _rightFrontMotor, _rightBackMotor;
+	private Solenoid _transmissionSolenoid;
 
 	private DriveTrain() {
 		_leftFrontMotor = new TalonSRX(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
@@ -28,6 +30,8 @@ public class DriveTrain extends Subsystem {
 		_rightBackMotor = new TalonSRX(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
 		_rightBackMotor.follow(_rightFrontMotor);
 		_rightBackMotor.setNeutralMode(NeutralMode.Brake);
+
+		_transmissionSolenoid = new Solenoid(0, Addresses.TRANSMISSION_SOLENOID);
 	}
 
 	public static DriveTrain getInstance() {
@@ -54,6 +58,30 @@ public class DriveTrain extends Subsystem {
 
 	public double getAverageSpeed() {
 		return (_leftFrontMotor.getMotorOutputPercent() + _rightFrontMotor.getMotorOutputPercent()) / 2;
+	}
+
+	public void setHighGear(boolean highGear) {
+		_transmissionSolenoid.set(highGear);
+	}
+
+	public boolean getTransmissionHighGear() {
+		return _transmissionSolenoid.get();
+	}
+
+	public double getLeftFrontCurrent() {
+		return _leftFrontMotor.getOutputCurrent();
+	}
+
+	public double getLeftBackCurrent() {
+		return _leftBackMotor.getOutputCurrent();
+	}
+
+	public double getRightFrontCurrent() {
+		return _rightFrontMotor.getOutputCurrent();
+	}
+
+	public double getRightBackCurrent() {
+		return _rightBackMotor.getOutputCurrent();
 	}
 
 }

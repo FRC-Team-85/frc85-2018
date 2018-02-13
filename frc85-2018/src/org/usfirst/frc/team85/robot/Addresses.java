@@ -7,6 +7,7 @@ public class Addresses {
 	public static final int DRIVETRAIN_LEFT_BACK_MOTOR = 12;
 	public static final int DRIVETRAIN_RIGHT_FRONT_MOTOR = 14;
 	public static final int DRIVETRAIN_RIGHT_BACK_MOTOR = 13;
+	public static final int TRANSMISSION_SOLENOID = 1;
 
 	// Elevator
 	public static final int LIFT_LEFT_ONE = 5;
@@ -33,4 +34,11 @@ public class Addresses {
 	// Sensors
 	public static final int RANGEFINDER = 112;
 	public static final int IMU_TALON = 13;
+
+	// drive encoders (DIO ports)
+	public final static int ENCODERS_LEFT_A = 2;
+	public final static int ENCODERS_LEFT_B = 3;
+	public final static int ENCODERS_RIGHT_A = 0;
+	public final static int ENCODERS_RIGHT_B = 1;
+
 }

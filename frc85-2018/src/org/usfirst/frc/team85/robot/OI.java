@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.SpinDegrees;
+import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -22,10 +23,14 @@ public class OI {
 		JoystickButton leftButton4 = new JoystickButton(_leftJoystick, 4);
 		JoystickButton leftButton5 = new JoystickButton(_leftJoystick, 5);
 
+		JoystickButton rightButton2 = new JoystickButton(_rightJoystick, 2);
+
 		leftButton2.whenPressed(new SpinDegrees(-180));
 		leftButton3.whenPressed(new SpinDegrees(360));
 		leftButton4.whenPressed(new SpinDegrees(90));
 		leftButton5.whenPressed(new SpinDegrees(-90));
+
+		rightButton2.whenPressed(new ToggleTransmission());
 	}
 
 	public static OI getInstance() {
