@@ -13,24 +13,48 @@ public class OI {
 
 	private Joystick _leftJoystick;
 	private Joystick _rightJoystick;
+	private Joystick _liftOperatorStation;
+	private Joystick _miscOperatorStation;
 
 	private OI() {
 		_leftJoystick = new Joystick(Addresses.LEFT_JOYSTICK);
 		_rightJoystick = new Joystick(Addresses.RIGHT_JOYSTICK);
+		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
+		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
 
 		JoystickButton leftButton2 = new JoystickButton(_leftJoystick, 2);
 		JoystickButton leftButton3 = new JoystickButton(_leftJoystick, 3);
 		JoystickButton leftButton4 = new JoystickButton(_leftJoystick, 4);
 		JoystickButton leftButton5 = new JoystickButton(_leftJoystick, 5);
 
-		JoystickButton rightButton2 = new JoystickButton(_rightJoystick, 2);
-
 		leftButton2.whenPressed(new SpinDegrees(-180));
 		leftButton3.whenPressed(new SpinDegrees(360));
 		leftButton4.whenPressed(new SpinDegrees(90));
 		leftButton5.whenPressed(new SpinDegrees(-90));
 
+		JoystickButton rightButton2 = new JoystickButton(_rightJoystick, 2);
+
 		rightButton2.whenPressed(new ToggleTransmission());
+
+		JoystickButton liftSwitchButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_SWITCH);
+		JoystickButton liftGroundButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_GROUND);
+		JoystickButton liftPlatformButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_PLATFORM);
+		JoystickButton liftLowScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_LOW_SCALE);
+		JoystickButton liftMediumScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_MEDIUM_SCALE);
+		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
+		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
+
+		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
+		JoystickButton unknownButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_UNKNOWN);
+		JoystickButton intakeForwardButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_FORWARD);
+		JoystickButton intakeReverseButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_REVERSE);
+		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
+		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
+		JoystickButton leftChickenWingButton = new JoystickButton(_miscOperatorStation,
+				Addresses.OS_MISC_LEFT_CHICKEN_WING);
+		JoystickButton rightChickenWingButton = new JoystickButton(_miscOperatorStation,
+				Addresses.OS_MISC_RIGHT_CHICKEN_WING);
+
 	}
 
 	public static OI getInstance() {

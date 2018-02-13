@@ -2,10 +2,8 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.IMU;
-import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,26 +12,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	private Command _autonomous;
-
-	private static Compressor _compressor;
-	Diagnostics _diagnostics;
+	private Diagnostics _diagnostics;
 
 	@Override
 	public void robotInit() {
-		DriveTrain.getInstance();
-		OI.getInstance();
-		IMU.getInstance();
-		RangeFinder.getInstance();
-
-		_compressor = new Compressor(0);
-		_compressor.setClosedLoopControl(true);
-		_compressor.start();
+		Globals.getInstance();
 
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
 
 		_autonomous = new Autonomous();
-		new DriverAssistCameras();
 	}
 
 	@Override
@@ -73,9 +61,5 @@ public class Robot extends IterativeRobot {
 		IMU.getInstance().log();
 		_diagnostics.log();
 		SmartDashboard.putBoolean("DriveTrain Gear High", DriveTrain.getInstance().getTransmissionHighGear());
-	}
-
-	public static double getCompressorCurrent() {
-		return _compressor.getCompressorCurrent();
 	}
 }

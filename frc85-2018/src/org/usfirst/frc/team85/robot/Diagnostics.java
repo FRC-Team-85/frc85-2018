@@ -39,7 +39,7 @@ public class Diagnostics {
 			String LB = Double.toString(DriveTrain.getInstance().getLeftBackCurrent());
 			String RF = Double.toString(DriveTrain.getInstance().getRightFrontCurrent());
 			String RB = Double.toString(DriveTrain.getInstance().getRightBackCurrent());
-			String comp = Double.toString(Robot.getCompressorCurrent());
+			String comp = Double.toString(Globals.getInstance().getCompressor().getCompressorCurrent());
 
 			out.append(matchTime + "," + LF + "," + LB + "," + RF + "," + RB + "," + comp);
 			out.newLine();

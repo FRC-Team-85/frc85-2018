@@ -22,6 +22,8 @@ public class Addresses {
 	// Joystick
 	public static final int LEFT_JOYSTICK = 1;
 	public static final int RIGHT_JOYSTICK = 0;
+	public static final int OPERATOR_STATION_LIFT = 2;
+	public static final int OPERATOR_STATION_MISC = 3;
 
 	// Gripper
 	public static final int GRIPPER_LEFT_SOLENOID = 0;
@@ -40,5 +42,25 @@ public class Addresses {
 	public final static int ENCODERS_LEFT_B = 3;
 	public final static int ENCODERS_RIGHT_A = 0;
 	public final static int ENCODERS_RIGHT_B = 1;
+
+	// Lift Operator Station
+	public final static int OS_LIFT_SWITCH = 1;
+	public final static int OS_LIFT_GROUND = 2;
+	public final static int OS_LIFT_PLATFORM = 3;
+	public final static int OS_LIFT_LOW_SCALE = 4;
+	public final static int OS_LIFT_MEDIUM_SCALE = 5;
+	public final static int OS_LIFT_HIGH_SCALE = 6;
+	public final static int OS_LIFT_DOUBLE_SCALE = 7;
+	public final static int OS_LIFT_CLIMB = 8;
+
+	// Misc Operator Station
+	public final static int OS_MISC_TOGGLE_GRIPPER = 1;
+	public final static int OS_MISC_UNKNOWN = 2;
+	public final static int OS_MISC_INTAKE_FORWARD = 3;
+	public final static int OS_MISC_INTAKE_REVERSE = 4;
+	public final static int OS_MISC_COMPRESSOR_ON = 5;
+	public final static int OS_MISC_COMPRESSOR_OFF = 6;
+	public final static int OS_MISC_LEFT_CHICKEN_WING = 7;
+	public final static int OS_MISC_RIGHT_CHICKEN_WING = 8;
 
 }
