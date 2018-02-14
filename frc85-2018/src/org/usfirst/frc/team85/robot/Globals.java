@@ -31,6 +31,10 @@ public class Globals {
 		return _instance;
 	}
 
+	public void log() {
+
+	}
+
 	public Compressor getCompressor() {
 		return _compressor;
 	}

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinExactDegrees extends Command {
 
-	private static final double kP = 1 / 90, kI = 0.5, kD = 0.0;
+	private static final double kP = 0.1, kI = 0.000001, kD = 0.2;
 	private PIDController _pid;
 
 	private double _targetAngle;
@@ -53,10 +53,12 @@ public class SpinExactDegrees extends Command {
 	}
 
 	public void applyCorrection(double correction) {
+		double speed = .5;
+
 		if (correction > 0) {
-			DriveTrain.getInstance().drive(-Math.sin(Math.abs(correction)) / 2, Math.sin(Math.abs(correction)) / 2);
+			DriveTrain.getInstance().drive(-(speed + Math.abs(correction) / 2), (speed + Math.abs(correction) / 2));
 		} else {
-			DriveTrain.getInstance().drive(Math.sin(Math.abs(correction)) / 2, -Math.sin(Math.abs(correction)) / 2);
+			DriveTrain.getInstance().drive((speed + Math.abs(correction) / 2), -(speed + Math.abs(correction) / 2));
 		}
 	}
 

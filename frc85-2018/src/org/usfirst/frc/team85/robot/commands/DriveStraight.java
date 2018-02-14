@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveStraight extends Command {
 
-	private static final double kP = 0.1, kI = 0.0, kD = 0.0;
+	private static final double kP = 0.1, kI = 0.000001, kD = 0.2;
+	// .1,.000001,.2
 
 	/*
 	 * 
@@ -34,9 +35,6 @@ public class DriveStraight extends Command {
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
 		_speed = speed;
-
-		// given ultrasonic is in front of robot
-		// distance between wall and front to stop command
 		_distance = distance;
 
 		SmartDashboard.putNumber("PID/kp", kP);
@@ -68,8 +66,7 @@ public class DriveStraight extends Command {
 		_pid.setAbsoluteTolerance(2);
 		_pid.setSetpoint(IMU.getInstance().getFusedHeading());
 
-		_pid.setContinuous(true);
-		_pid.setOutputRange(-.25, .25);
+		_pid.setOutputRange(-25, 25);
 
 		_pid.reset();
 		_pid.enable();

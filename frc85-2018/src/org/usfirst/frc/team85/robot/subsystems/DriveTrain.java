@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain extends Subsystem {
 
@@ -82,6 +83,10 @@ public class DriveTrain extends Subsystem {
 
 	public double getRightBackCurrent() {
 		return _rightBackMotor.getOutputCurrent();
+	}
+
+	public void log() {
+		SmartDashboard.putBoolean("DriveTrain Gear High", getTransmissionHighGear());
 	}
 
 }
