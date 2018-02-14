@@ -14,19 +14,6 @@ public class DriveStraight extends Command {
 	private static final double kP = 0.1, kI = 0.000001, kD = 0.2;
 	// .1,.000001,.2
 
-	/*
-	 * 
-	 * Tuning Methods Zeigler-Nichols Zeigler-Nichols tuning method works by
-	 * increasing P until the system starts oscillating, and then using the period
-	 * of the oscillation to calculate I and D.
-	 * 
-	 * Start by setting I and D to 0. Increase P until the system starts oscillating
-	 * for a period of Tu. You want the oscillation to be large enough that you can
-	 * time it. This maximum P will be referred to as Ku. Use the chart below to
-	 * calculate different P, I, and D values. Control Types P = 0.50*Ku PI =
-	 * 0.45*Ku 0.54*Ku/Tu PID = 0.60*Ku 1.20*Ku/Tu 3*Ku*Tu/40
-	 */
-
 	private PIDController _pid;
 
 	private double _speed;
@@ -36,10 +23,6 @@ public class DriveStraight extends Command {
 		requires(DriveTrain.getInstance());
 		_speed = speed;
 		_distance = distance;
-
-		SmartDashboard.putNumber("PID/kp", kP);
-		SmartDashboard.putNumber("PID/ki", kI);
-		SmartDashboard.putNumber("PID/kd", kD);
 	}
 
 	@Override
@@ -79,10 +62,6 @@ public class DriveStraight extends Command {
 		} else {
 			DriveTrain.getInstance().drive(_speed, _speed - Math.abs(correction));
 		}
-
-		_pid.setP(SmartDashboard.getNumber("PID/kp", kP));
-		_pid.setI(SmartDashboard.getNumber("PID/ki", kI));
-		_pid.setD(SmartDashboard.getNumber("PID/kd", kD));
 	}
 
 	@Override
