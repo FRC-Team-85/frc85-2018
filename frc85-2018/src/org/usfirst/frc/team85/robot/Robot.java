@@ -58,6 +58,7 @@ public class Robot extends IterativeRobot {
 
 	private void log() {
 		_diagnostics.log();
+
 		IMU.getInstance().show();
 		DriveTrain.getInstance().show();
 	}

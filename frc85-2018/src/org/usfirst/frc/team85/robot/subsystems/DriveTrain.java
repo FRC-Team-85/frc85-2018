@@ -86,7 +86,11 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void show() {
-		SmartDashboard.putBoolean("DriveTrain Gear High", getTransmissionHighGear());
+		if (getTransmissionHighGear()) {
+			SmartDashboard.putString("DriveTrain Gear", "High Gear");
+		} else {
+			SmartDashboard.putString("DriveTrain Gear", "Low Gear");
+		}
 	}
 
 }

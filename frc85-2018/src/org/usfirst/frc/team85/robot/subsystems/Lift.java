@@ -24,12 +24,13 @@ public class Lift extends PIDSubsystem {
 		_leftFour.follow(_leftOne);
 
 		_rightOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
+		_rightOne.follow(_leftOne);
 		_rightTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
-		_rightTwo.follow(_rightOne);
+		_rightTwo.follow(_leftOne);
 		_rightThree = new TalonSRX(Addresses.LIFT_LEFT_THREE);
-		_rightThree.follow(_rightOne);
+		_rightThree.follow(_leftOne);
 		_rightFour = new TalonSRX(Addresses.LIFT_LEFT_FOUR);
-		_rightFour.follow(_rightOne);
+		_rightFour.follow(_leftOne);
 	}
 
 	public static Lift getInstance() {
@@ -52,5 +53,10 @@ public class Lift extends PIDSubsystem {
 	@Override
 	protected void usePIDOutput(double output) {
 		// set _leftMotor and _rightMotor
+	}
+
+	public void setHeight(double height) {
+		setSetpoint(height); // Needs conversion from encoder counts to true height
+		// possibly make constants for each height and increment for movement
 	}
 }

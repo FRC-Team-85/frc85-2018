@@ -1,7 +1,6 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.sensors.IMU;
-import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -18,7 +17,12 @@ public class Globals {
 		DriveTrain.getInstance();
 		OI.getInstance();
 		IMU.getInstance();
-		RangeFinder.getInstance();
+
+		// RangeFinder.getInstance();
+		// Lift.getInstance();
+		// Intake.getInstance();
+		// Gripper.getInstance();
+		// Encoders.getInstance();
 
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
