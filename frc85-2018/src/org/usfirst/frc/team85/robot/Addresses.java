@@ -32,6 +32,10 @@ public class Addresses {
 	// Intake
 	public static final int INTAKE_LEFT_MOTOR = 0;
 	public static final int INTAKE_RIGHT_MOTOR = 0;
+	public static final int INTAKE_LEFT_PROTECTION_SOLENOID = 0;
+	public static final int INTAKE_RIGHT_PROTECTION_SOLENOID = 0;
+	public static final int INTAKE_LEFT_APPLICATION_SOLENOID = 0;
+	public static final int INTAKE_RIGHT_APPLICATION_SOLENOID = 0;
 
 	// Sensors
 	public static final int RANGEFINDER = 112;

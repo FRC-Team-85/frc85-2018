@@ -4,14 +4,17 @@ import org.usfirst.frc.team85.robot.Addresses;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class Lift extends Subsystem {
+public class Lift extends PIDSubsystem {
 
 	private static Lift _instance = null;
+
+	public static final double kP = .2, kI = 0.0, kD = 0.0;
 	private TalonSRX _leftOne, _leftTwo, _leftThree, _leftFour, _rightOne, _rightTwo, _rightThree, _rightFour;
 
 	private Lift() {
+		super(kP, kI, kD);
 		_leftOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
 		_leftTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
 		_leftTwo.follow(_leftOne);
@@ -39,5 +42,15 @@ public class Lift extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 
+	}
+
+	@Override
+	protected double returnPIDInput() {
+		return 0; // Get Lift Encoder Values
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// set _leftMotor and _rightMotor
 	}
 }

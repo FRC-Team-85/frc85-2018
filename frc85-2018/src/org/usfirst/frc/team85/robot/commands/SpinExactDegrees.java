@@ -65,8 +65,7 @@ public class SpinExactDegrees extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return (IMU.getInstance().getFusedHeading() >= _targetAngle - _tolerance
-				|| IMU.getInstance().getFusedHeading() <= _targetAngle + _tolerance);
+		return _pid.onTarget();
 	}
 
 	@Override
