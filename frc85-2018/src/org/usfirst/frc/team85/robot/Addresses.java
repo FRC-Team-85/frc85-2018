@@ -2,6 +2,9 @@ package org.usfirst.frc.team85.robot;
 
 public class Addresses {
 
+	// PDP
+	public static final int POWER_DISTRIBUTION_PANEL = 0;
+
 	// DriveTrain
 	public static final int DRIVETRAIN_LEFT_FRONT_MOTOR = 11;
 	public static final int DRIVETRAIN_LEFT_BACK_MOTOR = 12;
