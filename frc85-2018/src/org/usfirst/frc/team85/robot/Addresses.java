@@ -30,6 +30,9 @@ public class Addresses {
 	//ultrasonic rangefinders
 	public final static int rangeFinder = 112;
 	
+	//color sensor and short-range rangefinder
+	public final static int colorSensor = 113;
+	
 	// joysticks
 	public final static int leftDriveStick = 1;
 	public final static int rightDriveStick = 0;
