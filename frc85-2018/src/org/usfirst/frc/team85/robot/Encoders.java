@@ -4,15 +4,31 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Encoders {
-
+	
+	Globals globals = Globals.getInstance();
+	
+	private static Encoders instance = null;
+	
 	private static Encoder _leftDriveEncoder = Globals.getInstance().getLeftDriveEncoder();
 	private static Encoder _rightDriveEncoder = Globals.getInstance().getRightDriveEncoder();
 	
-	private static final int minRate = 10;
+	private static double wheelDiameter = 4; // inches
+	private static double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
 	
-	public Encoders() {
-		_leftDriveEncoder.setMinRate(minRate);
-		_rightDriveEncoder.setMinRate(minRate);
+	private static double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of gear
+	
+	private static double inchToFoot = 1/12;
+	
+	private Encoders() {
+		_leftDriveEncoder.setDistancePerPulse(1/256); //One rotation is 256 pulses
+		_rightDriveEncoder.setDistancePerPulse(1/256);
+	}
+	
+	public static Encoders getInstance() {
+		if (instance == null) {
+			instance = new Encoders();
+		}
+		return instance;
 	}
 	
 	public void driveEncoderReset() {
@@ -20,16 +36,26 @@ public class Encoders {
 		_rightDriveEncoder.reset();
 	}
 	
-	public double getLeftDriveEncoderRate() {
-		// Returns the rate (units/sec) which is calculated with DistancePerPulse divided by the period.
-		// https://wpilib.screenstepslive.com/s/currentCS/m/java/l/599717-encoders-measuring-rotation-of-a-wheel-or-other-shaft
-		SmartDashboard.putNumber("Left Drive Encoder Rate", _leftDriveEncoder.getRate());
-		return Math.abs(_leftDriveEncoder.getRate());
+	public double getLeftDriveRate() {
+		return _leftDriveEncoder.getRate();
 	}
 	
-	public double getRightDriveEncoderRate() {
-		SmartDashboard.putNumber("Right Drive Encoder Rate", _rightDriveEncoder.getRate());
-		return Math.abs(_rightDriveEncoder.getRate());
+	public double getRightDriveRate() {
+		return _rightDriveEncoder.getRate();
 	}
 	
+	public double getLeftVelocity() { // In feet/sec
+		double rate = getLeftDriveRate();
+		double velocity = wheelCircumference * gearRatio * inchToFoot * rate;
+		SmartDashboard.putNumber("Left Velocity", velocity);
+		return velocity;
+	}
+	
+	public double getRightVelocity() { // In feet/sec
+		double rate = getRightDriveRate();
+		double velocity = wheelCircumference * gearRatio * inchToFoot * rate;
+		SmartDashboard.putNumber("Right Velocity", velocity);
+		return velocity;
+	}
+
 }

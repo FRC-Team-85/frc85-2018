@@ -21,8 +21,6 @@ public class Globals {
 	private Joystick rightJoystick;
 	private MotorGroup mgLeft; // Left Drive Train
 	private MotorGroup mgRight; // Right Drive Train
-	private Encoders encoders; // General encoders class (without individuality)
-	private Encoder leftDriveEncoder, rightDriveEncoder; // Individual encoders
 	private ADXRS450_Gyro gyro;
 	// private IMU imu;
 	private RangeFinder rangeFinder;
@@ -32,6 +30,9 @@ public class Globals {
 	private Solenoid transmissionSolenoid;
 	private Pneumatics pneumatics;
 	private PowerDistributionPanel powerDistributionPanel;
+	
+	private Encoder leftDriveEncoder, rightDriveEncoder;
+	private Encoders encoders; //encoders class
 
 	private Globals() {
 
@@ -86,18 +87,6 @@ public class Globals {
 		return mgRight;
 	}
 	
-	public Encoders getEncoders() {
-		return encoders;
-	}
-
-	public Encoder getLeftDriveEncoder() {
-		return leftDriveEncoder;
-	}
-	
-	public Encoder getRightDriveEncoder() {
-		return rightDriveEncoder;
-	}
-	
 	// IMU getIMU() {
 	// return imu;
 	// }
@@ -136,5 +125,17 @@ public class Globals {
 	
 	public Solenoid getTransmissionSolenoid() {
 		return transmissionSolenoid;
+	}
+	
+	public Encoder getLeftDriveEncoder() {
+		return leftDriveEncoder;
+	}
+	
+	public Encoder getRightDriveEncoder() {
+		return rightDriveEncoder;
+	}
+	
+	public Encoders getEncoders() {
+		return encoders;
 	}
 }

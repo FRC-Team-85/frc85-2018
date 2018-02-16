@@ -53,8 +53,6 @@ public class Drive {
 	public void periodic() {
 
 		powerButtons();
-		_encoders.getLeftDriveEncoderRate();
-		_encoders.getRightDriveEncoderRate();
 		
 		SmartDashboard.putNumber("Left Front Talon Current", _pdp.getCurrent(Addresses.leftFrontTalon));
 		SmartDashboard.putNumber("Left Back Talon Current", _pdp.getCurrent(Addresses.leftBackTalon));
@@ -183,23 +181,16 @@ public class Drive {
 		double rightFrontCurrent = Math.abs(_pdp.getCurrent(Addresses.rightFrontTalon));
 		double rightBackCurrent = Math.abs(_pdp.getCurrent(Addresses.rightBackTalon));
 		
-		double leftRate = _encoders.getLeftDriveEncoderRate(); //Already absolute valued in class Encoders.
-		double rightRate = _encoders.getRightDriveEncoderRate();
+		double leftVelocity = _encoders.getLeftVelocity();
+		double rightVelocity = _encoders.getRightVelocity();
 		
-		/* RATE DEFINITIONS
-		 * 30 = 6ft/sec
-		 * 
-		 * 
-		 * 
-		 */
-		
-		if (leftRate > 30 || rightRate > 30) {
+		if (leftVelocity > 30 || rightVelocity > 30) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 90
-				&& leftRate < 30 && rightRate < 30) {
+				&& leftVelocity < 30 && rightVelocity < 30) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 90
-				&& leftRate < 30 && rightRate < 30) {
+				&& leftVelocity < 30 && rightVelocity < 30) {
 			_pneumatics.setHighGear(false); 
 		} else {
 			_pneumatics.setHighGear(false); // Defaults to low gear without air
