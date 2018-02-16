@@ -1,4 +1,4 @@
-package org.usfirst.frc.team85.robot.commands;
+package org.usfirst.frc.team85.robot.commands.gripper;
 
 import org.usfirst.frc.team85.robot.subsystems.Gripper;
 

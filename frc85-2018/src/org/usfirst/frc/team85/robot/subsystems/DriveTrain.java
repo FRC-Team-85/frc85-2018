@@ -1,7 +1,7 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
-import org.usfirst.frc.team85.robot.commands.DriveWithJoystick;
+import org.usfirst.frc.team85.robot.commands.drivetrain.DriveWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

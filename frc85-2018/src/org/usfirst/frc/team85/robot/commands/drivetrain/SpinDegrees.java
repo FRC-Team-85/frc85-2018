@@ -1,4 +1,4 @@
-package org.usfirst.frc.team85.robot.commands;
+package org.usfirst.frc.team85.robot.commands.drivetrain;
 
 import org.usfirst.frc.team85.robot.OI;
 import org.usfirst.frc.team85.robot.sensors.IMU;

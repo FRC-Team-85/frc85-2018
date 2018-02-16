@@ -1,9 +1,9 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
-import org.usfirst.frc.team85.robot.commands.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.ToggleCamera;
 import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
