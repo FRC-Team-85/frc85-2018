@@ -181,16 +181,16 @@ public class Drive {
 		double rightFrontCurrent = Math.abs(_pdp.getCurrent(Addresses.rightFrontTalon));
 		double rightBackCurrent = Math.abs(_pdp.getCurrent(Addresses.rightBackTalon));
 		
-		double leftVelocity = _encoders.getLeftVelocity();
+		double leftVelocity = _encoders.getLeftVelocity(); // feet per second
 		double rightVelocity = _encoders.getRightVelocity();
 		
-		if (leftVelocity > 30 || rightVelocity > 30) {
+		if (leftVelocity > 6 || rightVelocity > 6) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent < 90
-				&& leftVelocity < 30 && rightVelocity < 30) {
+				&& leftVelocity < 6 && rightVelocity < 6) {
 			_pneumatics.setHighGear(true);
 		} else if (leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent > 90
-				&& leftVelocity < 30 && rightVelocity < 30) {
+				&& leftVelocity < 6 && rightVelocity < 6) {
 			_pneumatics.setHighGear(false); 
 		} else {
 			_pneumatics.setHighGear(false); // Defaults to low gear without air
