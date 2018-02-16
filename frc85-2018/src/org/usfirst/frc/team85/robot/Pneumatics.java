@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 
 public class Pneumatics {
 	
-	Globals globals = Globals.getInstance();
+	private static Globals _globals = Globals.getInstance();
 	
-	private static Compressor _compressor = Globals.getInstance().getCompressor();
+	private static Compressor _compressor = _globals.getCompressor();
 	private static Solenoid _transmissionSolenoid = Globals.getInstance().getTransmissionSolenoid();
 
 	//The status of the compressor. Whether it is running or !running.
@@ -16,6 +16,7 @@ public class Pneumatics {
 	//Compressor section
 	public void setCompressor(boolean on) { //see getCompressorOn method for information on the loop.
 		_compressor.setClosedLoopControl(on);
+		isCompressorOn = on; // set the compressor status to whatever was passed into here
 	}
 	
 	public boolean getCompressorEnabled() { //The status of the loop. 

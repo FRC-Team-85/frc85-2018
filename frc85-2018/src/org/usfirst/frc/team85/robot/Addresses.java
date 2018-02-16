@@ -33,6 +33,7 @@ public class Addresses {
 	// joysticks
 	public final static int leftDriveStick = 1;
 	public final static int rightDriveStick = 0;
+	public final static int opBoardStick = 2;
 
 	public final static int tempTalon = 44; //Talon that the IMU is plugged into.
 	

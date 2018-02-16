@@ -6,7 +6,7 @@ public class OpBoard {
 
 	protected static OpBoard instance = null;
 	
-	private Joystick _opBoard = Globals.getInstance().getOpBoard();
+	private Joystick _opBoard = new Joystick(Addresses.opBoardStick);
 	
 	public static OpBoard getInstance() {
 		if (instance == null) {
@@ -15,8 +15,19 @@ public class OpBoard {
 		return instance;
 	}
 	
-	public double getLiftStick() { // apparently it's an on/off value?  not sure how that works
+	/*
+	 * let's talk about the stupid fuck that this stick is
+	 * towards the bottom left, the controller returns an x of 1 and a y of -1
+	 * towards the very bottom, the controller returns a y of -1
+	 * everything else returns 0
+	 */
+	
+	public double getLiftStickX() {
 		return _opBoard.getRawAxis(0);
+	}
+	
+	public double getLiftStickY() {
+		return _opBoard.getRawAxis(1);
 	}
 	
 	public boolean getLiftZeroButton() { // button that sets pos to zero

@@ -18,16 +18,17 @@ public class Globals {
 
 	private Joystick leftJoystick;
 	private Joystick rightJoystick;
+	private Joystick opBoardStick;
 	private MotorGroup mgLeft; // Left Drive Train
 	private MotorGroup mgRight; // Right Drive Train
 	private ADXRS450_Gyro gyro;
 	// private IMU imu;
 	private RangeFinder rangeFinder;
 	private TalonSRX leftIntakeWheel, rightIntakeWheel;
-	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
+	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid, leftGripperSolenoid, rightGripperSolenoid;
 	private Intake intake;
 	private Lift lift;
-	private Joystick opBoard;
+	private OpBoard opBoard;
 	private Compressor compressor;
 	private Solenoid transmissionSolenoid;
 	private Pneumatics pneumatics;
@@ -37,6 +38,7 @@ public class Globals {
 
 		leftJoystick = new Joystick(Addresses.leftDriveStick);
 		rightJoystick = new Joystick(Addresses.rightDriveStick);
+		opBoardStick = new Joystick(Addresses.opBoardStick);
 
 		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
 		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
@@ -74,6 +76,10 @@ public class Globals {
 	public Joystick getRightJoystick() {
 		return rightJoystick;
 	}
+	
+	public Joystick getOpBoardStick() {
+		return opBoardStick;
+	}
 
 	public MotorGroup getMotorGroupLeft() {
 		return mgLeft;
@@ -110,6 +116,14 @@ public class Globals {
 	public Solenoid getRightIntakeSolenoid() {
 		return rightIntakeSolenoid;
 	}
+	
+	public Solenoid getRightGripperSolenoid() {
+		return rightGripperSolenoid;
+	}
+	
+	public Solenoid getLeftGripperSolenoid() {
+		return leftGripperSolenoid;
+	}
 
 	public Intake getIntake() {
 		return intake;
@@ -119,9 +133,10 @@ public class Globals {
 		return lift;
 	}
 	
-	public Joystick getOpBoard() {
+	public OpBoard getOpBoard() {
 		return opBoard;
 	}	
+	
 	public Compressor getCompressor() {
 		return compressor;
 	}

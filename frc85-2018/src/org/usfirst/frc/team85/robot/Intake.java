@@ -9,6 +9,7 @@ public class Intake {
 	Globals globals = Globals.getInstance();
 
 	private boolean isIntakeOpen;
+	private boolean isGripperClosed;
 	DigitalInput _leftCubeLimit, _rightCubeLimit;
 
 	public Intake() {
@@ -19,6 +20,12 @@ public class Intake {
 		globals.getLeftIntakeSolenoid().set(open);
 		globals.getRightIntakeSolenoid().set(open);
 		isIntakeOpen = open;
+	}
+	
+	public void ExtendIntake(boolean extended) {
+		globals.getLeftGripperSolenoid().set(extended);
+		globals.getRightGripperSolenoid().set(extended);
+		isGripperClosed = extended;
 	}
 
 	public boolean getIntakePosition() {
