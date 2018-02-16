@@ -55,6 +55,9 @@ public class Globals {
 
 		// leftIntakeSolenoid = new Solenoid(Addresses.leftIntakeSolenoid);
 		// rightIntakeSolenoid = new Solenoid(Addresses.rightIntakeSolenoid);
+		
+		leftDriveEncoder = new Encoder(Addresses.leftChannelA, Addresses.leftChannelB);
+		rightDriveEncoder = new Encoder(Addresses.rightChannelA, Addresses.rightChannelB);
 	}
 
 	public static Globals getInstance() {
