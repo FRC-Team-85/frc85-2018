@@ -9,6 +9,11 @@ public class Addresses {
 	public final static int leftBackTalon = 12;
 	public final static int rightFrontTalon = 14;
 	public final static int rightBackTalon = 13;
+	// drive encoders (DIO ports)
+	public final static int leftChannelA = 2;
+	public final static int leftChannelB = 3;
+	public final static int rightChannelA = 0;
+	public final static int rightChannelB = 1;
 	// drive pneumatics (transmission)
 	public final static int transmissionSolenoid = 21;
 

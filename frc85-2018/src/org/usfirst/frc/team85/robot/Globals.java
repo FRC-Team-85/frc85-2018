@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -29,6 +30,9 @@ public class Globals {
 	private Solenoid transmissionSolenoid;
 	private Pneumatics pneumatics;
 	private PowerDistributionPanel powerDistributionPanel;
+	
+	private Encoder leftDriveEncoder, rightDriveEncoder;
+	private Encoders encoders; //encoders class
 
 	private Globals() {
 
@@ -118,5 +122,17 @@ public class Globals {
 	
 	public Solenoid getTransmissionSolenoid() {
 		return transmissionSolenoid;
+	}
+	
+	public Encoder getLeftDriveEncoder() {
+		return leftDriveEncoder;
+	}
+	
+	public Encoder getRightDriveEncoder() {
+		return rightDriveEncoder;
+	}
+	
+	public Encoders getEncoders() {
+		return encoders;
 	}
 }
