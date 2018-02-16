@@ -7,6 +7,8 @@ public class Encoders {
 	
 	Globals globals = Globals.getInstance();
 	
+	private static Encoders instance = null;
+	
 	private static Encoder _leftDriveEncoder = Globals.getInstance().getLeftDriveEncoder();
 	private static Encoder _rightDriveEncoder = Globals.getInstance().getRightDriveEncoder();
 	
@@ -17,10 +19,18 @@ public class Encoders {
 	
 	private static double inchToFoot = 1/12;
 	
-	public Encoders() {
+	private Encoders() {
 		_leftDriveEncoder.setDistancePerPulse(1/256); //One rotation is 256 pulses
 		_rightDriveEncoder.setDistancePerPulse(1/256);
 	}
+	
+	public static Encoders getInstance() {
+		if (instance == null) {
+			instance = new Encoders();
+		}
+		return instance;
+	}
+	
 	
 	public void driveEncoderReset() {
 		_leftDriveEncoder.reset();

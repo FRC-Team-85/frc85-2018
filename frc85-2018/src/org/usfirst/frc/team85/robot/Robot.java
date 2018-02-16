@@ -11,11 +11,13 @@ public class Robot extends IterativeRobot {
 	private Globals _globals;
 	private Drive _drive;
 	private Auto _auto;
+	private Encoders _encoders;
 
 	@Override
 	public void robotInit() {
 		_globals = Globals.getInstance();
 		_drive = Drive.getInstance();
+		_encoders.driveEncoderReset();
 	}
 
 	@Override
@@ -35,6 +37,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		_drive.periodic();
+		_encoders.getLeftVelocity();
+		_encoders.getRightVelocity();
 	}
 
 	@Override
