@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.Compressor;
 public class Globals {
 
 	private static Globals _instance;
-	private static Compressor _compressor;
+	private Compressor _compressor;
+	private DriverAssistCameras _das;
 
 	private Globals() {
 		DriveTrain.getInstance();
@@ -21,7 +22,7 @@ public class Globals {
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
 
-		new DriverAssistCameras();
+		_das = new DriverAssistCameras();
 	}
 
 	public static Globals getInstance() {
@@ -31,11 +32,11 @@ public class Globals {
 		return _instance;
 	}
 
-	public void log() {
-
-	}
-
 	public Compressor getCompressor() {
 		return _compressor;
+	}
+
+	public DriverAssistCameras getDriverAssistCameras() {
+		return _das;
 	}
 }

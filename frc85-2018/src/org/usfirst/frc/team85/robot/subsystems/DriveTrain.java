@@ -85,7 +85,7 @@ public class DriveTrain extends Subsystem {
 		return _rightBackMotor.getOutputCurrent();
 	}
 
-	public void log() {
+	public void show() {
 		SmartDashboard.putBoolean("DriveTrain Gear High", getTransmissionHighGear());
 	}
 

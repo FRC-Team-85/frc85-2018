@@ -37,6 +37,10 @@ public class Addresses {
 	public static final int RANGEFINDER = 112;
 	public static final int IMU_TALON = 13;
 
+	// cameras
+	public static final int FORWARD_CAMERA = 0;
+	public static final int REVERSE_CAMERA = 1;
+
 	// drive encoders (DIO ports)
 	public final static int ENCODERS_LEFT_A = 2;
 	public final static int ENCODERS_LEFT_B = 3;

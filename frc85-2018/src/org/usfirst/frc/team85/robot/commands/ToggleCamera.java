@@ -1,22 +1,20 @@
 package org.usfirst.frc.team85.robot.commands;
 
-import org.usfirst.frc.team85.robot.subsystems.Gripper;
+import org.usfirst.frc.team85.robot.Globals;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class OpenGripper extends Command {
-
-	public OpenGripper() {
-		requires(Gripper.getInstance());
-	}
+public class ToggleCamera extends Command {
 
 	@Override
 	protected void initialize() {
-		Gripper.getInstance().open();
+		super.initialize();
+		Globals.getInstance().getDriverAssistCameras().toggle();
 	}
 
 	@Override
 	protected boolean isFinished() {
 		return true;
 	}
+
 }

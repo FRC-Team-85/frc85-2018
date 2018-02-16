@@ -14,7 +14,7 @@ public class SpinDegrees extends Command {
 	// left = positive, right = negative
 	public SpinDegrees(double angle) {
 		requires(DriveTrain.getInstance());
-		_changeAngle = angle * .8;
+		_changeAngle = angle * .8; // arbitrary value to deal with momentum
 	}
 
 	@Override
@@ -43,6 +43,11 @@ public class SpinDegrees extends Command {
 		} else {
 			return (IMU.getInstance().getFusedHeading() <= _targetAngle);
 		}
+	}
+
+	@Override
+	protected void end() {
+		DriveTrain.getInstance().drive(0, 0);
 	}
 
 }

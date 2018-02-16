@@ -44,7 +44,7 @@ public class IMU {
 		return _pigeon.getFusedHeading();
 	}
 
-	public void log() {
+	public void show() {
 		SmartDashboard.putNumber("AbsoluteCompassHeading", _pigeon.getAbsoluteCompassHeading());
 		SmartDashboard.putNumber("CompassFieldStrength", _pigeon.getCompassFieldStrength());
 		SmartDashboard.putNumber("CompassHeading", _pigeon.getCompassHeading());
