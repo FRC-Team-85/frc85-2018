@@ -15,18 +15,18 @@ public class Encoders {
 	private static Encoder _leftDriveEncoder;
 	private static Encoder _rightDriveEncoder;
 
-	private static final double wheelDiameter = 4; // inches
+	private static final double wheelDiameter = 4.0; // inches
 	private static final double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
 	private static final double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of
 														// gear
-	private static final double inchToFoot = 1 / 12;
+	private static final double inchToFoot = 1.0 / 12.0;
 
 	private Encoders() {
 		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B);
 		_rightDriveEncoder = new Encoder(Addresses.ENCODERS_RIGHT_A, Addresses.ENCODERS_RIGHT_B);
 
-		_leftDriveEncoder.setDistancePerPulse(1 / 256); // One rotation is 256 pulses
-		_rightDriveEncoder.setDistancePerPulse(1 / 256);
+		_leftDriveEncoder.setDistancePerPulse(1.0 / 256.0); // One rotation is 256 pulses
+		_rightDriveEncoder.setDistancePerPulse(1.0 / 256.0);
 	}
 
 	public static Encoders getInstance() {

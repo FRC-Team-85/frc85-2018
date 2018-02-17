@@ -20,13 +20,12 @@ public class Robot extends IterativeRobot {
 
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
-
-		_autonomous = new Autonomous();
 	}
 
 	@Override
 	public void autonomousInit() {
 		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
+		_autonomous = new Autonomous(fieldKey);
 		_autonomous.start();
 	}
 

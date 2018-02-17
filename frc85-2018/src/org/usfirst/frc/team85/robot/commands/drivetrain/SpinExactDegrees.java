@@ -15,7 +15,7 @@ public class SpinExactDegrees extends Command {
 
 	private double _targetAngle;
 	private double _changeAngle;
-	private double _tolerance = 5;
+	private double _tolerance = 3;
 
 	// left = positive, right = negative
 	public SpinExactDegrees(double angle) {

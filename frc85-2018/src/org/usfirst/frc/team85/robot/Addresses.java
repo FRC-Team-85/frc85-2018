@@ -17,10 +17,6 @@ public class Addresses {
 	public static final int LIFT_LEFT_TWO = 6;
 	public static final int LIFT_LEFT_THREE = 7;
 	public static final int LIFT_LEFT_FOUR = 8;
-	public static final int LIFT_RIGHT_ONE = 9;
-	public static final int LIFT_RIGHT_TWO = 10;
-	public static final int LIFT_RIGHT_THREE = 11;
-	public static final int LIFT_RIGHT_FOUR = 12;
 
 	// Joystick
 	public static final int LEFT_JOYSTICK = 1;
