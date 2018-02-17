@@ -9,11 +9,10 @@ public class Gripper extends Subsystem {
 
 	private static Gripper _instance;
 
-	private Solenoid _leftSolenoid, _rightSolenoid;
+	private Solenoid _solenoid;
 
 	private Gripper() {
-		_leftSolenoid = new Solenoid(Addresses.GRIPPER_LEFT_SOLENOID);
-		_rightSolenoid = new Solenoid(Addresses.GRIPPER_RIGHT_SOLENOID);
+		_solenoid = new Solenoid(Addresses.GRIPPER_SOLENOID);
 	}
 
 	public static Gripper getInstance() {
@@ -29,16 +28,14 @@ public class Gripper extends Subsystem {
 	}
 
 	public void open() {
-		_leftSolenoid.set(true);
-		_rightSolenoid.set(true);
+		_solenoid.set(true);
 	}
 
 	public void close() {
-		_leftSolenoid.set(false);
-		_rightSolenoid.set(false);
+		_solenoid.set(false);
 	}
 
 	public boolean isOpen() {
-		return _leftSolenoid.get();
+		return _solenoid.get();
 	}
 }

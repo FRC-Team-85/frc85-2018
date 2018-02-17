@@ -12,11 +12,13 @@ public class Addresses {
 	public static final int DRIVETRAIN_RIGHT_BACK_MOTOR = 13;
 	public static final int TRANSMISSION_SOLENOID = 1;
 
-	// Elevator
+	// Lift
 	public static final int LIFT_LEFT_ONE = 5;
 	public static final int LIFT_LEFT_TWO = 6;
 	public static final int LIFT_LEFT_THREE = 7;
 	public static final int LIFT_LEFT_FOUR = 8;
+	public static final int LIFT_LEFT_LOCK = 0;
+	public static final int LIFT_RIGHT_LOCK = 0;
 
 	// Joystick
 	public static final int LEFT_JOYSTICK = 1;
@@ -25,8 +27,7 @@ public class Addresses {
 	public static final int OPERATOR_STATION_MISC = 3;
 
 	// Gripper
-	public static final int GRIPPER_LEFT_SOLENOID = 0;
-	public static final int GRIPPER_RIGHT_SOLENOID = 0;
+	public static final int GRIPPER_SOLENOID = 0;
 
 	// Intake
 	public static final int INTAKE_LEFT_MOTOR = 0;

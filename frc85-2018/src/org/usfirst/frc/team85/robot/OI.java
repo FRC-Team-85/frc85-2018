@@ -5,6 +5,7 @@ import org.usfirst.frc.team85.robot.commands.ToggleCamera;
 import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -64,6 +65,8 @@ public class OI {
 		compressorOnButton.whenPressed(new CompressorActive(true));
 		compressorOffButton.whenPressed(new CompressorActive(false));
 
+		SmartDashboard.putNumber("High Amplitude", .65);
+		SmartDashboard.putNumber("Low Amplitude", .35);
 	}
 
 	public static OI getInstance() {
@@ -73,59 +76,164 @@ public class OI {
 		return _instance;
 	}
 
-	public double[] getSpeedInput() {
-		double speedRight = 0;
-		double speedLeft = 0;
-		double power = (double) SmartDashboard.getNumber("Power", 1);
-		double amplitude = .35;
+	// public double[] getSpeedInput() {
+	// double _speedRight = 0;
+	// double _speedLeft = 0;
+	// double power = (double) SmartDashboard.getNumber("Power", 1);
+	// double amplitude = .35;
+	//
+	// if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
+	// _speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+	// } else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+	// _speedRight = 0;
+	// }
+	//
+	// if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
+	// _speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+	// } else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+	// _speedLeft = 0;
+	// }
+	//
+	// if (_rightJoystick.getRawButton(7)) {
+	// power = 1;
+	// }
+	// if (_rightJoystick.getRawButton(8)) {
+	// power = 3;
+	// }
+	//
+	// if (_leftJoystick.getRawButton(1)) {
+	// amplitude = SmartDashboard.getNumber("High Amplitude", .65);
+	// } else {
+	// amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
+	// }
+	//
+	// if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1))
+	// > .1) {
+	// _speedLeft = _rightJoystick.getRawAxis(1);
+	// _speedRight = _rightJoystick.getRawAxis(1);
+	//
+	// if (_leftJoystick.getRawAxis(0) > .1) {
+	// if (_rightJoystick.getRawAxis(1) > 0) {
+	// _speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) *
+	// amplitude;
+	// } else {
+	// _speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) *
+	// amplitude;
+	// }
+	// } else if (_leftJoystick.getRawAxis(0) < -.1) {
+	// if (_rightJoystick.getRawAxis(1) > 0) {
+	// _speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) *
+	// amplitude;
+	// } else {
+	// _speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) *
+	// amplitude;
+	// }
+	// }
+	// }
+	//
+	// SmartDashboard.putNumber("Power", power);
+	//
+	// return new double[] { -_speedLeft, -_speedRight };
+	// }
 
+	private double _speedLeft = 0, _speedRight = 0, _power = 1, _amplitude = .35;
+
+	public double[] getSpeedInput() {
+
+		powerButtons();
+
+		if (isFPS()) {
+			fpsDrive();
+		} else {
+			tankDrive();
+		}
+
+		autoTrans();
+
+		SmartDashboard.putNumber("Power", _power);
+
+		return new double[] { -_speedLeft, -_speedRight };
+	}
+
+	/**
+	 * Right joystick sets right side, left joystick sets left side
+	 */
+	private void tankDrive() {
 		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
+			_speedRight = Math.pow(_rightJoystick.getRawAxis(1), _power);
 		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
-			speedRight = 0;
+			_speedRight = 0;
 		}
 
 		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
+			_speedLeft = Math.pow(_leftJoystick.getRawAxis(1), _power);
 		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
-			speedLeft = 0;
+			_speedLeft = 0;
 		}
+	}
 
-		if (_rightJoystick.getRawButton(7)) {
-			power = 1;
-		}
-		if (_rightJoystick.getRawButton(8)) {
-			power = 3;
-		}
-
-		if (_leftJoystick.getRawButton(1)) {
-			amplitude = SmartDashboard.getNumber("High Amplitude", .65);
-		} else {
-			amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
+	/**
+	 * Right joystick sets forward/back speed, left joystick turns
+	 */
+	private void fpsDrive() {
+		if (Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
+			_speedLeft = _rightJoystick.getRawAxis(1);
+			_speedRight = _rightJoystick.getRawAxis(1);
 		}
 
 		if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1)) > .1) {
-			speedLeft = _rightJoystick.getRawAxis(1);
-			speedRight = _rightJoystick.getRawAxis(1);
+			_speedLeft = _rightJoystick.getRawAxis(1);
+			_speedRight = _rightJoystick.getRawAxis(1);
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
 				} else {
-					speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
 				}
+
 			} else if (_leftJoystick.getRawAxis(0) < -.1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
 				} else {
-					speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
 				}
 			}
 		}
+	}
 
-		SmartDashboard.putNumber("Power", power);
+	/**
+	 * Modifies the power/amp of joystick inputs
+	 */
+	private void powerButtons() {
+		if (_rightJoystick.getRawButton(7)) {
+			_power = 1;
+		}
+		if (_rightJoystick.getRawButton(8)) {
+			_power = 3;
+		}
+		if (_leftJoystick.getRawButton(1)) {
+			_amplitude = SmartDashboard.getNumber("High Amplitude", .65);
+		} else {
+			_amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
+		}
+	}
 
-		return new double[] { -speedLeft, -speedRight };
+	/**
+	 * Sets transmission automatically
+	 */
+	private void autoTrans() {
+		double leftFrontCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
+		double leftBackCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_BACK_MOTOR);
+
+		double rightFrontCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_FRONT_MOTOR);
+		double rightBackCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
+
+		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 150) {
+			DriveTrain.getInstance().setHighGear(false);
+		} else {
+			DriveTrain.getInstance().setHighGear(true);
+		}
 	}
 
 	public boolean isFPS() {
