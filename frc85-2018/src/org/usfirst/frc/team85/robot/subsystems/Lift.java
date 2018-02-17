@@ -11,7 +11,7 @@ public class Lift extends PIDSubsystem {
 	private static Lift _instance = null;
 
 	public static final double kP = .2, kI = 0.0, kD = 0.0;
-	private TalonSRX _leftOne, _leftTwo, _leftThree, _leftFour, _rightOne, _rightTwo, _rightThree, _rightFour;
+	private TalonSRX _leftOne, _leftTwo, _leftThree, _leftFour;
 
 	private Lift() {
 		super(kP, kI, kD);
@@ -22,15 +22,6 @@ public class Lift extends PIDSubsystem {
 		_leftThree.follow(_leftOne);
 		_leftFour = new TalonSRX(Addresses.LIFT_LEFT_FOUR);
 		_leftFour.follow(_leftOne);
-
-		_rightOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
-		_rightOne.follow(_leftOne);
-		_rightTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
-		_rightTwo.follow(_leftOne);
-		_rightThree = new TalonSRX(Addresses.LIFT_LEFT_THREE);
-		_rightThree.follow(_leftOne);
-		_rightFour = new TalonSRX(Addresses.LIFT_LEFT_FOUR);
-		_rightFour.follow(_leftOne);
 	}
 
 	public static Lift getInstance() {

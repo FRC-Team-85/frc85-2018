@@ -4,13 +4,13 @@ import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends IterativeRobot {
 
-<<<<<<< HEAD
 	private Command _autonomous;
 	private Diagnostics _diagnostics;
 
@@ -26,8 +26,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-	String fieldKey = 	DriverStation.getInstance().getGameSpecificMessage();
-		_autonomous.start();		
+		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
+		_autonomous.start();
 	}
 
 	@Override
