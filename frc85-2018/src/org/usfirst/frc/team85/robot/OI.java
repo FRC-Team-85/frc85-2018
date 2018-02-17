@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
+import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
@@ -50,10 +51,11 @@ public class OI {
 		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
 
-		liftSwitchButton.whenPressed(new MoveLift(-.5));
+		liftSwitchButton.whenPressed(new MoveLift(-.25));
 		liftSwitchButton.whenReleased(new MoveLift(0));
-		liftLowScaleButton.whenPressed(new MoveLift(.5));
+		liftLowScaleButton.whenPressed(new MoveLift(.3));
 		liftLowScaleButton.whenReleased(new MoveLift(0));
+		liftGroundButton.whenPressed(new CubeSearch());
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
 		JoystickButton protectButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_PROTECT);
