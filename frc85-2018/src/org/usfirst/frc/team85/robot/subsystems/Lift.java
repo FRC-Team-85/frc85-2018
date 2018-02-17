@@ -12,21 +12,20 @@ public class Lift extends PIDSubsystem {
 	private static Lift _instance = null;
 
 	public static final double kP = .2, kI = 0.0, kD = 0.0;
-	private TalonSRX _leftOne, _leftTwo, _leftThree, _leftFour;
-	private Solenoid _leftLock, _rightLock;
+	private TalonSRX _one, _two, _three, _four;
+	private Solenoid _lock;
 
 	private Lift() {
 		super(kP, kI, kD);
-		_leftOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
-		_leftTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
-		_leftTwo.follow(_leftOne);
-		_leftThree = new TalonSRX(Addresses.LIFT_LEFT_THREE);
-		_leftThree.follow(_leftOne);
-		_leftFour = new TalonSRX(Addresses.LIFT_LEFT_FOUR);
-		_leftFour.follow(_leftOne);
+		_one = new TalonSRX(Addresses.LIFT_LEFT_ONE);
+		_two = new TalonSRX(Addresses.LIFT_LEFT_TWO);
+		_two.follow(_one);
+		_three = new TalonSRX(Addresses.LIFT_RIGHT_ONE);
+		_three.follow(_one);
+		_four = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
+		_four.follow(_one);
 
-		_leftLock = new Solenoid(Addresses.LIFT_LEFT_LOCK);
-		_rightLock = new Solenoid(Addresses.LIFT_RIGHT_LOCK);
+		_lock = new Solenoid(Addresses.LIFT_LOCK);
 	}
 
 	public static Lift getInstance() {
@@ -57,7 +56,6 @@ public class Lift extends PIDSubsystem {
 	}
 
 	public void lock(boolean lock) {
-		_leftLock.set(lock);
-		_rightLock.set(lock);
+		_lock.set(lock);
 	}
 }

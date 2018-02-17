@@ -1,19 +1,16 @@
 package org.usfirst.frc.team85.robot.sensors;
 
 import org.usfirst.frc.team85.robot.Addresses;
-import org.usfirst.frc.team85.robot.Globals;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Encoders {
 
-	Globals globals = Globals.getInstance();
-
 	private static Encoders instance = null;
 
-	private static Encoder _leftDriveEncoder;
-	private static Encoder _rightDriveEncoder;
+	private Encoder _leftDriveEncoder;
+	private Encoder _rightDriveEncoder;
 
 	private static final double wheelDiameter = 4.0; // inches
 	private static final double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches

@@ -1,11 +1,11 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
-import org.usfirst.frc.team85.robot.commands.ToggleCamera;
 import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
-import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
+import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -36,8 +36,6 @@ public class OI {
 		leftButton3.whenPressed(new SpinDegrees(360));
 		leftButton4.whenPressed(new SpinDegrees(90));
 		leftButton5.whenPressed(new SpinDegrees(-90));
-		leftButton10.whenPressed(new ToggleCamera());
-
 		JoystickButton rightButton2 = new JoystickButton(_rightJoystick, 2);
 
 		rightButton2.whenPressed(new ToggleTransmission());
@@ -51,7 +49,7 @@ public class OI {
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
-		JoystickButton unknownButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_UNKNOWN);
+		JoystickButton protectButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_PROTECT);
 		JoystickButton intakeForwardButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_FORWARD);
 		JoystickButton intakeReverseButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_REVERSE);
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
@@ -62,6 +60,11 @@ public class OI {
 				Addresses.OS_MISC_RIGHT_CHICKEN_WING);
 
 		gripperButton.whenPressed(new ToggleGripper());
+		protectButton.whenPressed(new ToggleProtectIntake());
+		intakeForwardButton.whenPressed(new ActivateIntake(1.0));
+		intakeForwardButton.whenReleased(new ActivateIntake(0.0));
+		intakeReverseButton.whenPressed(new ActivateIntake(-1.0));
+		intakeReverseButton.whenReleased(new ActivateIntake(0.0));
 		compressorOnButton.whenPressed(new CompressorActive(true));
 		compressorOffButton.whenPressed(new CompressorActive(false));
 
@@ -148,7 +151,7 @@ public class OI {
 			tankDrive();
 		}
 
-		autoTrans();
+		// autoTrans();
 
 		SmartDashboard.putNumber("Power", _power);
 
@@ -223,17 +226,22 @@ public class OI {
 	 * Sets transmission automatically
 	 */
 	private void autoTrans() {
-		double leftFrontCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
-		double leftBackCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_BACK_MOTOR);
+		// double leftFrontCurrent =
+		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
+		// double leftBackCurrent =
+		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_BACK_MOTOR);
 
-		double rightFrontCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_FRONT_MOTOR);
-		double rightBackCurrent = Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
+		// double rightFrontCurrent =
+		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_FRONT_MOTOR);
+		// double rightBackCurrent =
+		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
 
-		if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent + rightBackCurrent) > 150) {
-			DriveTrain.getInstance().setHighGear(false);
-		} else {
-			DriveTrain.getInstance().setHighGear(true);
-		}
+		// if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent +
+		// rightBackCurrent) > 150) {
+		// DriveTrain.getInstance().setHighGear(false);
+		// } else {
+		// DriveTrain.getInstance().setHighGear(true);
+		// }
 	}
 
 	public boolean isFPS() {

@@ -1,17 +1,16 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
-import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends IterativeRobot {
 
-	private Command _autonomous;
+	private Autonomous _autonomous;
 	private Diagnostics _diagnostics;
 
 	@Override
@@ -20,12 +19,14 @@ public class Robot extends IterativeRobot {
 
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
+
+		_autonomous = new Autonomous();
 	}
 
 	@Override
 	public void autonomousInit() {
 		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		_autonomous = new Autonomous(fieldKey);
+		_autonomous.setKey(fieldKey);
 		_autonomous.start();
 	}
 
@@ -45,6 +46,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
+		Encoders.getInstance().getLeftVelocity();
+		Encoders.getInstance().getRightVelocity();
 	}
 
 	@Override
@@ -60,7 +63,7 @@ public class Robot extends IterativeRobot {
 	private void log() {
 		_diagnostics.log();
 
-		IMU.getInstance().show();
+		// IMU.getInstance().show();
 		DriveTrain.getInstance().show();
 	}
 }
