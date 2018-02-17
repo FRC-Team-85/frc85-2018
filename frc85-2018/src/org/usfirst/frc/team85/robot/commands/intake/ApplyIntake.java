@@ -4,6 +4,9 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Moves intake wheels towards the center to be applied to the cubes
+ */
 public class ApplyIntake extends Command {
 
 	private boolean _apply;

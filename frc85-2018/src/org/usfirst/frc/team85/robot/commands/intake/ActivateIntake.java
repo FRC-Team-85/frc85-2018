@@ -4,6 +4,9 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+/**
+ * Starts intake motors
+ */
 public class ActivateIntake extends Command {
 
 	private double _power;
