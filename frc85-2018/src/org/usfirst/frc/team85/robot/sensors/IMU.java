@@ -12,15 +12,15 @@ public class IMU {
 
 	private static IMU _instance;
 
-	private TalonSRX _tempTalon;
+	private TalonSRX _connectedTalon;
 	private PigeonIMU _pigeon;
 
 	private PigeonIMU.GeneralStatus _genStatus = new PigeonIMU.GeneralStatus();
 	private double[] _ypr = new double[3];
 
 	private IMU() {
-		_tempTalon = new TalonSRX(Addresses.IMU_TALON);
-		_pigeon = new PigeonIMU(_tempTalon);
+		_connectedTalon = new TalonSRX(Addresses.IMU_TALON);
+		_pigeon = new PigeonIMU(_connectedTalon);
 	}
 
 	public static IMU getInstance() {

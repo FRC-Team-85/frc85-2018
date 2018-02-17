@@ -16,7 +16,7 @@ public class Encoders {
 	private static final double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
 	private static final double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of
 														// gear
-	private static final double inchToFoot = 1.0 / 12.0;
+	private static final double inchToFoot = 0.083333;
 
 	private Encoders() {
 		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B);

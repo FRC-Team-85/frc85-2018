@@ -2,7 +2,9 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
+import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,8 +48,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		log();
-		Encoders.getInstance().getLeftVelocity();
-		Encoders.getInstance().getRightVelocity();
 	}
 
 	@Override
@@ -62,8 +62,11 @@ public class Robot extends IterativeRobot {
 
 	private void log() {
 		_diagnostics.log();
-
-		// IMU.getInstance().show();
+		IMU.getInstance().show();
 		DriveTrain.getInstance().show();
+
+		Lift.getInstance().getPosition();
+		Encoders.getInstance().getLeftVelocity();
+		Encoders.getInstance().getRightVelocity();
 	}
 }

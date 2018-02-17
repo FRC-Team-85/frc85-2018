@@ -36,7 +36,7 @@ public class Addresses {
 
 	// Sensors
 	public static final int RANGEFINDER = 112;
-	public static final int IMU_TALON = 13;
+	public static final int IMU_TALON = 6;
 
 	// cameras
 	public static final int FORWARD_CAMERA = 0;

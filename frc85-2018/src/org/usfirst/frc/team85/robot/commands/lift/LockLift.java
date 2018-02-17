@@ -1,22 +1,22 @@
-package org.usfirst.frc.team85.robot.commands;
+package org.usfirst.frc.team85.robot.commands.lift;
 
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetLiftHeight extends Command {
+public class LockLift extends Command {
 
-	private double _height;
+	private boolean _lock;
 
-	public SetLiftHeight(double height) {
+	public LockLift(boolean lock) {
 		requires(Lift.getInstance());
-		_height = height;
+		_lock = lock;
 	}
 
 	@Override
 	protected void initialize() {
+		Lift.getInstance().lock(_lock);
 		super.initialize();
-		Lift.getInstance().setHeight(_height);
 	}
 
 	@Override

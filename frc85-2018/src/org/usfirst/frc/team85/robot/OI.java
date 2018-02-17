@@ -6,6 +6,8 @@ import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
+import org.usfirst.frc.team85.robot.commands.lift.LockLift;
+import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -48,6 +50,11 @@ public class OI {
 		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
 
+		liftSwitchButton.whenPressed(new MoveLift(-.5));
+		liftSwitchButton.whenReleased(new MoveLift(0));
+		liftLowScaleButton.whenPressed(new MoveLift(.5));
+		liftLowScaleButton.whenReleased(new MoveLift(0));
+
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
 		JoystickButton protectButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_PROTECT);
 		JoystickButton intakeForwardButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_FORWARD);
@@ -61,12 +68,17 @@ public class OI {
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
+
 		intakeForwardButton.whenPressed(new ActivateIntake(1.0));
 		intakeForwardButton.whenReleased(new ActivateIntake(0.0));
 		intakeReverseButton.whenPressed(new ActivateIntake(-1.0));
 		intakeReverseButton.whenReleased(new ActivateIntake(0.0));
+
 		compressorOnButton.whenPressed(new CompressorActive(true));
 		compressorOffButton.whenPressed(new CompressorActive(false));
+
+		leftChickenWingButton.whenPressed(new LockLift(true));
+		leftChickenWingButton.whenReleased(new LockLift(false));
 
 		SmartDashboard.putNumber("High Amplitude", .65);
 		SmartDashboard.putNumber("Low Amplitude", .35);

@@ -46,15 +46,15 @@ public class Intake extends Subsystem {
 		_protectionSolenoid.set(!protect);
 	}
 
-	public void apply(boolean apply) {
-		_applicationSolenoid.set(!apply);
-	}
-
 	public boolean isProtected() {
 		return !_protectionSolenoid.get();
 	}
 
+	public void apply(boolean apply) {
+		_applicationSolenoid.set(apply);
+	}
+
 	public boolean isApplied() {
-		return !_applicationSolenoid.get();
+		return _applicationSolenoid.get();
 	}
 }

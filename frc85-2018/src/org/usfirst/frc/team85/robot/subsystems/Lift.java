@@ -2,6 +2,8 @@ package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -22,6 +24,7 @@ public class Lift extends PIDSubsystem {
 		_two.follow(_one);
 		_three = new TalonSRX(Addresses.LIFT_RIGHT_ONE);
 		_three.follow(_one);
+		_three.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		_four = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
 		_four.follow(_one);
 
@@ -57,5 +60,18 @@ public class Lift extends PIDSubsystem {
 
 	public void lock(boolean lock) {
 		_lock.set(lock);
+	}
+
+	public double getPosition() {
+		// SmartDashboard.putNumber("Sel Sensor Position",
+		// _three.getSelectedSensorPosition(0));
+		// SmartDashboard.putNumber("Active Trajectory Position",
+		// _three.getActiveTrajectoryPosition());
+		// return _three.getActiveTrajectoryPosition();
+		return 0;
+	}
+
+	public void setPower(double power) {
+		_one.set(ControlMode.PercentOutput, power);
 	}
 }
