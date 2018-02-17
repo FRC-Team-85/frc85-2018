@@ -73,5 +73,4 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_LEFT_CHICKEN_WING = 7;
 	public final static int OS_MISC_RIGHT_CHICKEN_WING = 8;
-
 }

@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
@@ -24,10 +25,11 @@ public class Globals {
 		// Gripper.getInstance();
 		// Encoders.getInstance();
 
+
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
-
+		
 		_powerDistributionPanel = new PowerDistributionPanel(Addresses.POWER_DISTRIBUTION_PANEL);
 
 		_das = new DriverAssistCameras();
@@ -37,8 +39,9 @@ public class Globals {
 		if (_instance == null) {
 			_instance = new Globals();
 		}
-		return _instance;
-	}
+
+		return _instance;	
+}
 
 	public Compressor getCompressor() {
 		return _compressor;
@@ -50,5 +53,9 @@ public class Globals {
 
 	public DriverAssistCameras getDriverAssistCameras() {
 		return _das;
+	}
+	
+	public Compressor getCompressor() {
+		return compressor;
 	}
 }

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends IterativeRobot {
 
+<<<<<<< HEAD
 	private Command _autonomous;
 	private Diagnostics _diagnostics;
 
@@ -25,7 +26,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		_autonomous.start();
+	String fieldKey = 	DriverStation.getInstance().getGameSpecificMessage();
+		_autonomous.start();		
 	}
 
 	@Override
