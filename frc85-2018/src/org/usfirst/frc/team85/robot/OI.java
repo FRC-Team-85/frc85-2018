@@ -56,7 +56,14 @@ public class OI {
 		liftSwitchButton.whenReleased(new MoveLift(0));
 		liftLowScaleButton.whenPressed(new MoveLift(.3));
 		liftLowScaleButton.whenReleased(new MoveLift(0));
-		liftGroundButton.whenPressed(new CubeSearch());
+
+		// liftGroundButton.whenPressed(new SetLiftHeight(1000));
+		// liftPlatformButton.whenPressed(new SetLiftHeight(2000));
+		// liftSwitchButton.whenPressed(new SetLiftHeight(3000));
+		// liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
+		// liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
+		// liftHighScaleButton.whenPressed(new SetLiftHeight(6000));
+		// liftDoubleScaleButton.whenPressed(new SetLiftHeight(7000));
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
 		JoystickButton protectButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_PROTECT);
@@ -64,10 +71,8 @@ public class OI {
 		JoystickButton intakeReverseButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_REVERSE);
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
-		JoystickButton leftChickenWingButton = new JoystickButton(_miscOperatorStation,
-				Addresses.OS_MISC_LEFT_CHICKEN_WING);
-		JoystickButton rightChickenWingButton = new JoystickButton(_miscOperatorStation,
-				Addresses.OS_MISC_RIGHT_CHICKEN_WING);
+		JoystickButton liftLockSwitch = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_LEFT_NUKE_SWITCH);
+		JoystickButton rightNukeSwitch = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_RIGHT_NUKE_SWITCH);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -80,8 +85,10 @@ public class OI {
 		compressorOnButton.whenPressed(new CompressorActive(true));
 		compressorOffButton.whenPressed(new CompressorActive(false));
 
-		leftChickenWingButton.whenPressed(new LockLift(true));
-		leftChickenWingButton.whenReleased(new LockLift(false));
+		liftLockSwitch.whenPressed(new LockLift(true));
+		liftLockSwitch.whenReleased(new LockLift(false));
+
+		rightNukeSwitch.whenPressed(new CubeSearch());
 
 		SmartDashboard.putNumber("High Amplitude", .65);
 		SmartDashboard.putNumber("Low Amplitude", .35);
