@@ -2,13 +2,14 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
-import org.usfirst.frc.team85.robot.commands.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
+import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -93,66 +94,6 @@ public class OI {
 		return _instance;
 	}
 
-	// public double[] getSpeedInput() {
-	// double _speedRight = 0;
-	// double _speedLeft = 0;
-	// double power = (double) SmartDashboard.getNumber("Power", 1);
-	// double amplitude = .35;
-	//
-	// if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-	// _speedRight = Math.pow(_rightJoystick.getRawAxis(1), power);
-	// } else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
-	// _speedRight = 0;
-	// }
-	//
-	// if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-	// _speedLeft = Math.pow(_leftJoystick.getRawAxis(1), power);
-	// } else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
-	// _speedLeft = 0;
-	// }
-	//
-	// if (_rightJoystick.getRawButton(7)) {
-	// power = 1;
-	// }
-	// if (_rightJoystick.getRawButton(8)) {
-	// power = 3;
-	// }
-	//
-	// if (_leftJoystick.getRawButton(1)) {
-	// amplitude = SmartDashboard.getNumber("High Amplitude", .65);
-	// } else {
-	// amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
-	// }
-	//
-	// if (_rightJoystick.getRawButton(1) && Math.abs(_rightJoystick.getRawAxis(1))
-	// > .1) {
-	// _speedLeft = _rightJoystick.getRawAxis(1);
-	// _speedRight = _rightJoystick.getRawAxis(1);
-	//
-	// if (_leftJoystick.getRawAxis(0) > .1) {
-	// if (_rightJoystick.getRawAxis(1) > 0) {
-	// _speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) *
-	// amplitude;
-	// } else {
-	// _speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) *
-	// amplitude;
-	// }
-	// } else if (_leftJoystick.getRawAxis(0) < -.1) {
-	// if (_rightJoystick.getRawAxis(1) > 0) {
-	// _speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) *
-	// amplitude;
-	// } else {
-	// _speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) *
-	// amplitude;
-	// }
-	// }
-	// }
-	//
-	// SmartDashboard.putNumber("Power", power);
-	//
-	// return new double[] { -_speedLeft, -_speedRight };
-	// }
-
 	private double _speedLeft = 0, _speedRight = 0, _power = 1, _amplitude = .35;
 
 	public double[] getSpeedInput() {
@@ -165,7 +106,7 @@ public class OI {
 			tankDrive();
 		}
 
-		// autoTrans();
+		autoTrans();
 
 		SmartDashboard.putNumber("Power", _power);
 
@@ -240,22 +181,11 @@ public class OI {
 	 * Sets transmission automatically
 	 */
 	private void autoTrans() {
-		// double leftFrontCurrent =
-		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
-		// double leftBackCurrent =
-		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_LEFT_BACK_MOTOR);
-
-		// double rightFrontCurrent =
-		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_FRONT_MOTOR);
-		// double rightBackCurrent =
-		// Globals.getInstance().getPDP().getCurrent(Addresses.DRIVETRAIN_RIGHT_BACK_MOTOR);
-
-		// if (Math.abs(leftFrontCurrent + leftBackCurrent + rightFrontCurrent +
-		// rightBackCurrent) > 150) {
-		// DriveTrain.getInstance().setHighGear(false);
-		// } else {
-		// DriveTrain.getInstance().setHighGear(true);
-		// }
+		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > 150) {
+			DriveTrain.getInstance().setHighGear(false);
+		} else {
+			DriveTrain.getInstance().setHighGear(true);
+		}
 	}
 
 	public boolean isFPS() {

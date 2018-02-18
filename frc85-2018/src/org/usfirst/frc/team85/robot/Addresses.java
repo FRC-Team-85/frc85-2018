@@ -2,9 +2,6 @@ package org.usfirst.frc.team85.robot;
 
 public class Addresses {
 
-	// PDP
-	public static final int POWER_DISTRIBUTION_PANEL = 0;
-
 	// DriveTrain
 	public static final int DRIVETRAIN_LEFT_FRONT_MOTOR = 11;
 	public static final int DRIVETRAIN_LEFT_BACK_MOTOR = 12;
@@ -41,10 +38,6 @@ public class Addresses {
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;
 	public static final int INTAKE_LEFT_LIMIT = 5;
 	public static final int INTAKE_RIGHT_LIMIT = 4;
-
-	// cameras
-	public static final int FORWARD_CAMERA = 0;
-	public static final int REVERSE_CAMERA = 1;
 
 	// drive encoders (DIO ports)
 	public final static int ENCODERS_LEFT_A = 2;

@@ -20,7 +20,6 @@ public class Intake extends Subsystem {
 		_rightMotor = new TalonSRX(Addresses.INTAKE_RIGHT_MOTOR);
 
 		_protectionSolenoid = new Solenoid(Addresses.INTAKE_PROTECTION_SOLENOID);
-
 		_applicationSolenoid = new Solenoid(Addresses.INTAKE_APPLICATION_SOLENOID);
 	}
 

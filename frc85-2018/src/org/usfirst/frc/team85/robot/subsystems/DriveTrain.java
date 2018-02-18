@@ -57,10 +57,6 @@ public class DriveTrain extends Subsystem {
 		_rightFrontMotor.set(ControlMode.PercentOutput, -speed[1]);
 	}
 
-	public double getAverageSpeed() {
-		return (_leftFrontMotor.getMotorOutputPercent() + _rightFrontMotor.getMotorOutputPercent()) / 2;
-	}
-
 	public void setHighGear(boolean highGear) {
 		_transmissionSolenoid.set(highGear);
 	}
@@ -83,6 +79,10 @@ public class DriveTrain extends Subsystem {
 
 	public double getRightBackCurrent() {
 		return _rightBackMotor.getOutputCurrent();
+	}
+
+	public double getTotalCurrent() {
+		return getLeftFrontCurrent() + getLeftBackCurrent() + getRightFrontCurrent() + getRightBackCurrent();
 	}
 
 	public void show() {

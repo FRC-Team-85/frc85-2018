@@ -14,7 +14,6 @@ public class Globals {
 
 	private static Globals _instance;
 	private Compressor _compressor;
-	// private PowerDistributionPanel _powerDistributionPanel;
 
 	private Globals() {
 		DriveTrain.getInstance();
@@ -33,9 +32,6 @@ public class Globals {
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
-
-		// _powerDistributionPanel = new
-		// PowerDistributionPanel(Addresses.POWER_DISTRIBUTION_PANEL);
 	}
 
 	public static Globals getInstance() {
@@ -49,8 +45,4 @@ public class Globals {
 	public Compressor getCompressor() {
 		return _compressor;
 	}
-
-	// public PowerDistributionPanel getPDP() {
-	// return _powerDistributionPanel;
-	// }
 }

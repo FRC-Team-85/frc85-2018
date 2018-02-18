@@ -1,5 +1,5 @@
 
-package org.usfirst.frc.team85.robot.commands;
+package org.usfirst.frc.team85.robot.commands.drivetrain;
 
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 

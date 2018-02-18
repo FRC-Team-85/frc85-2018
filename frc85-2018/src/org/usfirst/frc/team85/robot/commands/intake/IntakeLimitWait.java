@@ -1,4 +1,4 @@
-package org.usfirst.frc.team85.robot.commands;
+package org.usfirst.frc.team85.robot.commands.intake;
 
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 

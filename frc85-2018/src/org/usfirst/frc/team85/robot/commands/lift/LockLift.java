@@ -15,8 +15,8 @@ public class LockLift extends Command {
 
 	@Override
 	protected void initialize() {
-		Lift.getInstance().lock(_lock);
 		super.initialize();
+		Lift.getInstance().lock(_lock);
 	}
 
 	@Override
