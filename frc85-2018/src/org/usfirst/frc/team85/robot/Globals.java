@@ -14,6 +14,7 @@ public class Globals {
 
 	private static Globals _instance;
 	private Compressor _compressor;
+	private DriverAssistCameras _das;
 
 	private Globals() {
 		DriveTrain.getInstance();
@@ -32,6 +33,8 @@ public class Globals {
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
+
+		_das = new DriverAssistCameras();
 	}
 
 	public static Globals getInstance() {

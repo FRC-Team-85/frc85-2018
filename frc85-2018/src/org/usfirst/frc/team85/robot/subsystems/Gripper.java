@@ -28,14 +28,14 @@ public class Gripper extends Subsystem {
 	}
 
 	public void open() {
-		_solenoid.set(false);
-	}
-
-	public void close() {
 		_solenoid.set(true);
 	}
 
+	public void close() {
+		_solenoid.set(false);
+	}
+
 	public boolean isOpen() {
-		return !_solenoid.get();
+		return _solenoid.get();
 	}
 }

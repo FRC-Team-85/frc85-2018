@@ -34,12 +34,12 @@ public class OI {
 		JoystickButton leftButton3 = new JoystickButton(_leftJoystick, 3);
 		JoystickButton leftButton4 = new JoystickButton(_leftJoystick, 4);
 		JoystickButton leftButton5 = new JoystickButton(_leftJoystick, 5);
-		JoystickButton leftButton10 = new JoystickButton(_leftJoystick, 10);
 
 		leftButton2.whenPressed(new SpinDegrees(-180));
 		leftButton3.whenPressed(new SpinDegrees(360));
 		leftButton4.whenPressed(new SpinDegrees(90));
 		leftButton5.whenPressed(new SpinDegrees(-90));
+
 		JoystickButton rightButton2 = new JoystickButton(_rightJoystick, 2);
 
 		rightButton2.whenPressed(new ToggleTransmission());
@@ -73,6 +73,7 @@ public class OI {
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton liftLockSwitch = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_LEFT_NUKE_SWITCH);
 		JoystickButton rightNukeSwitch = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_RIGHT_NUKE_SWITCH);
+		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -88,10 +89,12 @@ public class OI {
 		liftLockSwitch.whenPressed(new LockLift(true));
 		liftLockSwitch.whenReleased(new LockLift(false));
 
-		rightNukeSwitch.whenPressed(new CubeSearch());
+		searchCubeButton.whenPressed(new CubeSearch());
 
 		SmartDashboard.putNumber("High Amplitude", .65);
 		SmartDashboard.putNumber("Low Amplitude", .35);
+
+		SmartDashboard.putNumber("DriveTrain Current Treshold", 150);
 	}
 
 	public static OI getInstance() {
@@ -188,7 +191,9 @@ public class OI {
 	 * Sets transmission automatically
 	 */
 	private void autoTrans() {
-		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > 150) {
+		SmartDashboard.putNumber("DriveTrain Total Current", DriveTrain.getInstance().getTotalCurrent());
+		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > SmartDashboard
+				.getNumber("DriveTrain Current Treshold", 150)) {
 			DriveTrain.getInstance().setHighGear(false);
 		} else {
 			DriveTrain.getInstance().setHighGear(true);
