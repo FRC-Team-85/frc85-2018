@@ -15,7 +15,7 @@ public class Lift extends Subsystem {
 
 	private static Lift _instance = null;
 
-	private double kP = 0.1, kI = 0.0, kD = 0.2;
+	private double kP = 0.05, kI = 0.000001, kD = 0.2;
 
 	private TalonSRX _leftOne, _leftTwo, _rightOne, _rightTwo;
 	private Solenoid _lock;
