@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot.sensors;
 import org.usfirst.frc.team85.robot.Addresses;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimitSwitches {
 
@@ -37,5 +38,12 @@ public class LimitSwitches {
 
 	public boolean getRightIntakeLimit() {
 		return _rightIntakeLimit.get();
+	}
+
+	public void show() {
+		SmartDashboard.putBoolean("Left Intake Limit", getLeftIntakeLimit());
+		SmartDashboard.putBoolean("Right Intake Limit", getRightIntakeLimit());
+		SmartDashboard.putBoolean("Upper Lift Limit", getUpperLiftLimit());
+		SmartDashboard.putBoolean("Lower Lift Limit", getLowerLiftLimit());
 	}
 }

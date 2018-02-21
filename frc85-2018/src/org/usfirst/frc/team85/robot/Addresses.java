@@ -46,9 +46,9 @@ public class Addresses {
 	public final static int ENCODERS_RIGHT_B = 1;
 
 	// Lift Operator Station
-	public final static int OS_LIFT_SWITCH = 1;
+	public final static int OS_LIFT_PLATFORM_SWITCH = 1;
 	public final static int OS_LIFT_GROUND = 2;
-	public final static int OS_LIFT_PLATFORM = 3;
+	public final static int OS_LIFT_LOCK = 3;
 	public final static int OS_LIFT_LOW_SCALE = 4;
 	public final static int OS_LIFT_MEDIUM_SCALE = 5;
 	public final static int OS_LIFT_HIGH_SCALE = 6;
@@ -62,7 +62,18 @@ public class Addresses {
 	public final static int OS_MISC_INTAKE_REVERSE = 4;
 	public final static int OS_MISC_COMPRESSOR_ON = 5;
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
-	public final static int OS_MISC_LEFT_NUKE_SWITCH = 7;
-	public final static int OS_MISC_RIGHT_NUKE_SWITCH = 8;
 	public final static int OS_MISC_CUBE_SEARCH = 9;
+	public final static int OS_MISC_POWER_BUTTON = 10;
+
+	// Lift Encoder heights
+	public final static int HEIGHT_GROUND = 0;
+	public final static int HEIGHT_DRIVE = 0;
+	public final static int HEIGHT_PLATFORM = 0;
+	public final static int HEIGHT_SWITCH = 0;
+	public final static int HEIGHT_LOW_SCALE = 0;
+	public final static int HEIGHT_MEDIUM_SCALE = 0;
+	public final static int HEIGHT_HIGH_SCALE = 0;
+	public final static int HEIGHT_DOUBLE_SCALE = 0;
+	public final static int HEIGHT_CLIMB = 0;
+
 }

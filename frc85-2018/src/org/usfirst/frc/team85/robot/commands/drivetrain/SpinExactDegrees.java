@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinExactDegrees extends Command {
 
-	private static final double kP = 0.2, kI = 0.00001, kD = 0.2;
+	private static final double kP = 0.1, kI = 0.00001, kD = 0.2;
 	private PIDController _pid;
 
 	private double _targetAngle;

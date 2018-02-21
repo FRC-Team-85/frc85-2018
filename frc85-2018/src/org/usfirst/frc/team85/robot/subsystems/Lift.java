@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,10 +16,12 @@ public class Lift extends Subsystem {
 
 	private static Lift _instance = null;
 
-	private double kP = 0.05, kI = 0.000001, kD = 0.2;
+	private double kP = 0.00005, kI = 0.00000001, kD = 0.0000002;
 
 	private TalonSRX _leftOne, _leftTwo, _rightOne, _rightTwo;
 	private Solenoid _lock;
+
+	private PIDController _pid;
 
 	private Lift() {
 		_rightOne = new TalonSRX(Addresses.LIFT_RIGHT_ONE);
@@ -26,9 +29,9 @@ public class Lift extends Subsystem {
 		_rightOne.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		_rightOne.setSelectedSensorPosition(0, 0, 0);
 		_rightOne.selectProfileSlot(0, 0);
-		_rightOne.config_kP(0, kP, 0);
-		_rightOne.config_kI(0, kI, 0);
-		_rightOne.config_kD(0, kD, 0);
+		_rightOne.config_kP(0, kP, 20);
+		_rightOne.config_kI(0, kI, 20);
+		_rightOne.config_kD(0, kD, 20);
 		_rightOne.config_kF(0, 0, 0);
 
 		_rightTwo = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
@@ -45,9 +48,32 @@ public class Lift extends Subsystem {
 
 		_lock = new Solenoid(Addresses.LIFT_LOCK);
 
+		/*
+		 * _pid = new PIDController(kP, kI, kD, new PIDSource() { PIDSourceType
+		 * m_sourceType = PIDSourceType.kDisplacement;
+		 * 
+		 * @Override public double pidGet() { return getPosition(); }
+		 * 
+		 * @Override public void setPIDSourceType(PIDSourceType pidSource) {
+		 * m_sourceType = pidSource; }
+		 * 
+		 * @Override public PIDSourceType getPIDSourceType() { return m_sourceType; } },
+		 * d -> applyCorrection(d));
+		 * 
+		 * _pid.setAbsoluteTolerance(300); _pid.setSetpoint(0);
+		 * 
+		 * _pid.setOutputRange(-25, 25);
+		 * 
+		 * _pid.reset(); _pid.enable();
+		 */
+
 		SmartDashboard.putNumber("Lift/kP", kP);
 		SmartDashboard.putNumber("Lift/kI", kI);
 		SmartDashboard.putNumber("Lift/kD", kD);
+	}
+
+	private void applyCorrection(double d) {
+		setPower(getPower() + d);
 	}
 
 	public static Lift getInstance() {
@@ -66,11 +92,16 @@ public class Lift extends Subsystem {
 		kP = SmartDashboard.getNumber("Lift/kP", kP);
 		kI = SmartDashboard.getNumber("Lift/kI", kI);
 		kD = SmartDashboard.getNumber("Lift/kD", kD);
-		_rightOne.set(ControlMode.Position, -height);
+		_pid.setPID(kP, kI, kD);
+		_pid.setSetpoint(height);
 	}
 
 	public void setPower(double power) {
 		_rightOne.set(ControlMode.PercentOutput, power);
+	}
+
+	public double getPower() {
+		return _rightOne.getMotorOutputPercent();
 	}
 
 	public double getPosition() {

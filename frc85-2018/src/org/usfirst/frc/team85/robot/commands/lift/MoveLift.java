@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot.commands.lift;
 
+import org.usfirst.frc.team85.robot.OI;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -19,7 +20,15 @@ public class MoveLift extends Command {
 		super.initialize();
 		if (!(LimitSwitches.getInstance().getLowerLiftLimit() && (_power < 0))
 				&& !(LimitSwitches.getInstance().getUpperLiftLimit() && (_power > 0))) {
-			Lift.getInstance().setPower(_power);
+			if (OI.getInstance().isPowerLift()) {
+				if (_power > 0) {
+					Lift.getInstance().setPower(1.0);
+				} else {
+					Lift.getInstance().setPower(-.75);
+				}
+			} else {
+				Lift.getInstance().setPower(_power);
+			}
 		}
 	}
 

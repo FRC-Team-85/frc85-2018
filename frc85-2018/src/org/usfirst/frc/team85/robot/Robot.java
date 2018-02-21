@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -62,6 +63,7 @@ public class Robot extends IterativeRobot {
 		_diagnostics.log();
 		IMU.getInstance().show();
 		DriveTrain.getInstance().show();
+		LimitSwitches.getInstance().show();
 
 		Lift.getInstance().getPosition();
 		Encoders.getInstance().getLeftVelocity();

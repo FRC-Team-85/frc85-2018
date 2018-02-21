@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class DriverAssistCameras {
 	private UsbCamera _forwardCamera;
-	// private UsbCamera _reverseCamera;
+	private UsbCamera _reverseCamera;
 	private UsbCamera _currentCamera;
 
 	public DriverAssistCameras() {
@@ -19,9 +19,8 @@ public class DriverAssistCameras {
 					Thread.sleep(200);
 					_forwardCamera = CameraServer.getInstance().startAutomaticCapture(0);
 					Thread.sleep(200);
-					// _reverseCamera =
-					// CameraServer.getInstance().startAutomaticCapture(Addresses.REVERSE_CAMERA);
-					// Thread.sleep(200);
+					_reverseCamera = CameraServer.getInstance().startAutomaticCapture(1);
+					Thread.sleep(200);
 				} catch (Exception ex) {
 					System.out.println("Error initializing cameras: " + ex.toString());
 				}

@@ -1,12 +1,13 @@
 package org.usfirst.frc.team85.robot;
 
+import org.usfirst.frc.team85.robot.commands.CancelCubeSearch;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
-import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
+import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,7 +23,8 @@ public class OI {
 	private Joystick _liftOperatorStation;
 	private Joystick _miscOperatorStation;
 
-	private double _dtCurrentThreshold = 140;
+	private JoystickButton _powerButton;
+	private double _dtCurrentThreshold = 155;
 
 	private OI() {
 		_leftJoystick = new Joystick(Addresses.LEFT_JOYSTICK);
@@ -30,26 +32,33 @@ public class OI {
 		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
 		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
 
-		JoystickButton liftSwitchButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_SWITCH);
+		JoystickButton cubeSearchDriverButton = new JoystickButton(_rightJoystick, 2);
+		cubeSearchDriverButton.whenPressed(new CubeSearch());
+		cubeSearchDriverButton.whenReleased(new CancelCubeSearch());
+
+		JoystickButton liftPlatformSwitchButton = new JoystickButton(_liftOperatorStation,
+				Addresses.OS_LIFT_PLATFORM_SWITCH);
 		JoystickButton liftGroundButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_GROUND);
-		JoystickButton liftPlatformButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_PLATFORM);
+		JoystickButton liftLockButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_LOCK);
 		JoystickButton liftLowScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_LOW_SCALE);
 		JoystickButton liftMediumScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_MEDIUM_SCALE);
 		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
 
-		// liftSwitchButton.whenPressed(new MoveLift(-.25));
-		// liftSwitchButton.whenReleased(new MoveLift(0));
-		// liftLowScaleButton.whenPressed(new MoveLift(.3));
-		// liftLowScaleButton.whenReleased(new MoveLift(0));
+		liftPlatformSwitchButton.whenPressed(new MoveLift(.3));
+		liftPlatformSwitchButton.whenReleased(new MoveLift(0));
+		liftGroundButton.whenPressed(new MoveLift(-.25));
+		liftGroundButton.whenReleased(new MoveLift(0));
 
-		liftGroundButton.whenPressed(new SetLiftHeight(1000));
-		liftPlatformButton.whenPressed(new SetLiftHeight(2000));
-		liftSwitchButton.whenPressed(new SetLiftHeight(3000));
-		liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
-		liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
-		liftHighScaleButton.whenPressed(new SetLiftHeight(6000));
-		liftDoubleScaleButton.whenPressed(new SetLiftHeight(7000));
+//		 liftGroundButton.whenPressed(new SetLiftHeight(1000));
+//		 liftPlatformSwitchButton.whenPressed(new SetLiftHeight(2000));
+//		 liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
+//		 liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
+//		 liftHighScaleButton.whenPressed(new SetLiftHeight(6000));
+//		 liftDoubleScaleButton.whenPressed(new SetLiftHeight(7000));
+
+		liftLockButton.whenPressed(new LockLift(true));
+		liftLockButton.whenReleased(new LockLift(false));
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
 		JoystickButton protectButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_PROTECT);
@@ -57,10 +66,8 @@ public class OI {
 		JoystickButton intakeReverseButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_INTAKE_REVERSE);
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
-		JoystickButton liftLockSwitch = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_LEFT_NUKE_SWITCH);
-		// JoystickButton rightNukeSwitch = new JoystickButton(_miscOperatorStation,
-		// Addresses.OS_MISC_RIGHT_NUKE_SWITCH);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
+		_powerButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_POWER_BUTTON);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -73,10 +80,8 @@ public class OI {
 		compressorOnButton.whenPressed(new CompressorActive(true));
 		compressorOffButton.whenPressed(new CompressorActive(false));
 
-		liftLockSwitch.whenPressed(new LockLift(true));
-		liftLockSwitch.whenReleased(new LockLift(false));
-
 		searchCubeButton.whenPressed(new CubeSearch());
+		searchCubeButton.whenReleased(new CancelCubeSearch());
 
 		SmartDashboard.putNumber("High Amplitude", .65);
 		SmartDashboard.putNumber("Low Amplitude", .35);
@@ -190,5 +195,9 @@ public class OI {
 
 	public boolean isFPS() {
 		return _rightJoystick.getRawButton(1);
+	}
+
+	public boolean isPowerLift() {
+		return _powerButton.get();
 	}
 }
