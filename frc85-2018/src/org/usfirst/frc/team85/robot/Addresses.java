@@ -64,4 +64,5 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_LEFT_NUKE_SWITCH = 7;
 	public final static int OS_MISC_RIGHT_NUKE_SWITCH = 8;
+	public final static int OS_MISC_CUBE_SEARCH = 9;
 }

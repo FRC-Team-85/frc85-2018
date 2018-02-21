@@ -15,6 +15,8 @@ public class Lift extends Subsystem {
 
 	private static Lift _instance = null;
 
+	private double kP = 0.05, kI = 0.000001, kD = 0.2;
+
 	private TalonSRX _leftOne, _leftTwo, _rightOne, _rightTwo;
 	private Solenoid _lock;
 
@@ -23,6 +25,11 @@ public class Lift extends Subsystem {
 		_rightOne.setNeutralMode(NeutralMode.Brake);
 		_rightOne.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 		_rightOne.setSelectedSensorPosition(0, 0, 0);
+		_rightOne.selectProfileSlot(0, 0);
+		_rightOne.config_kP(0, kP, 0);
+		_rightOne.config_kI(0, kI, 0);
+		_rightOne.config_kD(0, kD, 0);
+		_rightOne.config_kF(0, 0, 0);
 
 		_rightTwo = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
 		_rightTwo.setNeutralMode(NeutralMode.Brake);
@@ -37,6 +44,10 @@ public class Lift extends Subsystem {
 		_leftTwo.follow(_rightOne);
 
 		_lock = new Solenoid(Addresses.LIFT_LOCK);
+
+		SmartDashboard.putNumber("Lift/kP", kP);
+		SmartDashboard.putNumber("Lift/kI", kI);
+		SmartDashboard.putNumber("Lift/kD", kD);
 	}
 
 	public static Lift getInstance() {
@@ -52,7 +63,10 @@ public class Lift extends Subsystem {
 	}
 
 	public void setHeight(double height) {
-		_rightOne.set(ControlMode.Position, height);
+		kP = SmartDashboard.getNumber("Lift/kP", kP);
+		kI = SmartDashboard.getNumber("Lift/kI", kI);
+		kD = SmartDashboard.getNumber("Lift/kD", kD);
+		_rightOne.set(ControlMode.Position, -height);
 	}
 
 	public void setPower(double power) {

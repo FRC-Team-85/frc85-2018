@@ -10,14 +10,20 @@ public class Autonomous extends CommandGroup {
 	private String _fieldKey;
 
 	public Autonomous() {
-		addSequential(new DriveStraightTimer(1.0, 3));
-		addSequential(new SpinExactDegrees(90));
-		addSequential(new DriveStraightTimer(1.0, 3));
-		addSequential(new SpinExactDegrees(-90));
-		addSequential(new DriveStraightTimer(.5, 2));
+
 	}
 
-	public void setKey(String fieldKey) {
+	public void init(String fieldKey) {
 		_fieldKey = fieldKey;
+		build();
+		start();
+	}
+
+	private void build() {
+		addSequential(new DriveStraightTimer(.5, 3));
+		addSequential(new SpinExactDegrees(90));
+		addSequential(new DriveStraightTimer(.5, 3));
+		addSequential(new SpinExactDegrees(-90));
+		addSequential(new DriveStraightTimer(.25, 1.5));
 	}
 }

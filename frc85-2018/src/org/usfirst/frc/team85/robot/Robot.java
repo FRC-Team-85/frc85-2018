@@ -27,9 +27,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		_autonomous.setKey(fieldKey);
-		_autonomous.start();
+		_autonomous.init(DriverStation.getInstance().getGameSpecificMessage());
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriveStraight extends Command {
 
 	private static final double kP = 0.1, kI = 0.000001, kD = 0.2;
-	// .1,.000001,.2
 
 	private PIDController _pid;
 
