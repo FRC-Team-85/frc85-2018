@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Intake extends Subsystem {
 
@@ -51,10 +50,10 @@ public class Intake extends Subsystem {
 	}
 
 	public void apply(boolean apply) {
-		_applicationSolenoid.set(apply);
+		_applicationSolenoid.set(!apply);
 	}
 
 	public boolean isApplied() {
-		return _applicationSolenoid.get();
+		return !_applicationSolenoid.get();
 	}
 }

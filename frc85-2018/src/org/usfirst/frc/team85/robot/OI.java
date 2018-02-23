@@ -8,6 +8,7 @@ import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
+import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -45,17 +46,17 @@ public class OI {
 		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
 
-		liftPlatformSwitchButton.whenPressed(new MoveLift(.3));
-		liftPlatformSwitchButton.whenReleased(new MoveLift(0));
-		liftGroundButton.whenPressed(new MoveLift(-.25));
-		liftGroundButton.whenReleased(new MoveLift(0));
+		 liftPlatformSwitchButton.whenPressed(new MoveLift(.3));
+		 liftPlatformSwitchButton.whenReleased(new MoveLift(0));
+		 liftGroundButton.whenPressed(new MoveLift(-.25));
+		 liftGroundButton.whenReleased(new MoveLift(0));
 
-//		 liftGroundButton.whenPressed(new SetLiftHeight(1000));
-//		 liftPlatformSwitchButton.whenPressed(new SetLiftHeight(2000));
-//		 liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
-//		 liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
-//		 liftHighScaleButton.whenPressed(new SetLiftHeight(6000));
-//		 liftDoubleScaleButton.whenPressed(new SetLiftHeight(7000));
+		liftGroundButton.whenPressed(new SetLiftHeight(1000));
+		liftPlatformSwitchButton.whenPressed(new SetLiftHeight(2000));
+		liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
+		liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
+		liftHighScaleButton.whenPressed(new SetLiftHeight(10000));
+		liftDoubleScaleButton.whenPressed(new SetLiftHeight(20000));
 
 		liftLockButton.whenPressed(new LockLift(true));
 		liftLockButton.whenReleased(new LockLift(false));

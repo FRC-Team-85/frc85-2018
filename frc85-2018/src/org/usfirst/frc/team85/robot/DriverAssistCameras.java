@@ -46,6 +46,6 @@ public class DriverAssistCameras {
 	}
 
 	public void setReverse() {
-		// _currentCamera = _reverseCamera;
+		_currentCamera = _reverseCamera;
 	}
 }

@@ -64,16 +64,4 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_CUBE_SEARCH = 9;
 	public final static int OS_MISC_POWER_BUTTON = 10;
-
-	// Lift Encoder heights
-	public final static int HEIGHT_GROUND = 0;
-	public final static int HEIGHT_DRIVE = 0;
-	public final static int HEIGHT_PLATFORM = 0;
-	public final static int HEIGHT_SWITCH = 0;
-	public final static int HEIGHT_LOW_SCALE = 0;
-	public final static int HEIGHT_MEDIUM_SCALE = 0;
-	public final static int HEIGHT_HIGH_SCALE = 0;
-	public final static int HEIGHT_DOUBLE_SCALE = 0;
-	public final static int HEIGHT_CLIMB = 0;
-
 }

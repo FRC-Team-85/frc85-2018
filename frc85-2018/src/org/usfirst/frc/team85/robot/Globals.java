@@ -1,7 +1,6 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.sensors.Encoders;
-import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Gripper;
@@ -23,7 +22,7 @@ public class Globals {
 
 		OI.getInstance();
 
-		IMU.getInstance();
+		// IMU.getInstance();
 		LimitSwitches.getInstance();
 		Encoders.getInstance();
 

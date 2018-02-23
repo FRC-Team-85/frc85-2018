@@ -19,8 +19,10 @@ public class Encoders {
 	private static final double inchToFoot = 0.083333;
 
 	private Encoders() {
-		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B);
-		_rightDriveEncoder = new Encoder(Addresses.ENCODERS_RIGHT_A, Addresses.ENCODERS_RIGHT_B);
+		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B, false,
+				Encoder.EncodingType.k1X);
+		_rightDriveEncoder = new Encoder(Addresses.ENCODERS_RIGHT_A, Addresses.ENCODERS_RIGHT_B, false,
+				Encoder.EncodingType.k1X);
 
 		_leftDriveEncoder.setDistancePerPulse(1.0 / 256.0); // One rotation is 256 pulses
 		_rightDriveEncoder.setDistancePerPulse(1.0 / 256.0);
