@@ -53,7 +53,6 @@ public class Addresses {
 	public final static int OS_LIFT_MEDIUM_SCALE = 5;
 	public final static int OS_LIFT_HIGH_SCALE = 6;
 	public final static int OS_LIFT_DOUBLE_SCALE = 7;
-	public final static int OS_LIFT_CLIMB = 8;
 
 	// Misc Operator Station
 	public final static int OS_MISC_TOGGLE_GRIPPER = 1;
@@ -64,4 +63,5 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_CUBE_SEARCH = 9;
 	public final static int OS_MISC_POWER_BUTTON = 10;
+	public final static int OS_MISC_LIFT_CLIMB = 11;
 }

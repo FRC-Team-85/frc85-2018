@@ -1,12 +1,5 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.sensors.Encoders;
-import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
-import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team85.robot.subsystems.Gripper;
-import org.usfirst.frc.team85.robot.subsystems.Intake;
-import org.usfirst.frc.team85.robot.subsystems.Lift;
-
 import edu.wpi.first.wpilibj.Compressor;
 
 public class Globals {
@@ -15,19 +8,6 @@ public class Globals {
 	private Compressor _compressor;
 
 	private Globals() {
-		DriveTrain.getInstance();
-		Lift.getInstance();
-		Intake.getInstance();
-		Gripper.getInstance();
-
-		OI.getInstance();
-
-		// IMU.getInstance();
-		LimitSwitches.getInstance();
-		Encoders.getInstance();
-
-		// RangeFinder.getInstance();
-
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();

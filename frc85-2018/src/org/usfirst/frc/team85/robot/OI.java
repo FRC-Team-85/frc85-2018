@@ -6,6 +6,7 @@ import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
+import org.usfirst.frc.team85.robot.commands.lift.Climb;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
@@ -13,6 +14,7 @@ import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class OI {
@@ -24,14 +26,20 @@ public class OI {
 	private Joystick _liftOperatorStation;
 	private Joystick _miscOperatorStation;
 
-	private JoystickButton _powerButton;
-	private double _dtCurrentThreshold = 155;
+	private Command _liftUp, _liftDown, _liftStop;
+	private boolean _liftStopped = false;
+
+	private double _speedLeft = 0, _speedRight = 0, _power = 1, _turningAmplitude = 0;
 
 	private OI() {
 		_leftJoystick = new Joystick(Addresses.LEFT_JOYSTICK);
 		_rightJoystick = new Joystick(Addresses.RIGHT_JOYSTICK);
 		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
 		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
+
+		_liftUp = new MoveLift(.25);
+		_liftDown = new MoveLift(-.25);
+		_liftStop = new MoveLift(0);
 
 		JoystickButton cubeSearchDriverButton = new JoystickButton(_rightJoystick, 2);
 		cubeSearchDriverButton.whenPressed(new CubeSearch());
@@ -45,20 +53,17 @@ public class OI {
 		JoystickButton liftMediumScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_MEDIUM_SCALE);
 		JoystickButton liftHighScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_HIGH_SCALE);
 		JoystickButton liftDoubleScaleButton = new JoystickButton(_liftOperatorStation, Addresses.OS_LIFT_DOUBLE_SCALE);
+		JoystickButton liftClimbButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_LIFT_CLIMB);
 
-		 liftPlatformSwitchButton.whenPressed(new MoveLift(.3));
-		 liftPlatformSwitchButton.whenReleased(new MoveLift(0));
-		 liftGroundButton.whenPressed(new MoveLift(-.25));
-		 liftGroundButton.whenReleased(new MoveLift(0));
+		liftGroundButton.whenPressed(new SetLiftHeight(Variables.LIFT_GROUND));
+		liftPlatformSwitchButton.whenPressed(new SetLiftHeight(Variables.LIFT_SWITCH));
+		liftLowScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE_LOW));
+		liftMediumScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE));
+		liftHighScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		liftDoubleScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE_HIGH_DOUBLE));
+		liftClimbButton.whenPressed(new SetLiftHeight(Variables.LIFT_CLIMB));
 
-		liftGroundButton.whenPressed(new SetLiftHeight(1000));
-		liftPlatformSwitchButton.whenPressed(new SetLiftHeight(2000));
-		liftLowScaleButton.whenPressed(new SetLiftHeight(4000));
-		liftMediumScaleButton.whenPressed(new SetLiftHeight(5000));
-		liftHighScaleButton.whenPressed(new SetLiftHeight(10000));
-		liftDoubleScaleButton.whenPressed(new SetLiftHeight(20000));
-
-		liftLockButton.whenPressed(new LockLift(true));
+		liftLockButton.whenPressed(new Climb());
 		liftLockButton.whenReleased(new LockLift(false));
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
@@ -68,7 +73,6 @@ public class OI {
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
-		_powerButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_POWER_BUTTON);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -83,11 +87,21 @@ public class OI {
 
 		searchCubeButton.whenPressed(new CubeSearch());
 		searchCubeButton.whenReleased(new CancelCubeSearch());
+	}
 
-		SmartDashboard.putNumber("High Amplitude", .65);
-		SmartDashboard.putNumber("Low Amplitude", .35);
+	public void periodic() {
+		double joystick = _liftOperatorStation.getRawAxis(1);
 
-		SmartDashboard.putNumber("DriveTrain Current Treshold", _dtCurrentThreshold);
+		if (joystick == -1) {
+			_liftUp.start();
+			_liftStopped = false;
+		} else if (joystick == 1) {
+			_liftDown.start();
+			_liftStopped = false;
+		} else if (!_liftStopped) {
+			_liftStop.start();
+			_liftStopped = true;
+		}
 	}
 
 	public static OI getInstance() {
@@ -96,8 +110,6 @@ public class OI {
 		}
 		return _instance;
 	}
-
-	private double _speedLeft = 0, _speedRight = 0, _power = 1, _amplitude = .35;
 
 	public double[] getSpeedInput() {
 
@@ -148,16 +160,16 @@ public class OI {
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					_speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude;
 				} else {
-					_speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
+					_speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude;
 				}
 
 			} else if (_leftJoystick.getRawAxis(0) < -.1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					_speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude;
 				} else {
-					_speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _amplitude;
+					_speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude;
 				}
 			}
 		}
@@ -174,9 +186,9 @@ public class OI {
 			_power = 3;
 		}
 		if (_leftJoystick.getRawButton(1)) {
-			_amplitude = SmartDashboard.getNumber("High Amplitude", .65);
+			_turningAmplitude = Variables.getInstance().getTurningHighAmplitude();
 		} else {
-			_amplitude = SmartDashboard.getNumber("Low Amplitude", .35);
+			_turningAmplitude = Variables.getInstance().getTurningLowAmplitude();
 		}
 	}
 
@@ -184,10 +196,8 @@ public class OI {
 	 * Sets transmission automatically
 	 */
 	private void autoTrans() {
-		SmartDashboard.putNumber("DriveTrain Total Current", DriveTrain.getInstance().getTotalCurrent());
-
-		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > SmartDashboard
-				.getNumber("DriveTrain Current Treshold", _dtCurrentThreshold)) {
+		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > Variables.getInstance()
+				.getDriveTrainCurrentThreshold()) {
 			DriveTrain.getInstance().setHighGear(false);
 		} else {
 			DriveTrain.getInstance().setHighGear(true);
@@ -198,7 +208,7 @@ public class OI {
 		return _rightJoystick.getRawButton(1);
 	}
 
-	public boolean isPowerLift() {
-		return _powerButton.get();
+	public double getPower() {
+		return _power;
 	}
 }

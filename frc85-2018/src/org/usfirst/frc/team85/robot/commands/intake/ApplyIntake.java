@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.commands.intake;
 
 import org.usfirst.frc.team85.robot.subsystems.Intake;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,7 +20,11 @@ public class ApplyIntake extends Command {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		Intake.getInstance().apply(_apply);
+		if (!Lift.getInstance().isLifted()) {
+			Intake.getInstance().apply(_apply);
+		} else {
+			Intake.getInstance().apply(false);
+		}
 	}
 
 	@Override

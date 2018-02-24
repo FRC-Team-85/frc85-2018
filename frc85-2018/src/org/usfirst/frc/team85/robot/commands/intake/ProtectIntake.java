@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.commands.intake;
 
 import org.usfirst.frc.team85.robot.subsystems.Intake;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,7 +20,11 @@ public class ProtectIntake extends Command {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		Intake.getInstance().protect(_protect);
+		if (!Lift.getInstance().isLifted()) {
+			Intake.getInstance().protect(_protect);
+		} else {
+			Intake.getInstance().protect(true);
+		}
 	}
 
 	@Override

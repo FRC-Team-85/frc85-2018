@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot.subsystems;
 import org.usfirst.frc.team85.robot.Addresses;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -17,7 +18,9 @@ public class Intake extends Subsystem {
 
 	private Intake() {
 		_leftMotor = new TalonSRX(Addresses.INTAKE_LEFT_MOTOR);
+		_leftMotor.setNeutralMode(NeutralMode.Coast);
 		_rightMotor = new TalonSRX(Addresses.INTAKE_RIGHT_MOTOR);
+		_rightMotor.setNeutralMode(NeutralMode.Coast);
 
 		_protectionSolenoid = new Solenoid(Addresses.INTAKE_PROTECTION_SOLENOID);
 		_applicationSolenoid = new Solenoid(Addresses.INTAKE_APPLICATION_SOLENOID);

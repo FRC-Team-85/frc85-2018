@@ -12,20 +12,22 @@ public class Encoders {
 	private Encoder _leftDriveEncoder;
 	private Encoder _rightDriveEncoder;
 
-	private static final double wheelDiameter = 4.0; // inches
-	private static final double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
-	private static final double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of
-														// gear
+	private double wheelDiameter = 4.0; // inches
+	private double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
+	private double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of
+										// gear
 	private static final double inchToFoot = 0.083333;
+	private double pulseperRevolution = 256.0;
+	private double pulseWidth = wheelCircumference / gearRatio / pulseperRevolution;
 
 	private Encoders() {
 		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B, false,
-				Encoder.EncodingType.k1X);
+				Encoder.EncodingType.k4X);
 		_rightDriveEncoder = new Encoder(Addresses.ENCODERS_RIGHT_A, Addresses.ENCODERS_RIGHT_B, false,
-				Encoder.EncodingType.k1X);
+				Encoder.EncodingType.k4X);
 
-		_leftDriveEncoder.setDistancePerPulse(1.0 / 256.0); // One rotation is 256 pulses
-		_rightDriveEncoder.setDistancePerPulse(1.0 / 256.0);
+		_leftDriveEncoder.setDistancePerPulse(pulseWidth); // One rotation is 256 pulses
+		_rightDriveEncoder.setDistancePerPulse(pulseWidth);
 	}
 
 	public static Encoders getInstance() {
@@ -49,15 +51,13 @@ public class Encoders {
 	}
 
 	public double getLeftVelocity() { // In feet/sec
-		double rate = getLeftDriveRate();
-		double velocity = wheelCircumference * gearRatio * inchToFoot * rate;
+		double velocity = getLeftDriveRate() * inchToFoot;
 		SmartDashboard.putNumber("Left Velocity", velocity);
 		return velocity;
 	}
 
 	public double getRightVelocity() { // In feet/sec
-		double rate = getRightDriveRate();
-		double velocity = wheelCircumference * gearRatio * inchToFoot * rate;
+		double velocity = getRightDriveRate() * inchToFoot;
 		SmartDashboard.putNumber("Right Velocity", velocity);
 		return velocity;
 	}

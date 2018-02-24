@@ -1,9 +1,6 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
-import org.usfirst.frc.team85.robot.sensors.Encoders;
-import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
-import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -26,6 +23,7 @@ public class Robot extends IterativeRobot {
 		_autonomous = new Autonomous();
 
 		Intake.getInstance().apply(false);
+		Lift.getInstance().lock(false);
 	}
 
 	@Override
@@ -36,7 +34,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		log();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		_diagnostics.log();
 	}
 
 	@Override
@@ -48,7 +48,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		log();
+		OI.getInstance().periodic();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		_diagnostics.log();
 	}
 
 	@Override
@@ -61,14 +64,9 @@ public class Robot extends IterativeRobot {
 
 	}
 
-	private void log() {
-		_diagnostics.log();
-		// IMU.getInstance().show();
-		DriveTrain.getInstance().show();
-		LimitSwitches.getInstance().show();
-
-		Lift.getInstance().getPosition();
-		Encoders.getInstance().getLeftVelocity();
-		Encoders.getInstance().getRightVelocity();
+	@Override
+	public void disabledInit() {
+		super.disabledInit();
+		Lift.getInstance().setDesiredHeight(-1);
 	}
 }

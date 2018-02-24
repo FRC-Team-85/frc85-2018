@@ -1,6 +1,8 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.Variables;
+import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -15,6 +17,9 @@ public class Lift extends Subsystem {
 
 	private static Lift _instance = null;
 
+	private double _desiredHeight = 0;
+	private double _overrideSpeed = 0;
+
 	private TalonSRX _leftOne, _leftTwo, _rightOne, _rightTwo;
 	private Solenoid _lock;
 
@@ -26,16 +31,16 @@ public class Lift extends Subsystem {
 		_rightOne.selectProfileSlot(0, 0);
 
 		_rightTwo = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
-		_rightTwo.setNeutralMode(NeutralMode.Brake);
 		_rightTwo.follow(_rightOne);
+		_rightTwo.setNeutralMode(NeutralMode.Brake);
 
 		_leftOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
-		_leftOne.setNeutralMode(NeutralMode.Brake);
 		_leftOne.follow(_rightOne);
+		_leftOne.setNeutralMode(NeutralMode.Brake);
 
 		_leftTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
-		_leftTwo.setNeutralMode(NeutralMode.Brake);
 		_leftTwo.follow(_rightOne);
+		_leftTwo.setNeutralMode(NeutralMode.Brake);
 
 		_lock = new Solenoid(Addresses.LIFT_LOCK);
 	}
@@ -52,23 +57,76 @@ public class Lift extends Subsystem {
 
 	}
 
-	public void setPower(double power) {
-		if (Math.abs(power) > .75) {
-			power = .75 * (power / Math.abs(power));
-		}
-		_rightOne.set(ControlMode.PercentOutput, power);
-	}
-
 	public double getPower() {
 		return _rightOne.getMotorOutputPercent();
 	}
 
+	public void setDesiredHeight(double height) {
+		_desiredHeight = height;
+	}
+
+	public double getDesiredHeight() {
+		return _desiredHeight;
+	}
+
+	public void setOverrideSpeed(double speed) {
+		_overrideSpeed = speed;
+		_desiredHeight = getPosition();
+	}
+
+	public void periodic() {
+		double speed = 0;
+
+		if (_overrideSpeed != 0) {
+			speed = _overrideSpeed;
+		} else {
+			double error = Math.abs(_desiredHeight - getPosition());
+			SmartDashboard.putNumber("Lift Position Error", error);
+
+			if (_desiredHeight > getPosition()) {
+				speed = Variables.getInstance().getLiftUpSpeed();
+			} else {
+				speed = Variables.getInstance().getLiftDownSpeed();
+			}
+
+			if (error <= 2 * Variables.LIFT_TOLERANCE) {
+				speed *= .5;
+			}
+
+			if (error <= Variables.LIFT_TOLERANCE) {
+				speed = 0;
+			}
+		}
+
+		if ((LimitSwitches.getInstance().getUpperLiftLimit() && speed > 0)
+				|| (LimitSwitches.getInstance().getLowerLiftLimit() && speed < 0)) {
+			speed = 0;
+		}
+
+		if (_desiredHeight == -1) {
+			speed = 0;
+		}
+
+		if (LimitSwitches.getInstance().getLowerLiftLimit()) {
+			_rightOne.setSelectedSensorPosition(0, 0, 0);
+		}
+
+		_rightOne.set(ControlMode.PercentOutput, speed);
+	}
+
 	public double getPosition() {
-		SmartDashboard.putNumber("Sel Sensor Position", -_rightOne.getSelectedSensorPosition(0));
 		return -_rightOne.getSelectedSensorPosition(0);
 	}
 
 	public void lock(boolean lock) {
-		_lock.set(lock);
+		_lock.set(!lock);
+	}
+
+	public boolean isLocked() {
+		return !_lock.get();
+	}
+
+	public boolean isLifted() {
+		return (getPosition() > Variables.LIFT_TOLERANCE);
 	}
 }

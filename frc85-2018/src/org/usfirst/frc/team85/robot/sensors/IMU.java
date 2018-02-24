@@ -44,36 +44,7 @@ public class IMU {
 		return _pigeon.getFusedHeading();
 	}
 
-	public void show() {
-		SmartDashboard.putNumber("AbsoluteCompassHeading", _pigeon.getAbsoluteCompassHeading());
-		SmartDashboard.putNumber("CompassFieldStrength", _pigeon.getCompassFieldStrength());
-		SmartDashboard.putNumber("CompassHeading", _pigeon.getCompassHeading());
-		SmartDashboard.putNumber("FusedHeading", _pigeon.getFusedHeading());
-		SmartDashboard.putNumber("Temp", _pigeon.getTemp());
-		SmartDashboard.putNumber("FirmwareVersion", _pigeon.getFirmwareVersion());
-
-		double[] q6 = new double[4];
-		_pigeon.get6dQuaternion(q6);
-		SmartDashboard.putString("6dQuaternion", q6[0] + " : " + q6[1] + " : " + q6[2] + " : " + q6[3]);
-
-		double[] acc = new double[3];
-		_pigeon.getAccelerometerAngles(acc);
-		SmartDashboard.putString("AccelerometerAngles", acc[0] + " : " + acc[1] + " : " + acc[2]);
-
-		double[] gyro = new double[3];
-		_pigeon.getAccumGyro(gyro);
-		SmartDashboard.putString("AccumGyro", gyro[0] + " : " + gyro[1] + " : " + gyro[2]);
-
-		short[] rawmag = new short[3];
-		_pigeon.getRawMagnetometer(rawmag);
-		SmartDashboard.putString("RawMagnetometer", rawmag[0] + " : " + rawmag[1] + " : " + rawmag[2]);
-
-		double[] rawgyro = new double[3];
-		_pigeon.getRawGyro(rawgyro);
-		SmartDashboard.putString("RawGyro", rawgyro[0] + " : " + rawgyro[1] + " : " + rawgyro[2]);
-
-		double[] ypr = new double[3];
-		_pigeon.getYawPitchRoll(ypr);
-		SmartDashboard.putString("YawPitchRoll", ypr[0] + " : " + ypr[1] + " : " + ypr[2]);
+	public PigeonIMU getIMU() {
+		return _pigeon;
 	}
 }
