@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.commands.CancelCubeSearch;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
+import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
@@ -40,6 +41,9 @@ public class OI {
 		_liftUp = new MoveLift(.25);
 		_liftDown = new MoveLift(-.25);
 		_liftStop = new MoveLift(0);
+
+		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
+		manualTrans.whenPressed(new ToggleTransmission());
 
 		JoystickButton cubeSearchDriverButton = new JoystickButton(_rightJoystick, 2);
 		cubeSearchDriverButton.whenPressed(new CubeSearch());
@@ -199,8 +203,6 @@ public class OI {
 		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > Variables.getInstance()
 				.getDriveTrainCurrentThreshold()) {
 			DriveTrain.getInstance().setHighGear(false);
-		} else {
-			DriveTrain.getInstance().setHighGear(true);
 		}
 	}
 
