@@ -42,11 +42,11 @@ public class Encoders {
 		_rightDriveEncoder.reset();
 	}
 
-	public double getLeftDriveRate() {
+	private double getLeftDriveRate() {
 		return _leftDriveEncoder.getRate();
 	}
 
-	public double getRightDriveRate() {
+	private double getRightDriveRate() {
 		return _rightDriveEncoder.getRate();
 	}
 
@@ -60,5 +60,13 @@ public class Encoders {
 		double velocity = getRightDriveRate() * inchToFoot;
 		SmartDashboard.putNumber("Right Velocity", velocity);
 		return velocity;
+	}
+
+	public double getRightDistance() {
+		return _rightDriveEncoder.getDistance() * inchToFoot;
+	}
+
+	public double getLeftDistance() {
+		return _leftDriveEncoder.getDistance() * inchToFoot;
 	}
 }

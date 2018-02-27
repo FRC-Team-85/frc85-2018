@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot.commands.drivetrain;
 
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
@@ -65,13 +66,13 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		// return (RangeFinder.getInstance().getDistance() <= _distance);
-		return false;
+		return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2 > _distance;
 	}
 
 	@Override
 	protected void end() {
 		_pid.disable();
 		DriveTrain.getInstance().drive(0, 0);
+		Encoders.getInstance().driveEncoderReset();
 	}
 }

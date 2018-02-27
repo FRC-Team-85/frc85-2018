@@ -11,6 +11,7 @@ import org.usfirst.frc.team85.robot.commands.lift.Climb;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -38,8 +39,8 @@ public class OI {
 		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
 		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
 
-		_liftUp = new MoveLift(.25);
-		_liftDown = new MoveLift(-.25);
+		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
+		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
 		_liftStop = new MoveLift(0);
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
@@ -203,6 +204,11 @@ public class OI {
 		if (Math.abs(DriveTrain.getInstance().getTotalCurrent()) > Variables.getInstance()
 				.getDriveTrainCurrentThreshold()) {
 			DriveTrain.getInstance().setHighGear(false);
+		} else if (Math.abs(Encoders.getInstance().getLeftVelocity()) > Variables.getInstance()
+				.getDriveTrainHighGearThreshold()
+				&& Math.abs(Encoders.getInstance().getRightVelocity()) > Variables.getInstance()
+						.getDriveTrainHighGearThreshold()) {
+			DriveTrain.getInstance().setHighGear(true);
 		}
 	}
 

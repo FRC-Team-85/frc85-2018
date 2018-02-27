@@ -90,7 +90,7 @@ public class Lift extends Subsystem {
 			}
 
 			if (error <= 2 * Variables.LIFT_TOLERANCE) {
-				speed *= .5;
+				speed *= .2;
 			}
 
 			if (error <= Variables.LIFT_TOLERANCE) {

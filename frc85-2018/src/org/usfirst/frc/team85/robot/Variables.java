@@ -24,10 +24,12 @@ public class Variables {
 	public static final double LIFT_TOLERANCE = 400;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
+	private static final double DefaultDriveTrainHighGearThreshold = 4.0;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
-	private static final double DefaultLiftUpSpeed = .4;
-	private static final double DefaultLiftDownSpeed = -.25;
+	private static final double DefaultLiftUpSpeed = .65;
+	private static final double DefaultLiftDownSpeed = -.55;
+	private static final double DefaultLiftManualSpeed = .25;
 
 	private Variables() {
 		SmartDashboard.putNumber("DriveTrain Current Threshold", DefaultDriveTrainCurrentThreshold);
@@ -35,6 +37,8 @@ public class Variables {
 		SmartDashboard.putNumber("Low FPS Turn Amplitude", DefaultTurningLowAmplitude);
 		SmartDashboard.putNumber("Lift Up Speed", DefaultLiftUpSpeed);
 		SmartDashboard.putNumber("Lift Down Speed", DefaultLiftDownSpeed);
+		SmartDashboard.putNumber("Lift Manual Speed", DefaultLiftManualSpeed);
+		SmartDashboard.putNumber("Drive Train Current Threshold", DefaultDriveTrainHighGearThreshold);
 	}
 
 	public static Variables getInstance() {
@@ -63,6 +67,14 @@ public class Variables {
 
 	public double getLiftDownSpeed() {
 		return SmartDashboard.getNumber("Lift Down Speed", DefaultLiftDownSpeed);
+	}
+
+	public double getLiftManualSpeed() {
+		return SmartDashboard.getNumber("Lift Manual Speed", DefaultLiftManualSpeed);
+	}
+
+	public double getDriveTrainHighGearThreshold() {
+		return SmartDashboard.getNumber("Drive Train Current Threshold", DefaultDriveTrainHighGearThreshold);
 	}
 
 	public void outputVariables() {
@@ -129,5 +141,8 @@ public class Variables {
 
 		SmartDashboard.putNumber("Left Drivetrain Encoder Velocity", Encoders.getInstance().getLeftVelocity());
 		SmartDashboard.putNumber("Right Drivetrain Encoder Velocity", Encoders.getInstance().getRightVelocity());
+
+		SmartDashboard.putNumber("Left Drivetrain Encoder Position", Encoders.getInstance().getLeftDistance());
+		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
 	}
 }
