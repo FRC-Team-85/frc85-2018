@@ -1,18 +1,16 @@
-package org.usfirst.frc.team85.robot.auto;
+package org.usfirst.frc.team85.robot;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
-import org.usfirst.frc.team85.robot.Globals;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 public class Diagnostics {
 
-	Globals struct = Globals.getInstance();
-
 	File log;
 	BufferedWriter out = null;
+	private long _timestamp = System.currentTimeMillis();
 
 	public void init() {
 		try {
@@ -24,25 +22,26 @@ public class Diagnostics {
 			if (log.exists() == false) {
 				log.createNewFile();
 				out = new BufferedWriter(new FileWriter(log, true));
-				out.append("GyroPIDError");
+				out.append("Match Time,Left Front,Left Back,Right Front,Right Back,Compressor");
 				out.newLine();
 			}
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
 		}
-
+		_timestamp = System.currentTimeMillis();
 	}
 
-	public void log(ArrayList<Double> data) {
+	public void log() {
 		try {
 
-			String output = "";
-			for (double d : data) {
-				output += d + ",";
-			}
-			output = output.substring(0, output.length() - 1);
+			String matchTime = Double.toString(System.currentTimeMillis() - _timestamp);
+			String LF = Double.toString(DriveTrain.getInstance().getLeftFrontCurrent());
+			String LB = Double.toString(DriveTrain.getInstance().getLeftBackCurrent());
+			String RF = Double.toString(DriveTrain.getInstance().getRightFrontCurrent());
+			String RB = Double.toString(DriveTrain.getInstance().getRightBackCurrent());
+			String comp = Double.toString(Globals.getInstance().getCompressor().getCompressorCurrent());
 
-			out.append(output);
+			out.append(matchTime + "," + LF + "," + LB + "," + RF + "," + RB + "," + comp);
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());

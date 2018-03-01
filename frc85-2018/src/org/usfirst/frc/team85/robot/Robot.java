@@ -1,51 +1,72 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.auto.Auto;
+import org.usfirst.frc.team85.robot.commands.Autonomous;
+import org.usfirst.frc.team85.robot.subsystems.Intake;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Robot extends IterativeRobot {
 
-	Globals global;
-	Auto auto;
+	private Autonomous _autonomous;
+	private Diagnostics _diagnostics;
 
 	@Override
 	public void robotInit() {
-		global = Globals.getInstance();
+		Globals.getInstance();
 
-		SmartDashboard.putNumber("High Amplitude", .65);
-		SmartDashboard.putNumber("Low Amplitude", .35);
+		_diagnostics = new Diagnostics();
+		_diagnostics.init();
+
+		_autonomous = new Autonomous();
+
+		Intake.getInstance().apply(false);
+		Lift.getInstance().lock(false);
 	}
 
 	@Override
 	public void autonomousInit() {
-		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		auto = new Auto(fieldKey);
+		_autonomous.init(DriverStation.getInstance().getGameSpecificMessage());
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		double[] temp = auto.autoTick();
+		Scheduler.getInstance().run();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		_diagnostics.log();
+	}
 
-		global.getMotorGroupLeft().setPower(temp[0]);
-		global.getMotorGroupRight().setPower(temp[1]);
+	@Override
+	public void teleopInit() {
+		super.teleopInit();
+		_autonomous.cancel();
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		Drive.periodic();
-		SmartDashboard.putNumber("RangeFinder", global.getRangeFinder().getDistance());
+		Scheduler.getInstance().run();
+		OI.getInstance().periodic();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		_diagnostics.log();
 	}
 
 	@Override
 	public void testPeriodic() {
 
 	}
-	
+
 	@Override
 	public void disabledPeriodic() {
-		//System.out.println("Range finder verify: " + _rangeFinder.verify());
+
+	}
+
+	@Override
+	public void disabledInit() {
+		super.disabledInit();
+		Lift.getInstance().setDesiredHeight(-1);
 	}
 }
