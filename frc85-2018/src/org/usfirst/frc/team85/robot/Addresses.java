@@ -32,7 +32,10 @@ public class Addresses {
 	public static final int INTAKE_APPLICATION_SOLENOID = 1;
 
 	// Sensors
-	public static final int RANGEFINDER = 112;
+	public static final int RANGEFINDER_FRONT = 50;
+	public static final int RANGEFINDER_LEFT = 52;
+	public static final int RANGEFINDER_RIGHT = 54;
+	public static final int RANGEFINDER_BACK = 56;
 	public static final int IMU_TALON = 6;
 	public static final int LIFT_LOWER_LIMIT_SWITCH = 8;
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;

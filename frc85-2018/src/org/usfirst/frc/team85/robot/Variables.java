@@ -151,6 +151,9 @@ public class Variables {
 		SmartDashboard.putNumber("Left Drivetrain Encoder Position", Encoders.getInstance().getLeftDistance());
 		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
 		
-		SmartDashboard.putNumber("RangeFinder", RangeFinder.getInstance().getDistance());
+		SmartDashboard.putNumber("RangeFinder Front", RangeFinder.getInstance().getDistanceFront());
+		SmartDashboard.putNumber("RangeFinder Left", RangeFinder.getInstance().getDistanceLeft());
+		SmartDashboard.putNumber("RangeFinder Right", RangeFinder.getInstance().getDistanceRight());
+		SmartDashboard.putNumber("RangeFinder Back", RangeFinder.getInstance().getDistanceBack());
 	}
 }
