@@ -2,6 +2,7 @@ package org.usfirst.frc.team85.robot.commands;
 
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
+import org.usfirst.frc.team85.robot.commands.drivetrain.PowerCurve;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.OpenGripper;
 import org.usfirst.frc.team85.robot.commands.lift.LiftPositionWait;
@@ -17,7 +18,8 @@ public class Autonomous extends CommandGroup {
 
 	public void init(String fieldKey) {
 		build1();
-		build2();
+		// build2();
+		// build3();
 
 		switch (fieldKey) {
 		case "LLL":
@@ -33,7 +35,7 @@ public class Autonomous extends CommandGroup {
 	}
 
 	private void build1() {
-		addSequential(new DriveStraight(1.0, 10));
+		addSequential(new DriveStraight(1.0, 15));
 		addSequential(new SpinExactDegrees(-90));
 
 		addParallel(new SetLiftHeight(Variables.LIFT_SWITCH));
@@ -46,7 +48,9 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(-.5, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
-		addParallel(new DriveStraight(.5, 3));
+		addSequential(new Wait(1));
+
+		addParallel(new DriveStraight(.5, 6));
 		addSequential(new CubeSearch());
 
 		addSequential(new DriveStraight(-.5, 3));
@@ -67,5 +71,19 @@ public class Autonomous extends CommandGroup {
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.25, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+	}
+
+	private void build3() {
+		addSequential(new DriveStraight(1.0, 5));
+		addSequential(new PowerCurve(1.0, -90));
+		addSequential(new DriveStraight(1.0, 5));
+
+		addSequential(new SpinExactDegrees(180));
+
+		addSequential(new DriveStraight(1.0, 5));
+		addSequential(new PowerCurve(1.0, 90));
+		addSequential(new DriveStraight(1.0, 5));
+
+		addSequential(new SpinExactDegrees(180));
 	}
 }

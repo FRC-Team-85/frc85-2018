@@ -66,7 +66,13 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2 > _distance;
+		if (_speed > 0) {
+			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
+					/ 2 > _distance;
+		} else {
+			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
+					/ 2 < -_distance;
+		}
 	}
 
 	@Override

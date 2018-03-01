@@ -63,7 +63,7 @@ public class Encoders {
 	}
 
 	public double getRightDistance() {
-		return _rightDriveEncoder.getDistance() * inchToFoot;
+		return -_rightDriveEncoder.getDistance() * inchToFoot;
 	}
 
 	public double getLeftDistance() {

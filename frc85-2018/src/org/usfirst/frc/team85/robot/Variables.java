@@ -11,6 +11,11 @@ public class Variables {
 
 	private static Variables _instance;
 
+	public static final double g = 32.2;
+	public static final double µ = .75;
+	public static final double wheelSpan = 1.583;
+	public static final double maxSpeed = 16;
+
 	public static final double LIFT_GROUND = 100;
 	public static final double LIFT_PLATFORM = 4000;
 	public static final double LIFT_SWITCH = 10500;
