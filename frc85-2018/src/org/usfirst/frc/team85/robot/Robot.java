@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 		Lift.getInstance().periodic();
 		Variables.getInstance().outputVariables();
 		_diagnostics.log();
+		_diagnostics.solenoidLog();
 	}
 
 	@Override

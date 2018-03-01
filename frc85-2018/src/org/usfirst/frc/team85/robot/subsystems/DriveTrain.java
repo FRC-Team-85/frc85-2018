@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.Diagnostics;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -11,12 +12,17 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class DriveTrain extends Subsystem {
+	
+	private Diagnostics _diagnostics;
 
 	private static DriveTrain _instance = null;
 	private TalonSRX _leftFrontMotor, _leftBackMotor, _rightFrontMotor, _rightBackMotor;
 	private Solenoid _transmissionSolenoid;
 
 	private DriveTrain() {
+		
+		_diagnostics = new Diagnostics();
+		
 		_leftFrontMotor = new TalonSRX(Addresses.DRIVETRAIN_LEFT_FRONT_MOTOR);
 		_leftFrontMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -58,6 +64,7 @@ public class DriveTrain extends Subsystem {
 
 	public void setHighGear(boolean highGear) {
 		_transmissionSolenoid.set(highGear);
+		_diagnostics.totalSolenoid++;
 	}
 
 	public boolean getTransmissionHighGear() {

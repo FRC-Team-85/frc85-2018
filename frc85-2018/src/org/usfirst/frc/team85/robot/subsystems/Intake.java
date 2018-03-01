@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.Diagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -10,6 +11,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
+	
+	private Diagnostics _diagnostics;
 
 	private static Intake _instance;
 
@@ -17,6 +20,9 @@ public class Intake extends Subsystem {
 	private Solenoid _protectionSolenoid, _applicationSolenoid;
 
 	private Intake() {
+		
+		_diagnostics = new Diagnostics();
+		
 		_leftMotor = new TalonSRX(Addresses.INTAKE_LEFT_MOTOR);
 		_leftMotor.setNeutralMode(NeutralMode.Coast);
 		_rightMotor = new TalonSRX(Addresses.INTAKE_RIGHT_MOTOR);
@@ -46,6 +52,7 @@ public class Intake extends Subsystem {
 
 	public void protect(boolean protect) {
 		_protectionSolenoid.set(!protect);
+		_diagnostics.totalSolenoid++;
 	}
 
 	public boolean isProtected() {
@@ -54,6 +61,7 @@ public class Intake extends Subsystem {
 
 	public void apply(boolean apply) {
 		_applicationSolenoid.set(!apply);
+		_diagnostics.totalSolenoid++;
 	}
 
 	public boolean isApplied() {

@@ -5,12 +5,18 @@ import java.io.File;
 import java.io.FileWriter;
 
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
+import org.usfirst.frc.team85.robot.subsystems.Intake;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Diagnostics {
 
 	File log;
 	BufferedWriter out = null;
 	private long _timestamp = System.currentTimeMillis();
+	
+	public int totalSolenoid = 0;
 
 	public void init() {
 		try {
@@ -58,5 +64,8 @@ public class Diagnostics {
 			}
 		}
 	}
-
+	
+	public void solenoidLog() {
+		SmartDashboard.putNumber("Solenoid Total", totalSolenoid);
+	}
 }
