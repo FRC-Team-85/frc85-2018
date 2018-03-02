@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.commands.CancelCubeSearch;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
@@ -42,6 +43,14 @@ public class OI {
 		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
 		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
 		_liftStop = new MoveLift(0);
+
+		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4);
+		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5);
+		JoystickButton turnAround = new JoystickButton(_leftJoystick, 3);
+
+		turnLeft.whenPressed(new SpinExactDegrees(90));
+		turnRight.whenPressed(new SpinExactDegrees(-90));
+		turnAround.whenPressed(new SpinExactDegrees(180));
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
 		manualTrans.whenPressed(new ToggleTransmission());
@@ -137,17 +146,30 @@ public class OI {
 	 * Right joystick sets right side, left joystick sets left side
 	 */
 	private void tankDrive() {
-		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			_speedRight = Math.pow(_rightJoystick.getRawAxis(1), _power);
-		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+		double rightStick = _rightJoystick.getRawAxis(1);
+		double leftStick = _leftJoystick.getRawAxis(1);
+
+		if (Math.abs(rightStick) >= .05) {
+			_speedRight = map(
+					Math.pow(rightStick, _power)
+							+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick),
+					0, 1);
+		} else if (Math.abs(rightStick) < .05) {
 			_speedRight = 0;
 		}
 
-		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			_speedLeft = Math.pow(_leftJoystick.getRawAxis(1), _power);
-		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+		if (Math.abs(leftStick) >= .05) {
+			_speedLeft = map(
+					Math.pow(leftStick, _power)
+							+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick),
+					0, 1);
+		} else if (Math.abs(leftStick) < .05) {
 			_speedLeft = 0;
 		}
+	}
+
+	private double map(double input, double minOutput, double maxOutput) {
+		return (input * (maxOutput - minOutput) + minOutput) * (Math.abs(input) / input);
 	}
 
 	/**
@@ -185,10 +207,10 @@ public class OI {
 	 */
 	private void powerButtons() {
 		if (_rightJoystick.getRawButton(7)) {
-			_power = 1;
+			_power = Variables.getInstance().getLowJoystickPower();
 		}
 		if (_rightJoystick.getRawButton(8)) {
-			_power = 3;
+			_power = Variables.getInstance().getHighJoystickPower();
 		}
 		if (_leftJoystick.getRawButton(1)) {
 			_turningAmplitude = Variables.getInstance().getTurningHighAmplitude();

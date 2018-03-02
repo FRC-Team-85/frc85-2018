@@ -11,6 +11,8 @@ public class Variables {
 
 	private static Variables _instance;
 
+	private static final double kP_SPIN = 0.075, kI_SPIN = 0.00001, kD_SPIN = 0.2, tolerance_SPIN = 5;
+
 	public static final double g = 32.2;
 	public static final double µ = .75;
 	public static final double wheelSpan = 1.583;
@@ -26,15 +28,22 @@ public class Variables {
 	public static final double LIFT_SCALE_HIGH = 37700;
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39300;
 
-	public static final double LIFT_TOLERANCE = 400;
+	public static final double DefaultLiftTolerance = 400;
+	public static final double DefaultLiftDownwardDecelMultiple = 10;
+	public static final double DefaultLiftUpwardDecelMultiple = 5;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
-	private static final double DefaultDriveTrainHighGearThreshold = 4.0;
+	private static final double DefaultDriveTrainHighGearThreshold = 7.0;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
 	private static final double DefaultLiftUpSpeed = .65;
 	private static final double DefaultLiftDownSpeed = -.55;
 	private static final double DefaultLiftManualSpeed = .25;
+	private static final double DefaultDriveStraightDecelDistance = 2;
+	private static final double DefaultDriveStraightAccelDistance = 2;
+	private static final double DefaultLowJoystickPower = 3;
+	private static final double DefaultHighJoystickPower = 5;
+	private static final double DefaultUsefulDriveTrainPower = .1;
 
 	private Variables() {
 		SmartDashboard.putNumber("DriveTrain Current Threshold", DefaultDriveTrainCurrentThreshold);
@@ -43,7 +52,19 @@ public class Variables {
 		SmartDashboard.putNumber("Lift Up Speed", DefaultLiftUpSpeed);
 		SmartDashboard.putNumber("Lift Down Speed", DefaultLiftDownSpeed);
 		SmartDashboard.putNumber("Lift Manual Speed", DefaultLiftManualSpeed);
-		SmartDashboard.putNumber("Drive Train Current Threshold", DefaultDriveTrainHighGearThreshold);
+		SmartDashboard.putNumber("Drive Train Vel Threshold", DefaultDriveTrainHighGearThreshold);
+		SmartDashboard.putNumber("Drive Straight Decel Distance", DefaultDriveStraightDecelDistance);
+		SmartDashboard.putNumber("Drive Straight Accel Distance", DefaultDriveStraightAccelDistance);
+		SmartDashboard.putNumber("kP_SPIN", kP_SPIN);
+		SmartDashboard.putNumber("kI_SPIN", kI_SPIN);
+		SmartDashboard.putNumber("kD_SPIN", kD_SPIN);
+		SmartDashboard.putNumber("tolerance_SPIN", tolerance_SPIN);
+		SmartDashboard.putNumber("Low Joystick Power", DefaultLowJoystickPower);
+		SmartDashboard.putNumber("High Joystick Power", DefaultHighJoystickPower);
+		SmartDashboard.putNumber("Lift Upward Decel Multiple", DefaultLiftUpwardDecelMultiple);
+		SmartDashboard.putNumber("Lift Downward Decel Multiple", DefaultLiftDownwardDecelMultiple);
+		SmartDashboard.putNumber("Lift Tolerance", DefaultLiftTolerance);
+		SmartDashboard.putNumber("Useful DriveTrain Power", DefaultUsefulDriveTrainPower);
 	}
 
 	public static Variables getInstance() {
@@ -79,7 +100,55 @@ public class Variables {
 	}
 
 	public double getDriveTrainHighGearThreshold() {
-		return SmartDashboard.getNumber("Drive Train Current Threshold", DefaultDriveTrainHighGearThreshold);
+		return SmartDashboard.getNumber("Drive Train Vel Threshold", DefaultDriveTrainHighGearThreshold);
+	}
+
+	public double getDriveStraightDecelDistance() {
+		return SmartDashboard.getNumber("Drive Straight Decel Distance", DefaultDriveStraightDecelDistance);
+	}
+
+	public double getDriveStraightAccelDistance() {
+		return SmartDashboard.getNumber("Drive Straight Accel Distance", DefaultDriveStraightAccelDistance);
+	}
+
+	public double getSpinKP() {
+		return SmartDashboard.getNumber("kP_SPIN", kP_SPIN);
+	}
+
+	public double getSpinKI() {
+		return SmartDashboard.getNumber("kI_SPIN", kI_SPIN);
+	}
+
+	public double getSpinKD() {
+		return SmartDashboard.getNumber("kD_SPIN", kD_SPIN);
+	}
+
+	public double getSpinTolerance() {
+		return SmartDashboard.getNumber("tolerance_SPIN", tolerance_SPIN);
+	}
+
+	public double getHighJoystickPower() {
+		return SmartDashboard.getNumber("High Joystick Power", DefaultHighJoystickPower);
+	}
+
+	public double getLowJoystickPower() {
+		return SmartDashboard.getNumber("Low Joystick Power", DefaultLowJoystickPower);
+	}
+
+	public double getLiftUpwardDecelMultiple() {
+		return SmartDashboard.getNumber("Lift Upward Decel Multiple", DefaultLiftUpwardDecelMultiple);
+	}
+
+	public double getLiftDownwardDecelMultiple() {
+		return SmartDashboard.getNumber("Lift Downward Decel Multiple", DefaultLiftDownwardDecelMultiple);
+	}
+
+	public double getLiftTolerance() {
+		return SmartDashboard.getNumber("Lift Tolerance", DefaultLiftTolerance);
+	}
+
+	public double getUsefulDriveTrainPower() {
+		return SmartDashboard.getNumber("Useful DriveTrain Power", DefaultUsefulDriveTrainPower);
 	}
 
 	public void outputVariables() {

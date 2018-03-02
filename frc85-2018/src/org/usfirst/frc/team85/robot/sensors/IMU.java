@@ -18,6 +18,8 @@ public class IMU {
 	private PigeonIMU.GeneralStatus _genStatus = new PigeonIMU.GeneralStatus();
 	private double[] _ypr = new double[3];
 
+	private double _initialHeading = 0;
+
 	private IMU() {
 		_connectedTalon = new TalonSRX(Addresses.IMU_TALON);
 		_pigeon = new PigeonIMU(_connectedTalon);
@@ -46,5 +48,13 @@ public class IMU {
 
 	public PigeonIMU getIMU() {
 		return _pigeon;
+	}
+
+	public void setInitialHeading() {
+		_initialHeading = getFusedHeading();
+	}
+
+	public double getInitialHeading() {
+		return _initialHeading;
 	}
 }

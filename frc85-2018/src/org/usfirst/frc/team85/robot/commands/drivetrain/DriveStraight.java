@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot.commands.drivetrain;
 
+import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
@@ -57,22 +58,46 @@ public class DriveStraight extends Command {
 
 	public void applyCorrection(double correction) {
 		SmartDashboard.putNumber("Correction Value", correction);
+		double error = Math.abs(
+				_distance - (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
+
+		double applySpeed = _speed;
+		if (error < Variables.getInstance().getDriveStraightDecelDistance()) {
+			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance()) + .1;
+		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance()) {
+			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance()) + .2;
+		}
+
+		if (applySpeed > 1) {
+			applySpeed = 1;
+		}
+		if (applySpeed < -1) {
+			applySpeed = -1;
+		}
+
 		if (correction > 0) {
-			DriveTrain.getInstance().drive(_speed - Math.abs(correction), _speed);
+			DriveTrain.getInstance().drive(applySpeed - Math.abs(correction), applySpeed);
 		} else {
-			DriveTrain.getInstance().drive(_speed, _speed - Math.abs(correction));
+			DriveTrain.getInstance().drive(applySpeed, applySpeed - Math.abs(correction));
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (_speed > 0) {
-			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
-					/ 2 > _distance;
-		} else {
-			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
-					/ 2 < -_distance;
+		double error = Math.abs(_distance
+				- Math.abs((Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2));
+
+		if (error < .5) {
+			return true;
 		}
+
+		return false;
+		/*
+		 * if (_speed > 0) { return (Encoders.getInstance().getLeftDistance() +
+		 * Encoders.getInstance().getRightDistance()) / 2 > _distance; } else { return
+		 * (Encoders.getInstance().getLeftDistance() +
+		 * Encoders.getInstance().getRightDistance()) / 2 < -_distance; }
+		 */
 	}
 
 	@Override
