@@ -10,7 +10,6 @@ import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
-import org.usfirst.frc.team85.robot.commands.lift.Climb;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
@@ -79,7 +78,7 @@ public class OI {
 		liftDoubleScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE_HIGH_DOUBLE));
 		liftClimbButton.whenPressed(new SetLiftHeight(Variables.LIFT_CLIMB));
 
-		liftLockButton.whenPressed(new Climb());
+		liftLockButton.whenPressed(new LockLift(true));
 		liftLockButton.whenReleased(new LockLift(false));
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
