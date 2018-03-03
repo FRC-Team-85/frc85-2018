@@ -2,7 +2,6 @@ package org.usfirst.frc.team85.robot.commands;
 
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
-import org.usfirst.frc.team85.robot.commands.drivetrain.PowerCurve;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.gripper.OpenGripper;
@@ -20,16 +19,15 @@ public class Autonomous extends CommandGroup {
 	public Autonomous(String fieldKey) {
 		switch (fieldKey) {
 		case "LLL":
-			buildCloseScale();
 			break;
 		case "LRL":
-			buildSwitch();
+			buildSwitchFrom3();
 			break;
 		case "RLR":
-			addSequential(new PowerCurve(1.0, 90));
+			buildCloseScaleFrom3();
 			break;
 		case "RRR":
-			buildOppositeScale();
+			buildOppositeScaleFrom3();
 			break;
 		}
 	}
@@ -43,39 +41,24 @@ public class Autonomous extends CommandGroup {
 		Encoders.getInstance().driveEncoderReset();
 	}
 
-	private void build1() {
-		addSequential(new DriveStraight(1.0, 15));
-		addSequential(new SpinExactDegrees(-90));
+	// private void driveStraightSearchCube() {
+	// addParallel(new DriveStraight(.25, 100));
+	// addSequential(new CubeSearch());
+	// addSequential(new DriveStraight(0, 0));
+	// }
 
-		addParallel(new SetLiftHeight(Variables.LIFT_SWITCH));
-		addSequential(new DriveStraight(.8, 15));
-
+	private void buildSwitchFrom3() {
+		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
+		addSequential(new DriveStraight(.5, 10)); // dist
 		addSequential(new SpinExactDegrees(-90));
-		addSequential(new DriveStraight(.5, 3));
+		addSequential(new Wait(.4));
 		addSequential(new OpenGripper());
-		addSequential(new Wait(.5));
-		addSequential(new DriveStraight(-.5, 3));
+		addSequential(new Wait(.3));
+		addSequential(new DriveStraight(-.3, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
-
-		addSequential(new Wait(1));
-
-		addParallel(new DriveStraight(.5, 6));
-		addSequential(new CubeSearch());
-
-		addSequential(new DriveStraight(-.5, 3));
-
-		addParallel(new SetLiftHeight(Variables.LIFT_SWITCH));
-		addSequential(new DriveStraight(.5, 3));
-		addSequential(new OpenGripper());
 	}
 
-	private void driveStraightSearchCube() {
-		addParallel(new DriveStraight(.25, 100));
-		addSequential(new CubeSearch());
-		addSequential(new DriveStraight(0, 0));
-	}
-
-	private void buildCloseScale() {
+	private void buildCloseScaleFrom3() {
 		addSequential(new DriveStraight(.8, 22)); // dist
 		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new LiftPositionWait(false));
@@ -86,20 +69,11 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(-.3, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
-		addSequential(new SpinExactDegrees(60));
-		driveStraightSearchCube();
+		// addSequential(new SpinExactDegrees(60));
+		// driveStraightSearchCube();
 	}
 
-	private void buildSwitch() {
-		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
-		addSequential(new DriveStraight(.5, 8.5)); // dist
-		addSequential(new OpenGripper());
-		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(-.3, 3));
-		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
-	}
-
-	private void buildOppositeScale() {
+	private void buildOppositeScaleFrom3() {
 		addSequential(new DriveStraight(.8, 18.5));
 		addSequential(new SpinExactDegrees(-90));
 		addSequential(new DriveStraight(.8, 17.5));

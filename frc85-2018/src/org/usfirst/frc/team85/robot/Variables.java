@@ -21,7 +21,7 @@ public class Variables {
 	public static final double LIFT_GROUND = 100;
 	public static final double LIFT_PLATFORM = 4000;
 	public static final double LIFT_SWITCH = 10500;
-	public static final double LIFT_LOCK = 9500;
+	public static final double LIFT_LOCK = 9000;
 	public static final double LIFT_SCALE_LOW = 21500;
 	public static final double LIFT_SCALE = 30000;
 	public static final double LIFT_CLIMB = 34300;

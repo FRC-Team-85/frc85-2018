@@ -8,8 +8,8 @@ public class Climb extends CommandGroup {
 
 	public Climb() {
 		addSequential(new SetLiftHeight(Variables.LIFT_LOCK));
-		addSequential(new LockLift(true));
 		addSequential(new LiftPositionWait(true));
+		addSequential(new LockLift(true));
 		addSequential(new SetLiftHeight(-1));
 	}
 }

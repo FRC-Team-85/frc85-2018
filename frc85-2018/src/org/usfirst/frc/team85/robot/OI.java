@@ -1,8 +1,10 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CancelCubeSearch;
+import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
+import org.usfirst.frc.team85.robot.commands.EjectCube;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
@@ -87,6 +89,7 @@ public class OI {
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
+		JoystickButton ejectCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_EXCHANGE_BUTTON);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -101,6 +104,9 @@ public class OI {
 
 		searchCubeButton.whenPressed(new CubeSearch());
 		searchCubeButton.whenReleased(new CancelCubeSearch());
+
+		ejectCubeButton.whenPressed(new EjectCube());
+		ejectCubeButton.whenReleased(new CancelEjectCube());
 	}
 
 	public void periodic() {
@@ -149,27 +155,19 @@ public class OI {
 		double rightStick = _rightJoystick.getRawAxis(1);
 		double leftStick = _leftJoystick.getRawAxis(1);
 
-		if (Math.abs(rightStick) >= .05) {
-			_speedRight = map(
-					Math.pow(rightStick, _power)
-							+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick),
-					0, 1);
-		} else if (Math.abs(rightStick) < .05) {
+		if (Math.abs(rightStick) >= .2) {
+			_speedRight = Math.pow(rightStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick);
+		} else if (Math.abs(rightStick) < .2) {
 			_speedRight = 0;
 		}
 
-		if (Math.abs(leftStick) >= .05) {
-			_speedLeft = map(
-					Math.pow(leftStick, _power)
-							+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick),
-					0, 1);
-		} else if (Math.abs(leftStick) < .05) {
+		if (Math.abs(leftStick) >= .2) {
+			_speedLeft = Math.pow(leftStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick);
+		} else if (Math.abs(leftStick) < .2) {
 			_speedLeft = 0;
 		}
-	}
-
-	private double map(double input, double minOutput, double maxOutput) {
-		return (input * (maxOutput - minOutput) + minOutput) * (Math.abs(input) / input);
 	}
 
 	/**

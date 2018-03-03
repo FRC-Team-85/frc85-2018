@@ -17,8 +17,8 @@ public class LiftPositionWait extends Command {
 	protected boolean isFinished() {
 		double error = Math.abs(Lift.getInstance().getDesiredHeight() - Lift.getInstance().getPosition());
 		if (_underLoad) {
-			return (error <= Variables.LIFT_TOLERANCE + 350);
+			return (error <= Variables.getInstance().getLiftTolerance() + 500);
 		}
-		return (error <= Variables.LIFT_TOLERANCE);
+		return (error <= Variables.getInstance().getLiftTolerance());
 	}
 }
