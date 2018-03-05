@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.commands.drivetrain;
 
 import org.usfirst.frc.team85.robot.Variables;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
@@ -16,7 +17,6 @@ public class SpinExactDegrees extends Command {
 
 	private double _targetAngle;
 	private double _changeAngle;
-	// private double _tolerance = 2;
 
 	// left = positive, right = negative
 	public SpinExactDegrees(double angle) {
@@ -74,5 +74,6 @@ public class SpinExactDegrees extends Command {
 	protected void end() {
 		_pid.disable();
 		DriveTrain.getInstance().drive(0, 0);
+		Encoders.getInstance().driveEncoderReset();
 	}
 }

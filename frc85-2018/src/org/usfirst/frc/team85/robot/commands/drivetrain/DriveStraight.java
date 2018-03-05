@@ -19,11 +19,23 @@ public class DriveStraight extends Command {
 
 	private double _speed;
 	private double _distance;
+	private double _heading;
+	private AbsoluteDirection _direction = null;
 
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
+		Encoders.getInstance().driveEncoderReset();
 		_speed = speed;
-		_distance = distance;
+		_distance = Math.abs(distance);
+		_heading = IMU.getInstance().getFusedHeading();
+	}
+
+	public DriveStraight(double speed, double distance, AbsoluteDirection direction) {
+		requires(DriveTrain.getInstance());
+		Encoders.getInstance().driveEncoderReset();
+		_speed = speed;
+		_distance = Math.abs(distance);
+		_direction = direction;
 	}
 
 	@Override
@@ -47,8 +59,33 @@ public class DriveStraight extends Command {
 			}
 		}, d -> applyCorrection(d));
 
+		if (_direction != null) {
+			double currentHeading = IMU.getInstance().getFusedHeading();
+			double initHeading = IMU.getInstance().getInitialHeading();
+			int diff = (int) (currentHeading - initHeading);
+			int rot = diff / 360;
+
+			switch (_direction) {
+			case BACKWARD:
+				_heading = initHeading + (rot * 360) - 180;
+				break;
+			case FORWARD:
+				_heading = initHeading + (rot * 360);
+				break;
+			case LEFT:
+				_heading = initHeading + (rot * 360) + 90;
+				break;
+			case RIGHT:
+				_heading = initHeading + (rot * 360) - 90;
+				break;
+			default:
+				_heading = currentHeading;
+				break;
+			}
+		}
+
+		_pid.setSetpoint(_heading);
 		_pid.setAbsoluteTolerance(2);
-		_pid.setSetpoint(IMU.getInstance().getFusedHeading());
 
 		_pid.setOutputRange(-25, 25);
 
@@ -58,14 +95,16 @@ public class DriveStraight extends Command {
 
 	public void applyCorrection(double correction) {
 		SmartDashboard.putNumber("Correction Value", correction);
-		double error = Math.abs(
-				_distance - (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
+		double error = Math.abs(_distance)
+				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
 
 		double applySpeed = _speed;
 		if (error < Variables.getInstance().getDriveStraightDecelDistance()) {
-			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance()) + .1;
+			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance());
+			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
 		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance()) {
-			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance()) + .2;
+			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance());
+			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
 		}
 
 		if (applySpeed > 1) {
@@ -84,20 +123,13 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		double error = Math.abs(_distance
-				- Math.abs((Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2));
+		double error = Math.abs(_distance)
+				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
 
-		if (error < .5) {
+		if (error < Variables.getInstance().getDriveStraightTolerance()) {
 			return true;
 		}
-
 		return false;
-		/*
-		 * if (_speed > 0) { return (Encoders.getInstance().getLeftDistance() +
-		 * Encoders.getInstance().getRightDistance()) / 2 > _distance; } else { return
-		 * (Encoders.getInstance().getLeftDistance() +
-		 * Encoders.getInstance().getRightDistance()) / 2 < -_distance; }
-		 */
 	}
 
 	@Override

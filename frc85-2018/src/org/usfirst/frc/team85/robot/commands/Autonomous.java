@@ -48,62 +48,60 @@ public class Autonomous extends CommandGroup {
 	// }
 
 	private void buildCloseSwitchFrom3() {
-		addSequential(new DriveStraight(.5, 12)); // dist
+		addSequential(new DriveStraight(1.0, 12)); // dist
 		addSequential(new SpinExactDegrees(-90));
 		addSequential(new Wait(.3));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.3, 1.5));
-		addSequential(new Wait(.3));
+		addSequential(new DriveStraight(.5, 4));
 		addSequential(new OpenGripper());
-		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(-.3, 1.5));
+		addSequential(new Wait(.2));
+		addSequential(new DriveStraight(-.5, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	private void buildFarSwitchFrom3() {
-		addSequential(new DriveStraight(.8, 18.5));
+		addSequential(new DriveStraight(1.0, 18.5));
 		addSequential(new SpinExactDegrees(-90));
-		addSequential(new DriveStraight(.8, 14.5));
+		addSequential(new DriveStraight(1.0, 17.5));
 		addSequential(new SpinExactDegrees(-90));
 		addSequential(new Wait(.3));
-		addSequential(new SetLiftHeight(Variables.LIFT_SCALE));
+		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.5, 1));
+		addSequential(new DriveStraight(.5, 4));
 		addSequential(new OpenGripper());
 		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(-.3, 1));
+		addSequential(new DriveStraight(-.5, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
-		
-		
+
 	}
 
 	private void buildCloseScaleFrom3() {
-		addSequential(new DriveStraight(.8, 22)); // dist
+		addSequential(new DriveStraight(1.0, 22)); // dist
 		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-		addSequential(new SpinExactDegrees(-45));
+		addSequential(new SpinExactDegrees(-60));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(.3, 2));
-		addSequential(new Wait(.3));
+		addSequential(new Wait(.2));
+		addSequential(new DriveStraight(.5, 6));
+		addSequential(new Wait(.2));
 		addSequential(new OpenGripper());
-		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(-.3, 2));
+		addSequential(new Wait(.2));
+		addSequential(new DriveStraight(-.5, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	private void buildFarScaleFrom3() {
-		addSequential(new DriveStraight(.8, 18.5));
+		addSequential(new DriveStraight(1.0, 18.5));
 		addSequential(new SpinExactDegrees(-90));
-		addSequential(new DriveStraight(.8, 17.5));
+		addSequential(new DriveStraight(1.0, 17.5));
 		addSequential(new SpinExactDegrees(90));
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.20, 3));
+		addSequential(new DriveStraight(.5, 5));
 		addSequential(new Wait(.3));
 		addSequential(new OpenGripper());
 		addSequential(new Wait(.3));
-		addSequential(new DriveStraight(-.25, 3));
+		addSequential(new DriveStraight(-.5, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
 		/*
