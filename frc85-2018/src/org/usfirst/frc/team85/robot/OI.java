@@ -30,7 +30,7 @@ public class OI {
 	private Joystick _liftOperatorStation;
 	private Joystick _miscOperatorStation;
 
-	private Command _liftUp, _liftDown, _liftStop;
+	private Command _liftUp, _liftDown, _liftStop, _liftFastUp, _liftFastDown;
 	private boolean _liftStopped = false;
 
 	private double _speedLeft = 0, _speedRight = 0, _power = 1, _turningAmplitude = 0;
@@ -44,6 +44,8 @@ public class OI {
 		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
 		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
 		_liftStop = new MoveLift(0);
+		_liftFastUp = new MoveLift(Variables.getInstance().getLiftFastManualSpeed() - .5);
+		_liftFastDown = new MoveLift(-Variables.getInstance().getLiftFastManualSpeed());
 
 		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4);
 		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5);
@@ -109,13 +111,20 @@ public class OI {
 	}
 
 	public void periodic() {
-		double joystick = _liftOperatorStation.getRawAxis(1);
+		double liftJoystickAxis1 = _liftOperatorStation.getRawAxis(1);
+		double liftJoystickAxis2 = _liftOperatorStation.getRawAxis(0);
 
-		if (joystick == -1) {
+		if (liftJoystickAxis1 == -1) {
 			_liftUp.start();
 			_liftStopped = false;
-		} else if (joystick == 1) {
+		} else if (liftJoystickAxis1 == 1) {
 			_liftDown.start();
+			_liftStopped = false;
+		} else if (liftJoystickAxis2 == 1) {
+			_liftFastUp.start();
+			_liftStopped = false;
+		} else if (liftJoystickAxis2 == -1) {
+			_liftFastDown.start();
 			_liftStopped = false;
 		} else if (!_liftStopped) {
 			_liftStop.start();

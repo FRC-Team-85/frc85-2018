@@ -27,7 +27,6 @@ public class DriveStraight extends Command {
 		Encoders.getInstance().driveEncoderReset();
 		_speed = speed;
 		_distance = Math.abs(distance);
-		_heading = IMU.getInstance().getFusedHeading();
 	}
 
 	public DriveStraight(double speed, double distance, AbsoluteDirection direction) {
@@ -64,10 +63,15 @@ public class DriveStraight extends Command {
 			double initHeading = IMU.getInstance().getInitialHeading();
 			int diff = (int) (currentHeading - initHeading);
 			int rot = diff / 360;
+			int remainder = diff % 360;
 
 			switch (_direction) {
 			case BACKWARD:
-				_heading = initHeading + (rot * 360) - 180;
+				if (remainder > 180) {
+					_heading = initHeading + (rot * 360) + 540;
+				} else {
+					_heading = initHeading + (rot * 360) + 180;
+				}
 				break;
 			case FORWARD:
 				_heading = initHeading + (rot * 360);
@@ -82,6 +86,8 @@ public class DriveStraight extends Command {
 				_heading = currentHeading;
 				break;
 			}
+		} else {
+			_heading = IMU.getInstance().getFusedHeading();
 		}
 
 		_pid.setSetpoint(_heading);

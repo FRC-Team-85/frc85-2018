@@ -40,12 +40,15 @@ public class Variables {
 	private static final double DefaultLiftUpSpeed = .65;
 	private static final double DefaultLiftDownSpeed = -.55;
 	private static final double DefaultLiftManualSpeed = .25;
+	private static final double DefaultLiftFastManualSpeed = 1.0;
 	private static final double DefaultDriveStraightDecelDistance = 3;
 	private static final double DefaultDriveStraightAccelDistance = 3;
 	private static final double DefaultLowJoystickPower = 3;
 	private static final double DefaultHighJoystickPower = 5;
 	private static final double DefaultUsefulDriveTrainPower = .25;
-	private static final double DefaultDriveStraightTolerance = .5;
+	private static final double DefaultDriveStraightTolerance = .25;
+
+	private int _totalSolenoid = 0;
 
 	private Variables() {
 		SmartDashboard.putNumber("DriveTrain Current Threshold", DefaultDriveTrainCurrentThreshold);
@@ -54,6 +57,7 @@ public class Variables {
 		SmartDashboard.putNumber("Lift Up Speed", DefaultLiftUpSpeed);
 		SmartDashboard.putNumber("Lift Down Speed", DefaultLiftDownSpeed);
 		SmartDashboard.putNumber("Lift Manual Speed", DefaultLiftManualSpeed);
+		SmartDashboard.putNumber("Lift Fast Manual Speed", DefaultLiftFastManualSpeed);
 		SmartDashboard.putNumber("Drive Train Vel Threshold", DefaultDriveTrainHighGearThreshold);
 		SmartDashboard.putNumber("Drive Straight Decel Distance", DefaultDriveStraightDecelDistance);
 		SmartDashboard.putNumber("Drive Straight Accel Distance", DefaultDriveStraightAccelDistance);
@@ -100,6 +104,10 @@ public class Variables {
 
 	public double getLiftManualSpeed() {
 		return SmartDashboard.getNumber("Lift Manual Speed", DefaultLiftManualSpeed);
+	}
+
+	public double getLiftFastManualSpeed() {
+		return SmartDashboard.getNumber("Lift Fast Manual Speed", DefaultLiftFastManualSpeed);
 	}
 
 	public double getDriveTrainHighGearThreshold() {
@@ -185,10 +193,6 @@ public class Variables {
 		IMU.getInstance().getIMU().getAccelerometerAngles(acc);
 		SmartDashboard.putString("AccelerometerAngles", acc[0] + " : " + acc[1] + " : " + acc[2]);
 
-		double[] gyro = new double[3];
-		IMU.getInstance().getIMU().getAccumGyro(gyro);
-		SmartDashboard.putString("AccumGyro", gyro[0] + " : " + gyro[1] + " : " + gyro[2]);
-
 		short[] rawmag = new short[3];
 		IMU.getInstance().getIMU().getRawMagnetometer(rawmag);
 		SmartDashboard.putString("RawMagnetometer", rawmag[0] + " : " + rawmag[1] + " : " + rawmag[2]);
@@ -213,5 +217,11 @@ public class Variables {
 
 		SmartDashboard.putNumber("Left Drivetrain Encoder Position", Encoders.getInstance().getLeftDistance());
 		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
+
+		SmartDashboard.putNumber("Solenoid Total", _totalSolenoid);
+	}
+
+	public void addSolenoidFire() {
+		_totalSolenoid++;
 	}
 }
