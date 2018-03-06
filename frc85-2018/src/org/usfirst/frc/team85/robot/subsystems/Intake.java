@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.Variables;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -45,6 +46,9 @@ public class Intake extends Subsystem {
 	}
 
 	public void protect(boolean protect) {
+		if (protect != isProtected()) {
+			Variables.getInstance().addSolenoidFire();
+		}
 		_protectionSolenoid.set(!protect);
 	}
 
@@ -53,6 +57,9 @@ public class Intake extends Subsystem {
 	}
 
 	public void apply(boolean apply) {
+		if (apply != isApplied()) {
+			Variables.getInstance().addSolenoidFire();
+		}
 		_applicationSolenoid.set(!apply);
 	}
 

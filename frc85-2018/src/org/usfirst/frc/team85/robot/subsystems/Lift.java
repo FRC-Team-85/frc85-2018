@@ -123,6 +123,9 @@ public class Lift extends Subsystem {
 	}
 
 	public void lock(boolean lock) {
+		if (lock != isLocked()) {
+			Variables.getInstance().addSolenoidFire();
+		}
 		_lock.set(!lock);
 	}
 

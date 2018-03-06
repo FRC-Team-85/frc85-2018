@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.subsystems;
 
 import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveWithJoystick;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -57,6 +58,9 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public void setHighGear(boolean highGear) {
+		if (highGear != getTransmissionHighGear()) {
+			Variables.getInstance().addSolenoidFire();
+		}
 		_transmissionSolenoid.set(highGear);
 	}
 
