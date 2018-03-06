@@ -62,6 +62,6 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_ON = 5;
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_CUBE_SEARCH = 9;
-	public final static int OS_MISC_POWER_BUTTON = 10;
+	public final static int OS_MISC_EXCHANGE_BUTTON = 10;
 	public final static int OS_MISC_LIFT_CLIMB = 11;
 }

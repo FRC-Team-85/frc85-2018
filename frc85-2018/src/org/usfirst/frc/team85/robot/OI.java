@@ -1,13 +1,15 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.CancelCubeSearch;
+import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
+import org.usfirst.frc.team85.robot.commands.EjectCube;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
-import org.usfirst.frc.team85.robot.commands.lift.Climb;
 import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
@@ -28,7 +30,7 @@ public class OI {
 	private Joystick _liftOperatorStation;
 	private Joystick _miscOperatorStation;
 
-	private Command _liftUp, _liftDown, _liftStop;
+	private Command _liftUp, _liftDown, _liftStop, _liftFastUp, _liftFastDown;
 	private boolean _liftStopped = false;
 
 	private double _speedLeft = 0, _speedRight = 0, _power = 1, _turningAmplitude = 0;
@@ -42,6 +44,16 @@ public class OI {
 		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
 		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
 		_liftStop = new MoveLift(0);
+		_liftFastUp = new MoveLift(Variables.getInstance().getLiftFastManualSpeed() - .5);
+		_liftFastDown = new MoveLift(-Variables.getInstance().getLiftFastManualSpeed());
+
+		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4);
+		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5);
+		JoystickButton turnAround = new JoystickButton(_leftJoystick, 3);
+
+		turnLeft.whenPressed(new SpinExactDegrees(90));
+		turnRight.whenPressed(new SpinExactDegrees(-90));
+		turnAround.whenPressed(new SpinExactDegrees(180));
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
 		manualTrans.whenPressed(new ToggleTransmission());
@@ -68,7 +80,7 @@ public class OI {
 		liftDoubleScaleButton.whenPressed(new SetLiftHeight(Variables.LIFT_SCALE_HIGH_DOUBLE));
 		liftClimbButton.whenPressed(new SetLiftHeight(Variables.LIFT_CLIMB));
 
-		liftLockButton.whenPressed(new Climb());
+		liftLockButton.whenPressed(new LockLift(true));
 		liftLockButton.whenReleased(new LockLift(false));
 
 		JoystickButton gripperButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_TOGGLE_GRIPPER);
@@ -78,6 +90,7 @@ public class OI {
 		JoystickButton compressorOnButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_ON);
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
+		JoystickButton ejectCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_EXCHANGE_BUTTON);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -92,16 +105,26 @@ public class OI {
 
 		searchCubeButton.whenPressed(new CubeSearch());
 		searchCubeButton.whenReleased(new CancelCubeSearch());
+
+		ejectCubeButton.whenPressed(new EjectCube());
+		ejectCubeButton.whenReleased(new CancelEjectCube());
 	}
 
 	public void periodic() {
-		double joystick = _liftOperatorStation.getRawAxis(1);
+		double liftJoystickAxis1 = _liftOperatorStation.getRawAxis(1);
+		double liftJoystickAxis2 = _liftOperatorStation.getRawAxis(0);
 
-		if (joystick == -1) {
+		if (liftJoystickAxis1 == -1) {
 			_liftUp.start();
 			_liftStopped = false;
-		} else if (joystick == 1) {
+		} else if (liftJoystickAxis1 == 1) {
 			_liftDown.start();
+			_liftStopped = false;
+		} else if (liftJoystickAxis2 == 1) {
+			_liftFastUp.start();
+			_liftStopped = false;
+		} else if (liftJoystickAxis2 == -1) {
+			_liftFastDown.start();
 			_liftStopped = false;
 		} else if (!_liftStopped) {
 			_liftStop.start();
@@ -137,15 +160,20 @@ public class OI {
 	 * Right joystick sets right side, left joystick sets left side
 	 */
 	private void tankDrive() {
-		if (Math.abs(_rightJoystick.getRawAxis(1)) >= .1) {
-			_speedRight = Math.pow(_rightJoystick.getRawAxis(1), _power);
-		} else if (Math.abs(_rightJoystick.getRawAxis(1)) < .1) {
+		double rightStick = _rightJoystick.getRawAxis(1);
+		double leftStick = _leftJoystick.getRawAxis(1);
+
+		if (Math.abs(rightStick) >= .2) {
+			_speedRight = Math.pow(rightStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick);
+		} else if (Math.abs(rightStick) < .2) {
 			_speedRight = 0;
 		}
 
-		if (Math.abs(_leftJoystick.getRawAxis(1)) >= .1) {
-			_speedLeft = Math.pow(_leftJoystick.getRawAxis(1), _power);
-		} else if (Math.abs(_leftJoystick.getRawAxis(1)) < .1) {
+		if (Math.abs(leftStick) >= .2) {
+			_speedLeft = Math.pow(leftStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick);
+		} else if (Math.abs(leftStick) < .2) {
 			_speedLeft = 0;
 		}
 	}
@@ -185,10 +213,10 @@ public class OI {
 	 */
 	private void powerButtons() {
 		if (_rightJoystick.getRawButton(7)) {
-			_power = 1;
+			_power = Variables.getInstance().getLowJoystickPower();
 		}
 		if (_rightJoystick.getRawButton(8)) {
-			_power = 3;
+			_power = Variables.getInstance().getHighJoystickPower();
 		}
 		if (_leftJoystick.getRawButton(1)) {
 			_turningAmplitude = Variables.getInstance().getTurningHighAmplitude();

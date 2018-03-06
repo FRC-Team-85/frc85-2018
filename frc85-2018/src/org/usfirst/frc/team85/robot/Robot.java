@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -20,15 +21,15 @@ public class Robot extends IterativeRobot {
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
 
-		_autonomous = new Autonomous();
-
 		Intake.getInstance().apply(false);
 		Lift.getInstance().lock(false);
 	}
 
 	@Override
 	public void autonomousInit() {
-		_autonomous.init(DriverStation.getInstance().getGameSpecificMessage());
+		_autonomous = new Autonomous(DriverStation.getInstance().getGameSpecificMessage());
+		Encoders.getInstance().driveEncoderReset();
+		_autonomous.start();
 	}
 
 	@Override
@@ -42,7 +43,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		super.teleopInit();
-		_autonomous.cancel();
+		if (_autonomous != null) {
+			_autonomous.cancel();
+		}
+		Encoders.getInstance().driveEncoderReset();
 	}
 
 	@Override
