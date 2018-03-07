@@ -40,11 +40,11 @@ public class Encoders {
 	}
 
 	private double getLeftDriveRate() {
-		return _leftDriveEncoder.getRate();
+		return -_leftDriveEncoder.getRate();
 	}
 
 	private double getRightDriveRate() {
-		return -_rightDriveEncoder.getRate();
+		return _rightDriveEncoder.getRate();
 	}
 
 	public double getLeftVelocity() { // In feet/sec

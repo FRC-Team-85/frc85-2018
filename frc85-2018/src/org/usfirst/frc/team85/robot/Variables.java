@@ -27,10 +27,10 @@ public class Variables {
 	public static final double LIFT_SCALE = 30000;
 	public static final double LIFT_CLIMB = 34300;
 	public static final double LIFT_SCALE_HIGH = 37700;
-	public static final double LIFT_SCALE_HIGH_DOUBLE = 39300;
+	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 
 	public static final double DefaultLiftTolerance = 200;
-	public static final double DefaultLiftDownwardDecelMultiple = 10;
+	public static final double DefaultLiftDownwardDecelMultiple = 18;
 	public static final double DefaultLiftUpwardDecelMultiple = 3;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;

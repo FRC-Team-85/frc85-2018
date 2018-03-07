@@ -38,6 +38,11 @@ public class Addresses {
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;
 	public static final int INTAKE_LEFT_LIMIT = 5;
 	public static final int INTAKE_RIGHT_LIMIT = 4;
+	
+	public static final int RANGEFINDER_FRONT = 0;
+	public static final int RANGEFINDER_BACK = 0;
+	public static final int RANGEFINDER_LEFT = 0;
+	public static final int RANGEFINDER_RIGHT = 0;
 
 	// drive encoders (DIO ports)
 	public final static int ENCODERS_LEFT_A = 2;
