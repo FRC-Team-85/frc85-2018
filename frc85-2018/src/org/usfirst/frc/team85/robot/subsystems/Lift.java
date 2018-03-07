@@ -121,6 +121,22 @@ public class Lift extends Subsystem {
 	public double getPosition() {
 		return -_rightOne.getSelectedSensorPosition(0);
 	}
+	
+	public double getRightOneCurrent() {
+		return _rightOne.getOutputCurrent();
+	}
+	
+	public double getRightTwoCurrent() {
+		return _rightTwo.getOutputCurrent();
+	}
+	
+	public double getLeftOneCurrent() {
+		return _leftOne.getOutputCurrent();
+	}
+	
+	public double getLeftTwoCurrent() {
+		return _leftTwo.getOutputCurrent();
+	}
 
 	public void lock(boolean lock) {
 		_lock.set(!lock);
