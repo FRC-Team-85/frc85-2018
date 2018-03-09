@@ -191,20 +191,32 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(.75, 1));
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
-		addSequential(new DriveStraight(1.0, 8));
+		addSequential(new DriveStraight(1.0, 8.5));
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.6, 1, AbsoluteDirection.FORWARD, 2));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.6, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+
+		// Second Cube
+		// addSequential(new SpinExactDegrees(-90));
+		// addParallel(new CubeSearch());
+		// addSequential(new DriveStraight(.5, 5));
+		// addSequential(new DriveStraight(-.5, 4));
+		// addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
+		// addSequential(new LiftPositionWait(false));
+		// addSequential(new SpinExactDegrees(90));
+		// addSequential(new OpenGripper());
+		// addSequential(new DriveStraight(-.6, 2));
+		// addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	public void buildRightSwitchFrom2() {
 		addSequential(new DriveStraight(.75, 1));
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
-		addSequential(new DriveStraight(1.0, 8));
+		addSequential(new DriveStraight(1.0, 8.5));
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.6, 1, AbsoluteDirection.FORWARD, 2));

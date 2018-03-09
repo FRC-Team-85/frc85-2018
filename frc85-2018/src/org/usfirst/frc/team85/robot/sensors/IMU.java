@@ -17,6 +17,7 @@ public class IMU {
 
 	private PigeonIMU.GeneralStatus _genStatus = new PigeonIMU.GeneralStatus();
 	private double[] _ypr = new double[3];
+	private short[] _xyz = new short[3];
 
 	private double _initialHeading = 0;
 
@@ -57,4 +58,41 @@ public class IMU {
 	public double getInitialHeading() {
 		return _initialHeading;
 	}
+
+	public double getYaw() {
+		_ypr = getYPR();
+		return _ypr[0];
+	}
+
+	public double getPitch() {
+		_ypr = getYPR();
+		return _ypr[1];
+	}
+
+	public double getRoll() {
+		_ypr = getYPR();
+		return _ypr[2];
+	}
+
+	public short[] getXYZ() { // Accelerometer
+		ErrorCode error = _pigeon.getBiasedAccelerometer(_xyz);
+		SmartDashboard.putString("IMU Error Code", error.toString());
+		return _xyz;
+	}
+
+	public double getX() {
+		_xyz = getXYZ();
+		return _xyz[0];
+	}
+
+	public double getY() {
+		_xyz = getXYZ();
+		return _xyz[1];
+	}
+
+	public double getZ() {
+		_xyz = getXYZ();
+		return _xyz[2];
+	}
+
 }

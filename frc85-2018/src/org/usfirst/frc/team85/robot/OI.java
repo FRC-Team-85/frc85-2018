@@ -247,4 +247,13 @@ public class OI {
 	public double getPower() {
 		return _power;
 	}
+
+	public double getLeftJoystick() {
+		return _leftJoystick.getRawAxis(1);
+	}
+
+	public double getRightJoystick() {
+		return _rightJoystick.getRawAxis(1);
+	}
+
 }

@@ -201,10 +201,6 @@ public class Variables {
 		IMU.getInstance().getIMU().getRawGyro(rawgyro);
 		SmartDashboard.putString("RawGyro", rawgyro[0] + " : " + rawgyro[1] + " : " + rawgyro[2]);
 
-		double[] ypr = new double[3];
-		IMU.getInstance().getIMU().getYawPitchRoll(ypr);
-		SmartDashboard.putString("YawPitchRoll", ypr[0] + " : " + ypr[1] + " : " + ypr[2]);
-
 		SmartDashboard.putBoolean("Left Intake Limit", LimitSwitches.getInstance().getLeftIntakeLimit());
 		SmartDashboard.putBoolean("Right Intake Limit", LimitSwitches.getInstance().getRightIntakeLimit());
 		SmartDashboard.putBoolean("Upper Lift Limit", LimitSwitches.getInstance().getUpperLiftLimit());
@@ -219,6 +215,10 @@ public class Variables {
 		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
 
 		SmartDashboard.putNumber("Solenoid Total", _totalSolenoid);
+
+		SmartDashboard.putNumber("Yaw", IMU.getInstance().getYaw());
+		SmartDashboard.putNumber("Pitch", IMU.getInstance().getPitch());
+		SmartDashboard.putNumber("Roll", IMU.getInstance().getRoll());
 	}
 
 	public void addSolenoidFire() {
