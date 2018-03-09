@@ -12,7 +12,7 @@ public class Variables {
 
 	private static Variables _instance;
 
-	private static final double kP_SPIN = 0.075, kI_SPIN = 0.00001, kD_SPIN = 0.2, tolerance_SPIN = 5;
+	private static final double kP_SPIN = 0.075, kI_SPIN = 0.00001, kD_SPIN = 0.2, tolerance_SPIN = 8;
 
 	public static final double g = 32.2;
 	public static final double µ = .75;
@@ -25,7 +25,7 @@ public class Variables {
 	public static final double LIFT_LOCK = 9500;
 	public static final double LIFT_SCALE_LOW = 21500;
 	public static final double LIFT_SCALE = 30000;
-	public static final double LIFT_CLIMB = 34300;
+	public static final double LIFT_CLIMB = 34500;
 	public static final double LIFT_SCALE_HIGH = 37700;
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 

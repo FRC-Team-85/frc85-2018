@@ -24,7 +24,6 @@ public class Robot extends IterativeRobot {
 
 		Intake.getInstance().apply(false);
 		Lift.getInstance().lock(false);
-		SmartDashboard.putNumber("Autonomous Position Selector", 1);
 	}
 
 	@Override

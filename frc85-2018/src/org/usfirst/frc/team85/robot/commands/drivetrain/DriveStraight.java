@@ -29,8 +29,25 @@ public class DriveStraight extends Command {
 		_distance = Math.abs(distance);
 	}
 
+	public DriveStraight(double speed, double distance, double timeout) {
+		requires(DriveTrain.getInstance());
+		setTimeout(timeout);
+		Encoders.getInstance().driveEncoderReset();
+		_speed = speed;
+		_distance = Math.abs(distance);
+	}
+
 	public DriveStraight(double speed, double distance, AbsoluteDirection direction) {
 		requires(DriveTrain.getInstance());
+		Encoders.getInstance().driveEncoderReset();
+		_speed = speed;
+		_distance = Math.abs(distance);
+		_direction = direction;
+	}
+
+	public DriveStraight(double speed, double distance, AbsoluteDirection direction, double timeout) {
+		requires(DriveTrain.getInstance());
+		setTimeout(timeout);
 		Encoders.getInstance().driveEncoderReset();
 		_speed = speed;
 		_distance = Math.abs(distance);
