@@ -20,7 +20,6 @@ public class Robot extends IterativeRobot {
 		Globals.getInstance();
 
 		_diagnostics = new Diagnostics();
-		_diagnostics.init();
 
 		Intake.getInstance().apply(false);
 		Lift.getInstance().lock(false);
@@ -67,12 +66,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-
-	}
-
-	@Override
-	public void disabledInit() {
-		super.disabledInit();
-		Lift.getInstance().setDesiredHeight(-1);
+		_diagnostics.close();
 	}
 }

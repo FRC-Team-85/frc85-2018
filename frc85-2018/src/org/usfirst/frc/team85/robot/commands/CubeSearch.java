@@ -16,9 +16,12 @@ public class CubeSearch extends CommandGroup {
 		addSequential(new Wait(.2));
 		addParallel(new OpenGripper());
 		addSequential(new ActivateIntake(1.0));
+
 		addSequential(new IntakeLimitWait());
-		addParallel(new ActivateIntake(0.0));
+		addSequential(new Wait(.05));
 		addSequential(new CloseGripper());
+		addSequential(new Wait(.05));
+		addSequential(new ActivateIntake(0.0));
 		addSequential(new Wait(.2));
 		addSequential(new FullyRetractIntake());
 	}

@@ -25,16 +25,15 @@ public class Diagnostics {
 			String date = new java.text.SimpleDateFormat("yyyy-MM-ddy HHmmss")
 					.format(new java.util.Date(System.currentTimeMillis()));
 			log = new File("/home/lvuser/log " + date + ".csv");
-			if (log.exists() == false) {
-				log.createNewFile();
-				out = new BufferedWriter(new FileWriter(log, true));
-				out.append("Match Time," + "Left Joystick,Right Joystick"
-						+ "Left Velocity,Right Velocity,High Gear,Left Front,Left Back,Right Front,Right Back,"
-						+ "Lift Position,Left One,Left Two, Right One,Right Two,"
-						+ "Compressor,Total Solenoid Activations"
-						+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration");
-				out.newLine();
-			}
+			// if (log.exists() == false) {
+			log.createNewFile();
+			out = new BufferedWriter(new FileWriter(log, true));
+			out.append("Match Time,Left Joystick,Right Joystick"
+					+ "Left Velocity,Right Velocity,High Gear,Left Front,Left Back,Right Front,Right Back,"
+					+ "Lift Position,Left One,Left Two, Right One,Right Two," + "Compressor,Total Solenoid Activations,"
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration");
+			out.newLine();
+			// }
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
 		}
@@ -42,11 +41,16 @@ public class Diagnostics {
 
 	public void log() {
 		try {
-
+			if (out == null) {
+				init();
+			}
+			
 			String matchTime = Double.toString(DriverStation.getInstance().getMatchTime());
+
 			// Driver
 			String LJ = Double.toString(OI.getInstance().getLeftJoystick());
 			String RJ = Double.toString(OI.getInstance().getRightJoystick());
+
 			// Drive train
 			String LFP = Double.toString(DriveTrain.getInstance().getLeftFrontPercent());
 			String LBP = Double.toString(DriveTrain.getInstance().getLeftBackPercent());

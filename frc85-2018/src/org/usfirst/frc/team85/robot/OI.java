@@ -249,11 +249,19 @@ public class OI {
 	}
 
 	public double getLeftJoystick() {
-		return _leftJoystick.getRawAxis(1);
+		if (_leftJoystick != null) {
+			return _leftJoystick.getRawAxis(1);
+		} else {
+			return 0;
+		}
 	}
 
 	public double getRightJoystick() {
-		return _rightJoystick.getRawAxis(1);
+		if (_rightJoystick != null) {
+			return _rightJoystick.getRawAxis(1);
+		} else {
+			return 0;
+		}
 	}
 
 }

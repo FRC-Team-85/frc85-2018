@@ -163,7 +163,7 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new SpinExactDegrees(135));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.8, 2.5, 3));
+		addSequential(new DriveStraight(.8, 3.5, 3));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.8, 3));
 		addSequential(new SpinExactDegrees(-135));
@@ -196,7 +196,7 @@ public class Autonomous extends CommandGroup {
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.6, 1, AbsoluteDirection.FORWARD, 2));
 		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.6, 2));
+		addSequential(new DriveStraight(-.6, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
 		// Second Cube
@@ -221,7 +221,7 @@ public class Autonomous extends CommandGroup {
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.6, 1, AbsoluteDirection.FORWARD, 2));
 		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.6, 2));
+		addSequential(new DriveStraight(-.6, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
@@ -274,7 +274,7 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new SpinExactDegrees(-135));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.8, 2.5, 3));
+		addSequential(new DriveStraight(.8, 3.5));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.8, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
