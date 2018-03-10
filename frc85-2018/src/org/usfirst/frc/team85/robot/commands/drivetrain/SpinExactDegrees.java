@@ -1,5 +1,7 @@
 package org.usfirst.frc.team85.robot.commands.drivetrain;
 
+import org.usfirst.frc.team85.robot.Variables;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
@@ -10,12 +12,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SpinExactDegrees extends Command {
 
-	private static final double kP = 0.1, kI = 0.00001, kD = 0.2;
+	// private static final double kP = 0.05, kI = 0.00001, kD = 0.1;
 	private PIDController _pid;
 
 	private double _targetAngle;
 	private double _changeAngle;
-	private double _tolerance = 3;
 
 	// left = positive, right = negative
 	public SpinExactDegrees(double angle) {
@@ -28,27 +29,28 @@ public class SpinExactDegrees extends Command {
 		super.initialize();
 		_targetAngle = _changeAngle + IMU.getInstance().getFusedHeading();
 
-		_pid = new PIDController(kP, kI, kD, new PIDSource() {
-			PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
+		_pid = new PIDController(Variables.getInstance().getSpinKP(), Variables.getInstance().getSpinKI(),
+				Variables.getInstance().getSpinKD(), new PIDSource() {
+					PIDSourceType m_sourceType = PIDSourceType.kDisplacement;
 
-			@Override
-			public double pidGet() {
-				return IMU.getInstance().getFusedHeading();
-			}
+					@Override
+					public double pidGet() {
+						return IMU.getInstance().getFusedHeading();
+					}
 
-			@Override
-			public void setPIDSourceType(PIDSourceType pidSource) {
-				m_sourceType = pidSource;
-			}
+					@Override
+					public void setPIDSourceType(PIDSourceType pidSource) {
+						m_sourceType = pidSource;
+					}
 
-			@Override
-			public PIDSourceType getPIDSourceType() {
-				return m_sourceType;
-			}
-		}, d -> applyCorrection(d));
+					@Override
+					public PIDSourceType getPIDSourceType() {
+						return m_sourceType;
+					}
+				}, d -> applyCorrection(d));
 
 		_pid.setSetpoint(_targetAngle);
-		_pid.setAbsoluteTolerance(_tolerance);
+		_pid.setAbsoluteTolerance(Variables.getInstance().getSpinTolerance());
 
 		_pid.setOutputRange(-50, 50);
 		_pid.reset();
@@ -72,5 +74,6 @@ public class SpinExactDegrees extends Command {
 	protected void end() {
 		_pid.disable();
 		DriveTrain.getInstance().drive(0, 0);
+		Encoders.getInstance().driveEncoderReset();
 	}
 }

@@ -11,6 +11,7 @@ public class RangeFinder {
 	private I2C rangeFinderLeft = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_LEFT);
 	private I2C rangeFinderRight = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_RIGHT);
 	private I2C rangeFinderBack = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_BACK);
+	
 	private byte[] buffer = new byte[2];
 	private Thread thread;
 	private int rangeFront;
@@ -58,15 +59,15 @@ public class RangeFinder {
 	public int getDistanceFront() {
 		return rangeFront;
 	}
-	
+
 	public int getDistanceLeft() {
 		return rangeLeft;
 	}
-	
+
 	public int getDistanceRight() {
 		return rangeRight;
 	}
-	
+
 	public int getDistanceBack() {
 		return rangeBack;
 	}

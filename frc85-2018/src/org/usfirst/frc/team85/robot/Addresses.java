@@ -41,7 +41,7 @@ public class Addresses {
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;
 	public static final int INTAKE_LEFT_LIMIT = 5;
 	public static final int INTAKE_RIGHT_LIMIT = 4;
-
+	
 	// drive encoders (DIO ports)
 	public final static int ENCODERS_LEFT_A = 2;
 	public final static int ENCODERS_LEFT_B = 3;
@@ -65,6 +65,6 @@ public class Addresses {
 	public final static int OS_MISC_COMPRESSOR_ON = 5;
 	public final static int OS_MISC_COMPRESSOR_OFF = 6;
 	public final static int OS_MISC_CUBE_SEARCH = 9;
-	public final static int OS_MISC_POWER_BUTTON = 10;
+	public final static int OS_MISC_EXCHANGE_BUTTON = 10;
 	public final static int OS_MISC_LIFT_CLIMB = 11;
 }

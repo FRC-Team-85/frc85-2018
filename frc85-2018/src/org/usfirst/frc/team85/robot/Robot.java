@@ -1,12 +1,14 @@
 package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -20,15 +22,17 @@ public class Robot extends IterativeRobot {
 		_diagnostics = new Diagnostics();
 		_diagnostics.init();
 
-		_autonomous = new Autonomous();
-
 		Intake.getInstance().apply(false);
 		Lift.getInstance().lock(false);
+		SmartDashboard.putNumber("Autonomous Position Selector", 1);
 	}
 
 	@Override
 	public void autonomousInit() {
-		_autonomous.init(DriverStation.getInstance().getGameSpecificMessage());
+		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
+				DriverStation.getInstance().getGameSpecificMessage());
+		Encoders.getInstance().driveEncoderReset();
+		_autonomous.start();
 	}
 
 	@Override
@@ -42,7 +46,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		super.teleopInit();
-		_autonomous.cancel();
+		if (_autonomous != null) {
+			_autonomous.cancel();
+		}
+		Encoders.getInstance().driveEncoderReset();
 	}
 
 	@Override

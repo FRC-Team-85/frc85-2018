@@ -12,13 +12,10 @@ public class Encoders {
 	private Encoder _leftDriveEncoder;
 	private Encoder _rightDriveEncoder;
 
-	private double wheelDiameter = 4.0; // inches
-	private double wheelCircumference = wheelDiameter * Math.PI; // ~12.57 inches
-	private double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of
-										// gear
-	private static final double inchToFoot = 0.083333;
+	private double wheelCircumference = .3333 * Math.PI;
+	private double gearRatio = 2.04545; // one encoder revolution is 2.04545 wheel rotations, regardless of gear
 	private double pulseperRevolution = 256.0;
-	private double pulseWidth = wheelCircumference / gearRatio / pulseperRevolution;
+	private double pulseWidth = wheelCircumference / gearRatio / pulseperRevolution / 2;
 
 	private Encoders() {
 		_leftDriveEncoder = new Encoder(Addresses.ENCODERS_LEFT_A, Addresses.ENCODERS_LEFT_B, false,
@@ -43,7 +40,7 @@ public class Encoders {
 	}
 
 	private double getLeftDriveRate() {
-		return _leftDriveEncoder.getRate();
+		return -_leftDriveEncoder.getRate();
 	}
 
 	private double getRightDriveRate() {
@@ -51,22 +48,22 @@ public class Encoders {
 	}
 
 	public double getLeftVelocity() { // In feet/sec
-		double velocity = getLeftDriveRate() * inchToFoot;
+		double velocity = getLeftDriveRate();
 		SmartDashboard.putNumber("Left Velocity", velocity);
 		return velocity;
 	}
 
 	public double getRightVelocity() { // In feet/sec
-		double velocity = getRightDriveRate() * inchToFoot;
+		double velocity = getRightDriveRate();
 		SmartDashboard.putNumber("Right Velocity", velocity);
 		return velocity;
 	}
 
 	public double getRightDistance() {
-		return -_rightDriveEncoder.getDistance() * inchToFoot;
+		return -_rightDriveEncoder.getDistance();
 	}
 
 	public double getLeftDistance() {
-		return _leftDriveEncoder.getDistance() * inchToFoot;
+		return _leftDriveEncoder.getDistance();
 	}
 }

@@ -85,15 +85,19 @@ public class Lift extends Subsystem {
 
 			if (_desiredHeight > getPosition()) {
 				speed = Variables.getInstance().getLiftUpSpeed();
+				if (error <= Variables.getInstance().getLiftUpwardDecelMultiple()
+						* Variables.getInstance().getLiftTolerance()) {
+					speed *= .2;
+				}
 			} else {
 				speed = Variables.getInstance().getLiftDownSpeed();
+				if (error <= Variables.getInstance().getLiftDownwardDecelMultiple()
+						* Variables.getInstance().getLiftTolerance()) {
+					speed *= .2;
+				}
 			}
 
-			if (error <= 2 * Variables.LIFT_TOLERANCE) {
-				speed *= .2;
-			}
-
-			if (error <= Variables.LIFT_TOLERANCE) {
+			if (error <= Variables.getInstance().getLiftTolerance()) {
 				speed = 0;
 			}
 		}
@@ -119,6 +123,9 @@ public class Lift extends Subsystem {
 	}
 
 	public void lock(boolean lock) {
+		if (lock != isLocked()) {
+			Variables.getInstance().addSolenoidFire();
+		}
 		_lock.set(!lock);
 	}
 
@@ -127,6 +134,6 @@ public class Lift extends Subsystem {
 	}
 
 	public boolean isLifted() {
-		return (getPosition() > Variables.LIFT_TOLERANCE);
+		return (getPosition() > Variables.getInstance().getLiftTolerance());
 	}
 }

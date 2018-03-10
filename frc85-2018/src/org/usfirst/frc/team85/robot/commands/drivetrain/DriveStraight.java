@@ -1,5 +1,6 @@
 package org.usfirst.frc.team85.robot.commands.drivetrain;
 
+import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
@@ -18,11 +19,22 @@ public class DriveStraight extends Command {
 
 	private double _speed;
 	private double _distance;
+	private double _heading;
+	private AbsoluteDirection _direction = null;
 
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
+		Encoders.getInstance().driveEncoderReset();
 		_speed = speed;
-		_distance = distance;
+		_distance = Math.abs(distance);
+	}
+
+	public DriveStraight(double speed, double distance, AbsoluteDirection direction) {
+		requires(DriveTrain.getInstance());
+		Encoders.getInstance().driveEncoderReset();
+		_speed = speed;
+		_distance = Math.abs(distance);
+		_direction = direction;
 	}
 
 	@Override
@@ -46,8 +58,40 @@ public class DriveStraight extends Command {
 			}
 		}, d -> applyCorrection(d));
 
+		if (_direction != null) {
+			double currentHeading = IMU.getInstance().getFusedHeading();
+			double initHeading = IMU.getInstance().getInitialHeading();
+			int diff = (int) (currentHeading - initHeading);
+			int rot = diff / 360;
+			int remainder = diff % 360;
+
+			switch (_direction) {
+			case BACKWARD:
+				if (remainder > 180) {
+					_heading = initHeading + (rot * 360) + 540;
+				} else {
+					_heading = initHeading + (rot * 360) + 180;
+				}
+				break;
+			case FORWARD:
+				_heading = initHeading + (rot * 360);
+				break;
+			case LEFT:
+				_heading = initHeading + (rot * 360) + 90;
+				break;
+			case RIGHT:
+				_heading = initHeading + (rot * 360) - 90;
+				break;
+			default:
+				_heading = currentHeading;
+				break;
+			}
+		} else {
+			_heading = IMU.getInstance().getFusedHeading();
+		}
+
+		_pid.setSetpoint(_heading);
 		_pid.setAbsoluteTolerance(2);
-		_pid.setSetpoint(IMU.getInstance().getFusedHeading());
 
 		_pid.setOutputRange(-25, 25);
 
@@ -57,22 +101,41 @@ public class DriveStraight extends Command {
 
 	public void applyCorrection(double correction) {
 		SmartDashboard.putNumber("Correction Value", correction);
+		double error = Math.abs(_distance)
+				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
+
+		double applySpeed = _speed;
+		if (error < Variables.getInstance().getDriveStraightDecelDistance()) {
+			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance());
+			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
+		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance()) {
+			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance());
+			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
+		}
+
+		if (applySpeed > 1) {
+			applySpeed = 1;
+		}
+		if (applySpeed < -1) {
+			applySpeed = -1;
+		}
+
 		if (correction > 0) {
-			DriveTrain.getInstance().drive(_speed - Math.abs(correction), _speed);
+			DriveTrain.getInstance().drive(applySpeed - Math.abs(correction), applySpeed);
 		} else {
-			DriveTrain.getInstance().drive(_speed, _speed - Math.abs(correction));
+			DriveTrain.getInstance().drive(applySpeed, applySpeed - Math.abs(correction));
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (_speed > 0) {
-			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
-					/ 2 > _distance;
-		} else {
-			return (Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
-					/ 2 < -_distance;
+		double error = Math.abs(_distance)
+				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
+
+		if (error < Variables.getInstance().getDriveStraightTolerance()) {
+			return true;
 		}
+		return false;
 	}
 
 	@Override
