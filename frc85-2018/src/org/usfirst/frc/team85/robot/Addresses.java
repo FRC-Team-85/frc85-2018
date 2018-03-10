@@ -33,9 +33,9 @@ public class Addresses {
 
 	// Sensors
 	public static final int RANGEFINDER_FRONT = 50;
-	public static final int RANGEFINDER_LEFT = 52;
-	public static final int RANGEFINDER_RIGHT = 54;
-	public static final int RANGEFINDER_BACK = 56;
+	public static final int RANGEFINDER_LEFT = 51;
+	public static final int RANGEFINDER_RIGHT = 52;
+	public static final int RANGEFINDER_BACK = 53;
 	public static final int IMU_TALON = 6;
 	public static final int LIFT_LOWER_LIMIT_SWITCH = 8;
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;

@@ -45,7 +45,6 @@ public class RangeFinder {
 		try {
 			device.write(address, 81);
 			Thread.sleep(80);
-			System.out.println("Read: " + device.read(address, 2, buffer));
 			short msb = (short) (buffer[0] & 0x7F);
 			short lsb = (short) (buffer[1] & 0xFF);
 			return msb * 256 + lsb;
