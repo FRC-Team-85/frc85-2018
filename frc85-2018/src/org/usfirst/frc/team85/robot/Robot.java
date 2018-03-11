@@ -27,7 +27,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		SmartDashboard.getBoolean("Autonomous Prioritize Scale", false);
 		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
+				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
 				DriverStation.getInstance().getGameSpecificMessage());
 		Encoders.getInstance().driveEncoderReset();
 		_autonomous.start();

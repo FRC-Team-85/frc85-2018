@@ -224,4 +224,8 @@ public class Variables {
 	public void addSolenoidFire() {
 		_totalSolenoid++;
 	}
+
+	public int getSolenoidTotal() {
+		return _totalSolenoid;
+	}
 }

@@ -6,6 +6,7 @@ import java.io.FileWriter;
 
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -15,8 +16,6 @@ public class Diagnostics {
 
 	File log;
 	BufferedWriter out = null;
-
-	public int totalSolenoid = 0;
 
 	public void init() {
 		try {
@@ -28,9 +27,12 @@ public class Diagnostics {
 			// if (log.exists() == false) {
 			log.createNewFile();
 			out = new BufferedWriter(new FileWriter(log, true));
-			out.append("Match Time,Left Joystick,Right Joystick"
+			out.append("Match Time,Left Joystick,Right Joystick,"
 					+ "Left Velocity,Right Velocity,High Gear,Left Front,Left Back,Right Front,Right Back,"
-					+ "Lift Position,Left One,Left Two, Right One,Right Two," + "Compressor,Total Solenoid Activations,"
+					+ "Left Front Output,Left Back Output,Right Front Output,Right Back Output,"
+					+ "Left Intake Limit,Right Intake Limit,"
+					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
+					+ "Compressor,Total Solenoid Activations,"
 					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration");
 			out.newLine();
 			// }
@@ -44,7 +46,7 @@ public class Diagnostics {
 			if (out == null) {
 				init();
 			}
-			
+
 			String matchTime = Double.toString(DriverStation.getInstance().getMatchTime());
 
 			// Driver
@@ -66,14 +68,20 @@ public class Diagnostics {
 			String LB = Double.toString(DriveTrain.getInstance().getLeftBackCurrent());
 			String RF = Double.toString(DriveTrain.getInstance().getRightFrontCurrent());
 			String RB = Double.toString(DriveTrain.getInstance().getRightBackCurrent());
+			// Intake
+			String leftLS = Boolean.toString(LimitSwitches.getInstance().getLeftIntakeLimit());
+			String rightLS = Boolean.toString(LimitSwitches.getInstance().getRightIntakeLimit());
 			// Lift
 			String Pos = Double.toString(Lift.getInstance().getPosition());
 			String L1 = Double.toString(Lift.getInstance().getLeftOneCurrent());
 			String L2 = Double.toString(Lift.getInstance().getLeftTwoCurrent());
 			String R1 = Double.toString(Lift.getInstance().getRightOneCurrent());
 			String R2 = Double.toString(Lift.getInstance().getRightTwoCurrent());
+
+			String LLS = Boolean.toString(LimitSwitches.getInstance().getLowerLiftLimit());
+			String ULS = Boolean.toString(LimitSwitches.getInstance().getUpperLiftLimit());
 			// Pneumatics
-			String solenoid = Integer.toString(totalSolenoid);
+			String solenoid = Integer.toString(Variables.getInstance().getSolenoidTotal());
 			String comp = Double.toString(Globals.getInstance().getCompressor().getCompressorCurrent());
 			// IMU
 			String yaw = Double.toString(IMU.getInstance().getYaw());
@@ -84,10 +92,10 @@ public class Diagnostics {
 			String y = Double.toString(IMU.getInstance().getY());
 			String z = Double.toString(IMU.getInstance().getZ());
 
-			out.append(matchTime + "," + LJ + "," + RJ + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + LV + ","
-					+ RV + "," + gear + "," + LF + "," + LB + "," + RF + "," + RB + "," + Pos + "," + L1 + "," + L2
-					+ "," + R1 + "," + R2 + "," + comp + "," + solenoid + "," + yaw + "," + pitch + "," + roll + "," + x
-					+ "," + y + "," + z);
+			out.append(matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + "," + LB + ","
+					+ RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + "," + rightLS + ","
+					+ Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + "," + comp + ","
+					+ solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z);
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());
