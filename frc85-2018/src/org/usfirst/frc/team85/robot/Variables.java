@@ -15,7 +15,7 @@ public class Variables {
 	private static final double kP_SPIN = 0.075, kI_SPIN = 0.00001, kD_SPIN = 0.2, tolerance_SPIN = 8;
 
 	public static final double g = 32.2;
-	public static final double Âµ = .75;
+	public static final double µ = .75;
 	public static final double wheelSpan = 1.583;
 	public static final double maxSpeed = 16;
 

@@ -2,6 +2,10 @@ package org.usfirst.frc.team85.robot;
 
 import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
+import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -19,6 +23,16 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		Globals.getInstance();
 
+		DriveTrain.getInstance();
+		Gripper.getInstance();
+		Intake.getInstance();
+		Lift.getInstance();
+
+		Encoders.getInstance();
+		IMU.getInstance();
+		LimitSwitches.getInstance();
+		// RangeFinder.getInstance();
+
 		_diagnostics = new Diagnostics();
 
 		Intake.getInstance().apply(false);
@@ -27,7 +41,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		SmartDashboard.getBoolean("Autonomous Prioritize Scale", false);
 		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
 				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
 				DriverStation.getInstance().getGameSpecificMessage());

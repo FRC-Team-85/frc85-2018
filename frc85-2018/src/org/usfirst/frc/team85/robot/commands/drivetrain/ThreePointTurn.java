@@ -24,6 +24,7 @@ public class ThreePointTurn extends CommandGroup {
 
 		addSequential(new DriveStraight(-speed, backDistance));
 		addSequential(new SpinExactDegrees(turnDegrees));
-		addSequential(new DriveStraight(-speed, forwardDistance));
+		addSequential(new DriveStraight(speed, forwardDistance));
+		addSequential(new SpinExactDegrees(-turnDegrees));
 	}
 }
