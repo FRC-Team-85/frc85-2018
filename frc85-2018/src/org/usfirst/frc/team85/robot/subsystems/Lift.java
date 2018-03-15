@@ -136,4 +136,21 @@ public class Lift extends Subsystem {
 	public boolean isLifted() {
 		return (getPosition() > Variables.getInstance().getLiftTolerance());
 	}
+
+	public double getRightOneCurrent() {
+		return _rightOne.getOutputCurrent();
+	}
+
+	public double getRightTwoCurrent() {
+		return _rightTwo.getOutputCurrent();
+	}
+
+	public double getLeftOneCurrent() {
+		return _leftOne.getOutputCurrent();
+	}
+
+	public double getLeftTwoCurrent() {
+		return _leftTwo.getOutputCurrent();
+	}
+
 }

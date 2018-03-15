@@ -20,7 +20,12 @@ public class DriveStraight extends Command {
 	private double _speed;
 	private double _distance;
 	private double _heading;
+
 	private AbsoluteDirection _direction = null;
+
+	private boolean _accel = true;
+	private boolean _decel = true;
+	private boolean _autoShift = false;
 
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
@@ -29,12 +34,28 @@ public class DriveStraight extends Command {
 		_distance = Math.abs(distance);
 	}
 
-	public DriveStraight(double speed, double distance, AbsoluteDirection direction) {
+	public DriveStraight(double speed, double distance, double timeout) {
 		requires(DriveTrain.getInstance());
 		Encoders.getInstance().driveEncoderReset();
+		setTimeout(timeout);
 		_speed = speed;
 		_distance = Math.abs(distance);
+	}
+
+	public DriveStraight setAbsoluteDirection(AbsoluteDirection direction) {
 		_direction = direction;
+		return this;
+	}
+
+	public DriveStraight setAcceleration(boolean accel, boolean decel) {
+		_accel = accel;
+		_decel = decel;
+		return this;
+	}
+
+	public DriveStraight setAutoShift() {
+		_autoShift = true;
+		return this;
 	}
 
 	@Override
@@ -58,6 +79,7 @@ public class DriveStraight extends Command {
 			}
 		}, d -> applyCorrection(d));
 
+		// Absolute Direction Math
 		if (_direction != null) {
 			double currentHeading = IMU.getInstance().getFusedHeading();
 			double initHeading = IMU.getInstance().getInitialHeading();
@@ -104,11 +126,12 @@ public class DriveStraight extends Command {
 		double error = Math.abs(_distance)
 				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
 
+		// Acceleration and Deceleration zones and speeds
 		double applySpeed = _speed;
-		if (error < Variables.getInstance().getDriveStraightDecelDistance()) {
+		if (error < Variables.getInstance().getDriveStraightDecelDistance() && _decel) {
 			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance());
 			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
-		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance()) {
+		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance() && _accel) {
 			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance());
 			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
 		}
@@ -120,6 +143,19 @@ public class DriveStraight extends Command {
 			applySpeed = -1;
 		}
 
+		// Automatic Shifting based on speed and deceleration zone
+		if (_autoShift) {
+			if ((error < Variables.getInstance().getDriveStraightDecelDistance()) && _decel) {
+				DriveTrain.getInstance().setHighGear(false);
+			} else if ((Math.abs(Encoders.getInstance().getLeftVelocity()) > Variables.getInstance()
+					.getDriveTrainHighGearThreshold())
+					&& (Math.abs(Encoders.getInstance().getRightVelocity()) > Variables.getInstance()
+							.getDriveTrainHighGearThreshold())) {
+				DriveTrain.getInstance().setHighGear(true);
+			}
+		}
+
+		// Applying PID correction Values
 		if (correction > 0) {
 			DriveTrain.getInstance().drive(applySpeed - Math.abs(correction), applySpeed);
 		} else {
@@ -141,7 +177,9 @@ public class DriveStraight extends Command {
 	@Override
 	protected void end() {
 		_pid.disable();
-		DriveTrain.getInstance().drive(0, 0);
+		if (_decel) {
+			DriveTrain.getInstance().drive(0, 0);
+		}
 		Encoders.getInstance().driveEncoderReset();
 	}
 }

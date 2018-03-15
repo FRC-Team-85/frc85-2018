@@ -24,6 +24,12 @@ public class SpinExactDegrees extends Command {
 		_changeAngle = angle;
 	}
 
+	public SpinExactDegrees(double angle, double timeout) {
+		requires(DriveTrain.getInstance());
+		setTimeout(timeout);
+		_changeAngle = angle;
+	}
+
 	@Override
 	protected void initialize() {
 		super.initialize();
