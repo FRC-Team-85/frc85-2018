@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -213,6 +214,11 @@ public class Variables {
 
 		SmartDashboard.putNumber("Left Drivetrain Encoder Position", Encoders.getInstance().getLeftDistance());
 		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
+		
+		SmartDashboard.putNumber("RangeFinder Front", RangeFinder.getInstance().getDistanceFront());
+		SmartDashboard.putNumber("RangeFinder Left", RangeFinder.getInstance().getDistanceLeft());
+		SmartDashboard.putNumber("RangeFinder Right", RangeFinder.getInstance().getDistanceRight());
+		SmartDashboard.putNumber("RangeFinder Back", RangeFinder.getInstance().getDistanceBack());
 
 		SmartDashboard.putNumber("Solenoid Total", _totalSolenoid);
 
