@@ -47,6 +47,7 @@ public class Variables {
 	private static final double DefaultHighJoystickPower = 5;
 	private static final double DefaultUsefulDriveTrainPower = .25;
 	private static final double DefaultDriveStraightTolerance = .25;
+	private static final double DefaultTractionControlMultiplier = .90;
 
 	private int _totalSolenoid = 0;
 
@@ -72,6 +73,7 @@ public class Variables {
 		SmartDashboard.putNumber("Lift Tolerance", DefaultLiftTolerance);
 		SmartDashboard.putNumber("Useful DriveTrain Power", DefaultUsefulDriveTrainPower);
 		SmartDashboard.putNumber("DriveStraight Tolerance", DefaultDriveStraightTolerance);
+		SmartDashboard.putNumber("Traction Control Multiplier", DefaultTractionControlMultiplier);
 	}
 
 	public static Variables getInstance() {
@@ -164,6 +166,10 @@ public class Variables {
 
 	public double getDriveStraightTolerance() {
 		return SmartDashboard.getNumber("DriveStraight Tolerance", DefaultDriveStraightTolerance);
+	}
+	
+	public double getTractionControlMultiplier() {
+		return SmartDashboard.getNumber("Traction Control Multiplier", DefaultTractionControlMultiplier);
 	}
 
 	public void outputVariables() {

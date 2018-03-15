@@ -14,7 +14,9 @@ import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
+import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -164,15 +166,17 @@ public class OI {
 		double leftStick = _leftJoystick.getRawAxis(1);
 
 		if (Math.abs(rightStick) >= .2) {
-			_speedRight = Math.pow(rightStick, _power)
-					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick);
+			_speedRight = (Math.pow(rightStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick))
+						* tractionControl();
 		} else if (Math.abs(rightStick) < .2) {
 			_speedRight = 0;
 		}
 
 		if (Math.abs(leftStick) >= .2) {
-			_speedLeft = Math.pow(leftStick, _power)
-					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick);
+			_speedLeft = (Math.pow(leftStick, _power)
+					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick))
+						* tractionControl();
 		} else if (Math.abs(leftStick) < .2) {
 			_speedLeft = 0;
 		}
@@ -193,16 +197,20 @@ public class OI {
 
 			if (_leftJoystick.getRawAxis(0) > .1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					_speedRight = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude;
+					_speedRight = (_rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude)
+						* tractionControl();
 				} else {
-					_speedRight = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude;
+					_speedRight = (_rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude)
+						* tractionControl();
 				}
 
 			} else if (_leftJoystick.getRawAxis(0) < -.1) {
 				if (_rightJoystick.getRawAxis(1) > 0) {
-					_speedLeft = _rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude;
+					_speedLeft = (_rightJoystick.getRawAxis(1) + _leftJoystick.getRawAxis(0) * _turningAmplitude)
+						* tractionControl();
 				} else {
-					_speedLeft = _rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude;
+					_speedLeft = (_rightJoystick.getRawAxis(1) - _leftJoystick.getRawAxis(0) * _turningAmplitude)
+						* tractionControl();
 				}
 			}
 		}
@@ -237,6 +245,48 @@ public class OI {
 				&& Math.abs(Encoders.getInstance().getRightVelocity()) > Variables.getInstance()
 						.getDriveTrainHighGearThreshold()) {
 			DriveTrain.getInstance().setHighGear(true);
+		}
+	}
+	
+	/*
+	 * Trys to not tip the robot over
+	 */
+	public double tractionControl() {
+		double leftVelocity = Encoders.getInstance().getLeftVelocity();
+		double rightVelocity = Encoders.getInstance().getRightVelocity();
+		
+		double pitch = IMU.getInstance().getPitch();
+		double roll = IMU.getInstance().getRoll();
+		
+		double lift = Lift.getInstance().getPosition();
+		
+		if (Math.abs(roll) > 13) { //If tilting left or right
+			if (lift > 13000) { //Move lift down
+				Lift.getInstance().setDesiredHeight(10000);
+				return 1.0;
+			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
+				/*
+				 * Returns multiplier (For example, 0.90) 
+				 * which the speed (in tank and fps drive)
+				 * is multiplied by it to slow robot down (by 10%)
+				 */
+				return Variables.getInstance().getTractionControlMultiplier(); 
+			} else {
+				return 1.0;
+			}
+		}
+				
+		if (pitch > 10) { //If tilting forwards or backwards
+			if (lift > 13000) { //Move lift down
+				Lift.getInstance().setDesiredHeight(10000);
+				return 1.0;
+			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
+				return Variables.getInstance().getTractionControlMultiplier();
+			} else {
+				return 1.0;
+			}
+		} else {
+			return 1.0;
 		}
 	}
 
