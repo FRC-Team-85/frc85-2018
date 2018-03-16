@@ -4,6 +4,7 @@ import org.usfirst.frc.team85.robot.commands.Autonomous;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Gripper;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
@@ -31,7 +32,7 @@ public class Robot extends IterativeRobot {
 		Encoders.getInstance();
 		IMU.getInstance();
 		LimitSwitches.getInstance();
-		// RangeFinder.getInstance();
+		RangeFinder.getInstance();
 
 		_diagnostics = new Diagnostics();
 

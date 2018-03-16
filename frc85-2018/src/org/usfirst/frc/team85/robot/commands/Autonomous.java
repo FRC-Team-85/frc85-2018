@@ -18,11 +18,17 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Autonomous extends CommandGroup {
 
 	public Autonomous(int position, boolean scalePriority, String gameData) {
-		addSequential(new DriveStraight(1.0, 15).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+		addSequential(new DriveStraight(.8, 12).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 				.setAcceleration(true, false).setAutoShift());
-		addSequential(new SweepingTurn(1.0, 15, -90));
-		addSequential(new DriveStraight(1.0, 5).setAbsoluteDirection(AbsoluteDirection.RIGHT)
+		addSequential(new SweepingTurn(.8, 6, -90));
+		addSequential(new DriveStraight(.8, 11).setAbsoluteDirection(AbsoluteDirection.RIGHT)
 				.setAcceleration(false, true).setAutoShift());
+		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		addSequential(new SpinExactDegrees(-90));
+		addSequential(new DriveStraight(.6, 4));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.6, 4));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
 		// if (position == 1) {
 		// buildPosition1(gameData, scalePriority);

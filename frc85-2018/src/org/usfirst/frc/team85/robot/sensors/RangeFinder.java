@@ -11,7 +11,7 @@ public class RangeFinder {
 	private I2C rangeFinderLeft = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_LEFT);
 	private I2C rangeFinderRight = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_RIGHT);
 	private I2C rangeFinderBack = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_BACK);
-	
+
 	private byte[] buffer = new byte[2];
 	private Thread thread;
 	private int rangeFront;
@@ -50,7 +50,7 @@ public class RangeFinder {
 		});
 		thread.start();
 	}
-	
+
 	private void triggerRead(I2C device, int address) {
 		try {
 			device.write(address, 81);
@@ -64,7 +64,7 @@ public class RangeFinder {
 			if (device.read(address, 2, buffer)) {
 				return -2;
 			}
-			
+
 			short msb = (short) (buffer[0] & 0x7F);
 			short lsb = (short) (buffer[1] & 0xFF);
 			return msb * 256 + lsb;
