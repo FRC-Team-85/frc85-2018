@@ -260,34 +260,36 @@ public class OI {
 		
 		double lift = Lift.getInstance().getPosition();
 		
-		if (Math.abs(roll) > 13) { //If tilting left or right
-			if (lift > 13000) { //Move lift down
-				Lift.getInstance().setDesiredHeight(10000);
-				return 1.0;
-			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
-				/*
-				 * Returns multiplier (For example, 0.90) 
-				 * which the speed (in tank and fps drive)
-				 * is multiplied by it to slow robot down (by 10%)
-				 */
-				return Variables.getInstance().getTractionControlMultiplier(); 
-			} else {
-				return 1.0;
-			}
-		}
-				
-		if (pitch > 10) { //If tilting forwards or backwards
-			if (lift > 13000) { //Move lift down
-				Lift.getInstance().setDesiredHeight(10000);
-				return 1.0;
-			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
-				return Variables.getInstance().getTractionControlMultiplier();
-			} else {
-				return 1.0;
-			}
-		} else {
-			return 1.0;
-		}
+//		if (Math.abs(roll) > 13) { //If tilting left or right
+//			if (lift > 13000) { //Move lift down
+//				Lift.getInstance().setDesiredHeight(10000);
+//				return 1.0;
+//			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
+//				/*
+//				 * Returns multiplier (For example, 0.90) 
+//				 * which the speed (in tank and fps drive)
+//				 * is multiplied by it to slow robot down (by 10%)
+//				 */
+//				return Variables.getInstance().getTractionControlMultiplier(); 
+//			} else {
+//				return 1.0;
+//			}
+//		}
+//				
+//		if (pitch > 10) { //If tilting forwards or backwards
+//			if (lift > 13000) { //Move lift down
+//				Lift.getInstance().setDesiredHeight(10000);
+//				return 1.0;
+//			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
+//				return Variables.getInstance().getTractionControlMultiplier();
+//			} else {
+//				return 1.0;
+//			}
+//		} else {
+//			return 1.0;
+//		}
+		
+		return 1.0;
 	}
 
 	public boolean isFPS() {
