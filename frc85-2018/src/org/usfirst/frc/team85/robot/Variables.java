@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -15,7 +16,7 @@ public class Variables {
 	private static final double kP_SPIN = 0.075, kI_SPIN = 0.00001, kD_SPIN = 0.2, tolerance_SPIN = 8;
 
 	public static final double g = 32.2;
-	public static final double µ = .75;
+	public static final double mu = .75;
 	public static final double wheelSpan = 1.583;
 	public static final double maxSpeed = 16;
 
@@ -30,15 +31,15 @@ public class Variables {
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 
 	public static final double DefaultLiftTolerance = 200;
-	public static final double DefaultLiftDownwardDecelMultiple = 18;
-	public static final double DefaultLiftUpwardDecelMultiple = 3;
+	public static final double DefaultLiftDownwardDecelMultiple = 20;
+	public static final double DefaultLiftUpwardDecelMultiple = 6;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
 	private static final double DefaultDriveTrainHighGearThreshold = 6.5;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
-	private static final double DefaultLiftUpSpeed = .65;
-	private static final double DefaultLiftDownSpeed = -.55;
+	private static final double DefaultLiftUpSpeed = 1.0;
+	private static final double DefaultLiftDownSpeed = -1.0;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
 	private static final double DefaultDriveStraightDecelDistance = 3;
@@ -178,6 +179,11 @@ public class Variables {
 		SmartDashboard.putNumber("Lift Encoder Values", Lift.getInstance().getPosition());
 		SmartDashboard.putNumber("Lift Desired Height", Lift.getInstance().getDesiredHeight());
 
+		SmartDashboard.putNumber("Range Front", RangeFinder.getInstance().getDistanceFront());
+		SmartDashboard.putNumber("Range Left", RangeFinder.getInstance().getDistanceLeft());
+		SmartDashboard.putNumber("Range Back", RangeFinder.getInstance().getDistanceBack());
+		SmartDashboard.putNumber("Range Right", RangeFinder.getInstance().getDistanceRight());
+
 		if (DriveTrain.getInstance().getTransmissionHighGear()) {
 			SmartDashboard.putString("DriveTrain Gear", "High Gear");
 		} else {
@@ -219,6 +225,11 @@ public class Variables {
 
 		SmartDashboard.putNumber("Left Drivetrain Encoder Position", Encoders.getInstance().getLeftDistance());
 		SmartDashboard.putNumber("Right Drivetrain Encoder Position", Encoders.getInstance().getRightDistance());
+
+		SmartDashboard.putNumber("RangeFinder Front", RangeFinder.getInstance().getDistanceFront());
+		SmartDashboard.putNumber("RangeFinder Left", RangeFinder.getInstance().getDistanceLeft());
+		SmartDashboard.putNumber("RangeFinder Right", RangeFinder.getInstance().getDistanceRight());
+		SmartDashboard.putNumber("RangeFinder Back", RangeFinder.getInstance().getDistanceBack());
 
 		SmartDashboard.putNumber("Solenoid Total", _totalSolenoid);
 

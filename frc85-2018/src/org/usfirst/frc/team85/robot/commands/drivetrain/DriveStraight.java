@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot.commands.drivetrain;
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.Vision;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -26,6 +27,7 @@ public class DriveStraight extends Command {
 	private boolean _accel = true;
 	private boolean _decel = true;
 	private boolean _autoShift = false;
+	private boolean _visionTrack = false;
 
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
@@ -55,6 +57,11 @@ public class DriveStraight extends Command {
 
 	public DriveStraight setAutoShift() {
 		_autoShift = true;
+		return this;
+	}
+
+	public DriveStraight setVisionTrack() {
+		_visionTrack = true;
 		return this;
 	}
 
@@ -119,6 +126,10 @@ public class DriveStraight extends Command {
 
 		_pid.reset();
 		_pid.enable();
+
+		if (_visionTrack) {
+			Vision.getInstance().setCommand(this);
+		}
 	}
 
 	public void applyCorrection(double correction) {
@@ -177,9 +188,12 @@ public class DriveStraight extends Command {
 	@Override
 	protected void end() {
 		_pid.disable();
-		if (_decel) {
-			DriveTrain.getInstance().drive(0, 0);
-		}
+		DriveTrain.getInstance().drive(0, 0);
 		Encoders.getInstance().driveEncoderReset();
+		Vision.getInstance().setCommand(null);
+	}
+
+	public void setAngle(double angle) {
+		_pid.setSetpoint(IMU.getInstance().getFusedHeading() + angle);
 	}
 }

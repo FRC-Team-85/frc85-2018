@@ -22,7 +22,7 @@ public class PowerCurve extends Command {
 		requires(DriveTrain.getInstance());
 
 		double speedFT = speed * Variables.maxSpeed;
-		double minR = speedFT * speedFT / Variables.µ / Variables.g;
+		double minR = speedFT * speedFT / Variables.mu / Variables.g;
 		double outerV = speedFT * (1 + (Variables.wheelSpan / 2 / minR));
 		double innerV = speedFT * (1 - (Variables.wheelSpan / 2 / minR));
 
