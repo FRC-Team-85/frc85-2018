@@ -36,6 +36,8 @@ public class OI {
 	private boolean _liftStopped = false;
 
 	private double _speedLeft = 0, _speedRight = 0, _power = 1, _turningAmplitude = 0;
+	
+	private double _previousYaw = 0;
 
 	private OI() {
 		_leftJoystick = new Joystick(Addresses.LEFT_JOYSTICK);
@@ -255,16 +257,19 @@ public class OI {
 		double leftVelocity = Encoders.getInstance().getLeftVelocity();
 		double rightVelocity = Encoders.getInstance().getRightVelocity();
 		
+		double yaw = IMU.getInstance().getYaw();
 		double pitch = IMU.getInstance().getPitch();
 		double roll = IMU.getInstance().getRoll();
 		
 		double lift = Lift.getInstance().getPosition();
 		
-//		if (Math.abs(roll) > 13) { //If tilting left or right
+		double turnRate = Math.abs(yaw - _previousYaw);
+		
+//		if (Math.abs(roll) > 13 ) { //If tilting left or right
 //			if (lift > 13000) { //Move lift down
 //				Lift.getInstance().setDesiredHeight(10000);
 //				return 1.0;
-//			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
+//			} else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) || (turnRate > 10)) { //Slow robot down
 //				/*
 //				 * Returns multiplier (For example, 0.90) 
 //				 * which the speed (in tank and fps drive)
@@ -276,7 +281,7 @@ public class OI {
 //			}
 //		}
 //				
-//		if (pitch > 10) { //If tilting forwards or backwards
+//		if (Math.abs(pitch) > 10) { //If tilting forwards or backwards
 //			if (lift > 13000) { //Move lift down
 //				Lift.getInstance().setDesiredHeight(10000);
 //				return 1.0;
@@ -288,6 +293,8 @@ public class OI {
 //		} else {
 //			return 1.0;
 //		}
+		
+		_previousYaw = yaw;
 		
 		return 1.0;
 	}
