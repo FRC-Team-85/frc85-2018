@@ -265,7 +265,7 @@ public class OI {
 		
 		double turnRate = Math.abs(yaw - _previousYaw);
 		
-//		if (Math.abs(roll) > 13 ) { //If tilting left or right
+//		if (Math.abs(roll) > 20) { //If tilting left or right
 //			if (lift > 13000) { //Move lift down
 //				Lift.getInstance().setDesiredHeight(10000);
 //				return 1.0;
@@ -281,7 +281,7 @@ public class OI {
 //			}
 //		}
 //				
-//		if (Math.abs(pitch) > 10) { //If tilting forwards or backwards
+//		if (Math.abs(pitch) > 12) { //If tilting forwards or backwards
 //			if (lift > 13000) { //Move lift down
 //				Lift.getInstance().setDesiredHeight(10000);
 //				return 1.0;
