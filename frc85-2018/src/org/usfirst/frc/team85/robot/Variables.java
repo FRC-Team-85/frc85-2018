@@ -30,19 +30,19 @@ public class Variables {
 	public static final double LIFT_SCALE_HIGH = 37700;
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 
-	public static final double DefaultLiftTolerance = 200;
-	public static final double DefaultLiftDownwardDecelMultiple = 20;
-	public static final double DefaultLiftUpwardDecelMultiple = 6;
+	public static final double DefaultLiftTolerance = 400;
+	public static final double DefaultLiftDownwardDecelMultiple = 10;
+	public static final double DefaultLiftUpwardDecelMultiple = 3;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
-	private static final double DefaultDriveTrainHighGearThreshold = 6.5;
+	private static final double DefaultDriveTrainHighGearThreshold = 6;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
 	private static final double DefaultLiftUpSpeed = 1.0;
 	private static final double DefaultLiftDownSpeed = -1.0;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
-	private static final double DefaultDriveStraightDecelDistance = 3;
+	private static final double DefaultDriveStraightDecelDistance = 5;
 	private static final double DefaultDriveStraightAccelDistance = 3;
 	private static final double DefaultLowJoystickPower = 3;
 	private static final double DefaultHighJoystickPower = 5;
@@ -168,7 +168,7 @@ public class Variables {
 	public double getDriveStraightTolerance() {
 		return SmartDashboard.getNumber("DriveStraight Tolerance", DefaultDriveStraightTolerance);
 	}
-	
+
 	public double getTractionControlMultiplier() {
 		return SmartDashboard.getNumber("Traction Control Multiplier", DefaultTractionControlMultiplier);
 	}
@@ -178,11 +178,6 @@ public class Variables {
 		SmartDashboard.putNumber("DriveTrain Joystick Power", OI.getInstance().getPower());
 		SmartDashboard.putNumber("Lift Encoder Values", Lift.getInstance().getPosition());
 		SmartDashboard.putNumber("Lift Desired Height", Lift.getInstance().getDesiredHeight());
-
-		SmartDashboard.putNumber("Range Front", RangeFinder.getInstance().getDistanceFront());
-		SmartDashboard.putNumber("Range Left", RangeFinder.getInstance().getDistanceLeft());
-		SmartDashboard.putNumber("Range Back", RangeFinder.getInstance().getDistanceBack());
-		SmartDashboard.putNumber("Range Right", RangeFinder.getInstance().getDistanceRight());
 
 		if (DriveTrain.getInstance().getTransmissionHighGear()) {
 			SmartDashboard.putString("DriveTrain Gear", "High Gear");

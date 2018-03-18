@@ -4,6 +4,7 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * Starts intake motors
@@ -23,7 +24,7 @@ public class ActivateIntake extends Command {
 		if (!Lift.getInstance().isLifted()) {
 			Intake.getInstance().setPower(_power);
 		} else {
-			Intake.getInstance().setPower(0);
+			Scheduler.getInstance().add(new FullyRetractIntake());
 		}
 	}
 

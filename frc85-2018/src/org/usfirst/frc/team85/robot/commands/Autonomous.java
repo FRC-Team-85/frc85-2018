@@ -3,36 +3,56 @@ package org.usfirst.frc.team85.robot.commands;
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.commands.drivetrain.AbsoluteDirection;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SetTransmissionHigh;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SweepingTurn;
 import org.usfirst.frc.team85.robot.commands.gripper.OpenGripper;
 import org.usfirst.frc.team85.robot.commands.lift.LiftPositionWait;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
 
 	public Autonomous(int position, boolean scalePriority, String gameData) {
-		addSequential(new DriveStraight(.8, 12).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift());
+		// if (position == 1) {
+		// addParallel(new DriveStraight(.5, 15).setVisionTrack());
+		// addSequential(new CubeSearch());
+		// addParallel(new DriveStraight(0, 0));
+		// } else {
+		// addSequential(new DriveStraight(1.0,
+		// 12).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift());
+		// }
 
-		// addSequential(new DriveStraight(.8,
-		// 12).setAbsoluteDirection(AbsoluteDirection.FORWARD)
-		// .setAcceleration(true, false).setAutoShift());
-		// addSequential(new SweepingTurn(.8, 6, -90));
-		// addSequential(new DriveStraight(.8,
-		// 11).setAbsoluteDirection(AbsoluteDirection.RIGHT)
-		// .setAcceleration(false, true).setAutoShift());
-		// addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-		// addSequential(new SpinExactDegrees(-90));
-		// addSequential(new DriveStraight(.6, 4));
-		// addSequential(new OpenGripper());
-		// addSequential(new DriveStraight(-.6, 4));
-		// addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
-
+		if (position == 1) {
+			addSequential(new DriveStraight(1.0, 6).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+					.setAcceleration(true, false).setAutoShift());
+			addSequential(new SweepingTurn(1.0, 3, 85));
+			addSequential(new DriveStraight(1.0, 11).setAbsoluteDirection(AbsoluteDirection.LEFT)
+					.setAcceleration(false, true).setAutoShift());
+			addSequential(new SetTransmissionHigh(false));
+			addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+			addSequential(new SpinExactDegrees(-90));
+			addSequential(new DriveStraight(.6, 3));
+			addSequential(new OpenGripper());
+			addSequential(new DriveStraight(-.6, 3));
+			addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+		} else {
+			addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+			addSequential(new DriveStraight(1.0, 22).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift());
+			addSequential(new SpinExactDegrees(45));
+			addSequential(new SetTransmissionHigh(false));
+			addSequential(new LiftPositionWait(false));
+			addSequential(new DriveStraight(.6, 2.5, 3));
+			addSequential(new OpenGripper());
+			addSequential(new DriveStraight(-.6, 3.5));
+			addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+			addSequential(new SpinExactDegrees(90));
+			addSequential(new LiftPositionWait(false));
+		}
 		// if (position == 1) {
 		// buildPosition1(gameData, scalePriority);
 		// } else if (position == 2) {
@@ -121,7 +141,6 @@ public class Autonomous extends CommandGroup {
 		super.initialize();
 		IMU.getInstance().setInitialHeading();
 		DriveTrain.getInstance().setHighGear(false);
-		Lift.getInstance().setDesiredHeight(500);
 		Encoders.getInstance().driveEncoderReset();
 	}
 

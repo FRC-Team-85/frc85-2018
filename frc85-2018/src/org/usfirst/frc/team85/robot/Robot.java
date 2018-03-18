@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 		IMU.getInstance();
 		LimitSwitches.getInstance();
 		RangeFinder.getInstance();
+		DriverAssistCameras.getInstance();
 
 		_diagnostics = new Diagnostics();
 
@@ -45,7 +46,6 @@ public class Robot extends IterativeRobot {
 		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
 				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
 				DriverStation.getInstance().getGameSpecificMessage());
-		Encoders.getInstance().driveEncoderReset();
 		_autonomous.start();
 	}
 

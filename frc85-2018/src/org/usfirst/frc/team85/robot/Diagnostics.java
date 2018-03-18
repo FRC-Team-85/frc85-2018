@@ -16,15 +16,15 @@ public class Diagnostics {
 
 	File log;
 	BufferedWriter out = null;
-	
+
 	private int placeHolder = 0;
 
 	public void init() {
 		try {
 			close();
 
-			placeHolder= 0;
-			
+			placeHolder = 0;
+
 			String date = new java.text.SimpleDateFormat("yyyy-MM-ddy HHmmss")
 					.format(new java.util.Date(System.currentTimeMillis()));
 			log = new File("/home/lvuser/log " + date + ".csv");
@@ -50,10 +50,9 @@ public class Diagnostics {
 			if (out == null) {
 				init();
 			}
-			
+
 			placeHolder++;
 			String time = Integer.toString(placeHolder);
-
 			String matchTime = Double.toString(DriverStation.getInstance().getMatchTime());
 
 			// Driver
@@ -99,10 +98,10 @@ public class Diagnostics {
 			String y = Double.toString(IMU.getInstance().getY());
 			String z = Double.toString(IMU.getInstance().getZ());
 
-			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + "," + LB + ","
-					+ RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + "," + rightLS + ","
-					+ Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + "," + comp + ","
-					+ solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z);
+			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
+					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
+					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
+					+ comp + "," + solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z);
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());

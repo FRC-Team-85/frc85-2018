@@ -60,10 +60,10 @@ public class Encoders {
 	}
 
 	public double getRightDistance() {
-		return -_rightDriveEncoder.getDistance();
+		return _rightDriveEncoder.getDistance();
 	}
 
 	public double getLeftDistance() {
-		return _leftDriveEncoder.getDistance();
+		return -_leftDriveEncoder.getDistance();
 	}
 }

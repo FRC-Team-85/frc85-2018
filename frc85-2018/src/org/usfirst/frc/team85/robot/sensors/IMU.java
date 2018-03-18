@@ -66,12 +66,12 @@ public class IMU {
 
 	public double getPitch() {
 		_ypr = getYPR();
-		return _ypr[1];
+		return _ypr[2];
 	}
 
 	public double getRoll() {
 		_ypr = getYPR();
-		return _ypr[2];
+		return _ypr[1];
 	}
 
 	public short[] getXYZ() { // Accelerometer

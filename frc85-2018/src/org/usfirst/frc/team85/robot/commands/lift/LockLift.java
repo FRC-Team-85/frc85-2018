@@ -17,6 +17,7 @@ public class LockLift extends Command {
 	protected void initialize() {
 		super.initialize();
 		Lift.getInstance().lock(_lock);
+		Lift.getInstance().setDesiredHeight(-1);
 	}
 
 	@Override

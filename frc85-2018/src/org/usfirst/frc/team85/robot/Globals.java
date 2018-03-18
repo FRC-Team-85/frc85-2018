@@ -11,8 +11,6 @@ public class Globals {
 		_compressor = new Compressor(0);
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
-
-		new DriverAssistCameras();
 	}
 
 	public static Globals getInstance() {

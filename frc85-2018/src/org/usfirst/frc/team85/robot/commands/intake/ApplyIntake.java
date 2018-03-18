@@ -4,6 +4,7 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * Moves intake wheels towards the center to be applied to the cubes
@@ -23,7 +24,7 @@ public class ApplyIntake extends Command {
 		if (!Lift.getInstance().isLifted()) {
 			Intake.getInstance().apply(_apply);
 		} else {
-			Intake.getInstance().apply(false);
+			Scheduler.getInstance().add(new FullyRetractIntake());
 		}
 	}
 
