@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
@@ -37,7 +38,8 @@ public class Diagnostics {
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
 					+ "Compressor,Total Solenoid Activations,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration");
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration"
+					+ "Front,Back,Left,Right");
 			out.newLine();
 			// }
 		} catch (Exception ex) {
@@ -97,11 +99,18 @@ public class Diagnostics {
 			String x = Double.toString(IMU.getInstance().getX());
 			String y = Double.toString(IMU.getInstance().getY());
 			String z = Double.toString(IMU.getInstance().getZ());
+			// Rangefinders
+			String F = Double.toString(RangeFinder.getInstance().getDistanceFront());
+			String B = Double.toString(RangeFinder.getInstance().getDistanceBack());
+			String L = Double.toString(RangeFinder.getInstance().getDistanceLeft());
+			String R = Double.toString(RangeFinder.getInstance().getDistanceRight());
 
-			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
-					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
-					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
-					+ comp + "," + solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z);
+			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + "," + LB + ","
+					+ RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + "," + rightLS + ","
+					+ Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + "," + comp + ","
+					+ solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z
+					+ F + "," + B + "," + L + "," + R);
+
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error writing diagnostic log: " + ex.toString());
