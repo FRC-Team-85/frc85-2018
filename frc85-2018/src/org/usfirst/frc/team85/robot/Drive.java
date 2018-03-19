@@ -80,6 +80,8 @@ public class Drive {
 //
 package org.usfirst.frc.team85.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Drive {
 
 	protected static Drive instance = null;
@@ -92,6 +94,9 @@ public class Drive {
 	private double _speedRight = 0;
 	private double _speedLeft = 0;
 	private double _turningAmplitude = .65;
+	private double _var = 0;
+
+	private boolean _isTank = true;
 
 	public static Drive getInstance() {
 		if (instance == null) {
@@ -101,29 +106,47 @@ public class Drive {
 	}
 
 	public void periodic() {
+		if (_isTank) {
+			TankDrive();
+		} else {
+			fpsDrive();
+		}
 
+		if (controller.getA()) {
+			if (_var == 0) {
+				_var = .2;
+			} else if (_var == .2) {
+				_var = 0;
+			}
+		}
+	}
+
+	private void TankDrive() {
 		if (Math.abs(controller.getAxis(3)) >= .1) {
-			_speedRight = controller.getAxis(3);
+			_speedRight = controller.getAxis(3) + _var;
 		} else if (Math.abs(controller.getAxis(3)) < .1) {
 			_speedRight = 0;
 		}
 
 		if (Math.abs(controller.getAxis(1)) >= .1) {
-			_speedLeft = controller.getAxis(1) ;
+			_speedLeft = controller.getAxis(1) + _var;
 		} else if (Math.abs(controller.getAxis(1)) < .1) {
 			_speedLeft = 0;
 		}
-		if (controller.getLeftTrig()) {
-		fpsDrive();
-		}
+		// if (controller.getLeftTrig()) {
+		// fpsDrive();
+		// }
 		_mgRight.setPower(-_speedRight);
 		_mgLeft.setPower(-_speedLeft);
+		SmartDashboard.putNumber("VAR", _var);
+		SmartDashboard.putNumber("Left Speed", _speedLeft);
+		SmartDashboard.putNumber("Right Speed", _speedRight);
+		SmartDashboard.putNumber("Right Joystick", controller.getAxis(3));
+		SmartDashboard.putNumber("Left Joystick", controller.getAxis(1));
+
 	}
 
 	private void fpsDrive() {
-	
-
-		
 
 		if (Math.abs(controller.getAxis(1)) > .1) {
 			_speedLeft = controller.getAxis(1);
@@ -144,5 +167,18 @@ public class Drive {
 				}
 			}
 		}
+	}
+
+	public boolean isTank() {
+		return _isTank;
+	}
+
+	public void setTank(boolean b) {
+		_isTank = b;
+	}
+
+	public void setPower(double left, double right) {
+		_mgLeft.setPower(left);
+		_mgRight.setPower(right);
 	}
 }

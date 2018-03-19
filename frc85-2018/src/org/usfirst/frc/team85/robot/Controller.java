@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Controller {
 
@@ -25,6 +26,9 @@ public class Controller {
 
 	public Controller(int id) {
 		_controller = new Joystick(id);
+
+		JoystickButton button = new JoystickButton(_controller, b);
+		button.whenPressed(new ToggleControlMode());
 	}
 
 	public boolean getButton(int button) {
@@ -81,5 +85,10 @@ public class Controller {
 
 	public double getAxis(int id) {
 		return _controller.getRawAxis(id);
+	}
+
+	public boolean getRawButton(int i) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
