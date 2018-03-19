@@ -13,28 +13,27 @@ public class PowerCurve extends Command {
 	/**
 	 * 
 	 * 
-	 * @param speed
-	 *            Motor speed coming into turn in percentage
+	 * @param radius
+	 *            Radius of the path you desire the robot to take (to
+	 *            the outer edge of the robot in order to prevent cases
+	 *            where the speed is over 1) in feet
 	 * @param angle
 	 *            Duration of turn in terms of degrees: +left,-right
 	 */
-	public PowerCurve(double speed, double angle) {
+	public PowerCurve(double radius, double angle) {
 		requires(DriveTrain.getInstance());
-
-		double speedFT = speed * Variables.maxSpeed;
-		double minR = speedFT * speedFT / Variables.mu / Variables.g;
-		double outerV = speedFT * (1 + (Variables.wheelSpan / 2 / minR));
-		double innerV = speedFT * (1 - (Variables.wheelSpan / 2 / minR));
-
-		double maxOuterV = speedFT * (1 + (Variables.wheelSpan / 2 / minR)) / Variables.maxSpeed;
-
+		
 		_changeAngle = angle;
+		
+		double outerSpeed = Math.pow(Variables.mu * Variables.g * radius, .5) / Variables.maxSpeed;
+		double innerSpeed = Math.pow(Variables.mu * Variables.g * (radius - Variables.wheelSpan), .5) / Variables.maxSpeed;
+		
 		if (angle > 0) {
-			_leftSpeed = (innerV / Variables.maxSpeed) / maxOuterV * speed;
-			_rightSpeed = (outerV / Variables.maxSpeed) / maxOuterV * speed;
+			_leftSpeed = innerSpeed;
+			_rightSpeed = outerSpeed;
 		} else {
-			_rightSpeed = (innerV / Variables.maxSpeed) / maxOuterV * speed;
-			_leftSpeed = (outerV / Variables.maxSpeed) / maxOuterV * speed;
+			_rightSpeed = innerSpeed;
+			_leftSpeed = outerSpeed;
 		}
 	}
 
