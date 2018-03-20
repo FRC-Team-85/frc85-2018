@@ -20,6 +20,7 @@ public class IMU {
 	private short[] _xyz = new short[3];
 
 	private double _initialHeading = 0;
+	private double[] _initialYPR = new double[3];
 
 	private IMU() {
 		_connectedTalon = new TalonSRX(Addresses.IMU_TALON);
@@ -42,6 +43,29 @@ public class IMU {
 		SmartDashboard.putString("IMU Error Code", error.toString());
 		return _ypr;
 	}
+	
+	public void setInitialYPR() {
+		_initialYPR = getYPR();
+	}
+	
+	public double[] getInitialYPR() {
+		return _initialYPR;
+	}
+	
+	public double getInitialYaw() {
+		_initialYPR = getInitialYPR();
+		return _initialYPR[0];
+	}
+	
+	public double getInitialPitch() {
+		_initialYPR = getInitialYPR();
+		return _initialYPR[2];
+	}
+	
+	public double getInitialRoll() {
+		_initialYPR = getInitialYPR();
+		return _initialYPR[1];
+	}
 
 	public double getFusedHeading() {
 		return _pigeon.getFusedHeading();
@@ -61,17 +85,17 @@ public class IMU {
 
 	public double getYaw() {
 		_ypr = getYPR();
-		return _ypr[0];
+		return _ypr[0] - _initialYPR[0];
 	}
 
 	public double getPitch() {
 		_ypr = getYPR();
-		return _ypr[2];
+		return _ypr[2] - _initialYPR[2];
 	}
 
 	public double getRoll() {
 		_ypr = getYPR();
-		return _ypr[1];
+		return _ypr[1] - _initialYPR[1];
 	}
 
 	public short[] getXYZ() { // Accelerometer
