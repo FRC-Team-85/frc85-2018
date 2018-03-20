@@ -38,10 +38,8 @@ public class Diagnostics {
 					+ "Left Front Output,Left Back Output,Right Front Output,Right Back Output,"
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
-					+ "Compressor,Total Solenoid Activations,"
-					+ "Initial Yaw,Initial Pitch,Initial Roll,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration"
-					+ "Front,Back,Left,Right");
+					+ "Compressor,Total Solenoid Activations," + "Initial Yaw,Initial Pitch,Initial Roll,"
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration" + "Front,Back,Left,Right");
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
@@ -102,19 +100,16 @@ public class Diagnostics {
 			String L = Double.toString(RangeFinder.getInstance().getDistanceLeft());
 			String R = Double.toString(RangeFinder.getInstance().getDistanceRight());
 
-<<<<<<< HEAD
 			String leftLS = Boolean.toString(LimitSwitches.getInstance().getLeftIntakeLimit());
 			String rightLS = Boolean.toString(LimitSwitches.getInstance().getRightIntakeLimit());
 			String LLS = Boolean.toString(LimitSwitches.getInstance().getLowerLiftLimit());
 			String ULS = Boolean.toString(LimitSwitches.getInstance().getUpperLiftLimit());
 
-			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," 
-					+ LF + "," + LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," 
-					+ leftLS + "," + rightLS + ","
-					+ Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + "," 
-					+ comp + "," + solenoid + "," 
-					+ initialYaw + "," + initialPitch + "," + initialRoll + "," 
-					+ yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z
+			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
+					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
+					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
+					+ comp + "," + solenoid + "," + initialYaw + "," + initialPitch + "," + initialRoll + "," + yaw
+					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z
 
 					+ F + "," + B + "," + L + "," + R);
 

@@ -27,10 +27,8 @@ public class Vision {
 				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 				double error = (r.x + (r.width / 2)) - (IMG_WIDTH / 2);
 				double angle = error / IMG_WIDTH * FOV;
-				// convert pixel to angle via camera view
-				// negate for gyro
 				if (_cmd != null) {
-					_cmd.setAngle(angle);
+					_cmd.setAngle(-angle);
 				}
 				System.out.println(angle);
 				SmartDashboard.putNumber("Vision Tracking Angle", angle);
