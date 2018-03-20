@@ -3,6 +3,7 @@ package org.usfirst.frc.team85.robot.commands.drivetrain;
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
 import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.vision.Vision;
 
@@ -28,6 +29,8 @@ public class DriveStraight extends Command {
 	private boolean _decel = true;
 	private boolean _autoShift = false;
 	private boolean _visionTrack = false;
+	private boolean _useRangeFinders = false;
+	private AbsoluteDirection _rangeDirection;
 
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
@@ -62,6 +65,12 @@ public class DriveStraight extends Command {
 
 	public DriveStraight setVisionTrack() {
 		_visionTrack = true;
+		return this;
+	}
+
+	public DriveStraight setRangeFinderDistance(AbsoluteDirection rangeDirection) {
+		_useRangeFinders = true;
+		_rangeDirection = rangeDirection;
 		return this;
 	}
 
@@ -122,7 +131,7 @@ public class DriveStraight extends Command {
 		_pid.setSetpoint(_heading);
 		_pid.setAbsoluteTolerance(2);
 
-		_pid.setOutputRange(-25, 25);
+		_pid.setOutputRange(-10, 10);
 
 		_pid.reset();
 		_pid.enable();
@@ -133,17 +142,18 @@ public class DriveStraight extends Command {
 	}
 
 	public void applyCorrection(double correction) {
-		SmartDashboard.putNumber("Correction Value", correction);
-		double error = Math.abs(_distance)
-				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
+		double error = getError();
+		SmartDashboard.putNumber("DriveTrain Target Error", error);
 
 		// Acceleration and Deceleration zones and speeds
 		double applySpeed = _speed;
 		if (error < Variables.getInstance().getDriveStraightDecelDistance() && _decel) {
-			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance());
+			applySpeed *= (error / Variables.getInstance().getDriveStraightDecelDistance())
+					* (1 - Variables.getInstance().getUsefulDriveTrainPower());
 			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
 		} else if (error > _distance - Variables.getInstance().getDriveStraightAccelDistance() && _accel) {
-			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance());
+			applySpeed *= (error / Variables.getInstance().getDriveStraightAccelDistance())
+					* (1 - Variables.getInstance().getUsefulDriveTrainPower());
 			applySpeed += Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(_speed) / _speed);
 		}
 
@@ -176,13 +186,35 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		double error = Math.abs(_distance)
-				- (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance()) / 2);
-
-		if (error < Variables.getInstance().getDriveStraightTolerance()) {
+		if (getError() < Variables.getInstance().getDriveStraightTolerance()) {
 			return true;
 		}
 		return false;
+	}
+
+	private double getError() {
+		double range = 0;
+		if (!_useRangeFinders) {
+			range = (Math.abs(Encoders.getInstance().getLeftDistance() + Encoders.getInstance().getRightDistance())
+					/ 2);
+		} else {
+			switch (_rangeDirection) {
+			case BACKWARD:
+				range = RangeFinder.getInstance().getDistanceBack();
+				break;
+			case FORWARD:
+				range = RangeFinder.getInstance().getDistanceFront();
+				break;
+			case LEFT:
+				range = RangeFinder.getInstance().getDistanceLeft();
+				break;
+			case RIGHT:
+				range = RangeFinder.getInstance().getDistanceRight();
+				break;
+			}
+		}
+
+		return Math.abs(_distance - range);
 	}
 
 	@Override

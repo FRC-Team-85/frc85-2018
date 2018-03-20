@@ -39,14 +39,14 @@ public class Variables {
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
 	private static final double DefaultLiftUpSpeed = 1.0;
-	private static final double DefaultLiftDownSpeed = -1.0;
+	private static final double DefaultLiftDownSpeed = -.7;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
-	private static final double DefaultDriveStraightDecelDistance = 5;
+	private static final double DefaultDriveStraightDecelDistance = 6;
 	private static final double DefaultDriveStraightAccelDistance = 3;
 	private static final double DefaultLowJoystickPower = 3;
 	private static final double DefaultHighJoystickPower = 5;
-	private static final double DefaultUsefulDriveTrainPower = .25;
+	private static final double DefaultUsefulDriveTrainPower = .15;
 	private static final double DefaultDriveStraightTolerance = .25;
 	private static final double DefaultTractionControlMultiplier = .90;
 
@@ -235,9 +235,5 @@ public class Variables {
 
 	public void addSolenoidFire() {
 		_totalSolenoid++;
-	}
-
-	public int getSolenoidTotal() {
-		return _totalSolenoid;
 	}
 }

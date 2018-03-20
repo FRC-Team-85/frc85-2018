@@ -88,7 +88,7 @@ public class DriveTrain extends Subsystem {
 		return getLeftFrontCurrent() + getLeftBackCurrent() + getRightFrontCurrent() + getRightBackCurrent();
 	}
 
-	public double getLeftFrontPercent() { // Value between -1.0 to 1.0
+	public double getLeftFrontPercent() {
 		return _leftFrontMotor.getMotorOutputPercent();
 	}
 

@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.I2C;
 
 public class RangeFinder {
 
+	private static final double feetPerCentimeter = 0.0328084;
+
 	private static RangeFinder instance = null;
 	private I2C rangeFinderFront = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_FRONT);
 	private I2C rangeFinderLeft = new I2C(I2C.Port.kOnboard, Addresses.RANGEFINDER_LEFT);
@@ -75,19 +77,19 @@ public class RangeFinder {
 		return -1;
 	}
 
-	public int getDistanceFront() {
-		return rangeFront;
+	public double getDistanceFront() {
+		return rangeFront * feetPerCentimeter;
 	}
 
-	public int getDistanceLeft() {
-		return rangeLeft;
+	public double getDistanceLeft() {
+		return rangeLeft * feetPerCentimeter;
 	}
 
-	public int getDistanceRight() {
-		return rangeRight;
+	public double getDistanceRight() {
+		return rangeRight * feetPerCentimeter;
 	}
 
-	public int getDistanceBack() {
-		return rangeBack;
+	public double getDistanceBack() {
+		return rangeBack * feetPerCentimeter;
 	}
 }

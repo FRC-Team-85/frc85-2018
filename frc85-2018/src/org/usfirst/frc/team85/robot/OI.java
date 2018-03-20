@@ -36,7 +36,7 @@ public class OI {
 	private boolean _liftStopped = false;
 
 	private double _speedLeft = 0, _speedRight = 0, _power = 1, _turningAmplitude = 0;
-	
+
 	private double _previousYaw = 0;
 
 	private OI() {
@@ -167,19 +167,19 @@ public class OI {
 		double rightStick = _rightJoystick.getRawAxis(1);
 		double leftStick = _leftJoystick.getRawAxis(1);
 
-		if (Math.abs(rightStick) >= .2) {
+		if ((rightStick >= .7) || (rightStick <= -.1)) {
 			_speedRight = (Math.pow(rightStick, _power)
 					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(rightStick) / rightStick))
 					* tractionControl();
-		} else if (Math.abs(rightStick) < .2) {
+		} else if ((rightStick < .7) && (rightStick > -.1)) {
 			_speedRight = 0;
 		}
 
-		if (Math.abs(leftStick) >= .2) {
+		if ((leftStick >= .7) || (leftStick <= -.1)) {
 			_speedLeft = (Math.pow(leftStick, _power)
 					+ Variables.getInstance().getUsefulDriveTrainPower() * (Math.abs(leftStick) / leftStick))
 					* tractionControl();
-		} else if (Math.abs(leftStick) < .2) {
+		} else if ((leftStick < .7) && (leftStick > -.1)) {
 			_speedLeft = 0;
 		}
 	}
@@ -260,40 +260,42 @@ public class OI {
 		double pitch = IMU.getInstance().getPitch();
 		double roll = IMU.getInstance().getRoll();
 
-		double lift = Lift.getInstance().getPosition();		
+		double lift = Lift.getInstance().getPosition();
 		double turnRate = Math.abs(yaw - _previousYaw);
-		
-//		if (Math.abs(roll) > 20) { //If tilting left or right
-//			if (lift > 13000) { //Move lift down
-//				Lift.getInstance().setDesiredHeight(10000);
-//				return 1.0;
-//			} else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) || (turnRate > 10)) { //Slow robot down
-//				/*
-//				 * Returns multiplier (For example, 0.90) 
-//				 * which the speed (in tank and fps drive)
-//				 * is multiplied by it to slow robot down (by 10%)
-//				 */
-//				return Variables.getInstance().getTractionControlMultiplier(); 
-//			} else {
-//				return 1.0;
-//			}
-//		}
-//				
-//		if (Math.abs(pitch) > 12) { //If tilting forwards or backwards
-//			if (lift > 13000) { //Move lift down
-//				Lift.getInstance().setDesiredHeight(10000);
-//				return 1.0;
-//			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) { //Slow robot down
-//				return Variables.getInstance().getTractionControlMultiplier();
-//			} else {
-//				return 1.0;
-//			}
-//		} else {
-//			return 1.0;
-//		}
-		
+
+		// if (Math.abs(roll) > 20) { //If tilting left or right
+		// if (lift > 13000) { //Move lift down
+		// Lift.getInstance().setDesiredHeight(10000);
+		// return 1.0;
+		// } else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) ||
+		// (turnRate > 10)) { //Slow robot down
+		// /*
+		// * Returns multiplier (For example, 0.90)
+		// * which the speed (in tank and fps drive)
+		// * is multiplied by it to slow robot down (by 10%)
+		// */
+		// return Variables.getInstance().getTractionControlMultiplier();
+		// } else {
+		// return 1.0;
+		// }
+		// }
+		//
+		// if (Math.abs(pitch) > 12) { //If tilting forwards or backwards
+		// if (lift > 13000) { //Move lift down
+		// Lift.getInstance().setDesiredHeight(10000);
+		// return 1.0;
+		// } else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) {
+		// //Slow robot down
+		// return Variables.getInstance().getTractionControlMultiplier();
+		// } else {
+		// return 1.0;
+		// }
+		// } else {
+		// return 1.0;
+		// }
+
 		_previousYaw = yaw;
-		
+
 		return 1.0;
 	}
 

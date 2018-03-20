@@ -20,6 +20,8 @@ public class Diagnostics {
 
 	private int placeHolder = 0;
 
+	public int totalSolenoid = 0;
+
 	public void init() {
 		try {
 			close();
@@ -29,7 +31,6 @@ public class Diagnostics {
 			String date = new java.text.SimpleDateFormat("yyyy-MM-ddy HHmmss")
 					.format(new java.util.Date(System.currentTimeMillis()));
 			log = new File("/home/lvuser/log " + date + ".csv");
-			// if (log.exists() == false) {
 			log.createNewFile();
 			out = new BufferedWriter(new FileWriter(log, true));
 			out.append("Time,Match Time,Left Joystick,Right Joystick,"
@@ -38,10 +39,8 @@ public class Diagnostics {
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
 					+ "Compressor,Total Solenoid Activations,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration"
-					+ "Front,Back,Left,Right");
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration," + "Front,Back,Left,Right");
 			out.newLine();
-			// }
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
 		}
@@ -52,7 +51,6 @@ public class Diagnostics {
 			if (out == null) {
 				init();
 			}
-
 			placeHolder++;
 			String time = Integer.toString(placeHolder);
 			String matchTime = Double.toString(DriverStation.getInstance().getMatchTime());
@@ -76,20 +74,14 @@ public class Diagnostics {
 			String LB = Double.toString(DriveTrain.getInstance().getLeftBackCurrent());
 			String RF = Double.toString(DriveTrain.getInstance().getRightFrontCurrent());
 			String RB = Double.toString(DriveTrain.getInstance().getRightBackCurrent());
-			// Intake
-			String leftLS = Boolean.toString(LimitSwitches.getInstance().getLeftIntakeLimit());
-			String rightLS = Boolean.toString(LimitSwitches.getInstance().getRightIntakeLimit());
 			// Lift
 			String Pos = Double.toString(Lift.getInstance().getPosition());
 			String L1 = Double.toString(Lift.getInstance().getLeftOneCurrent());
 			String L2 = Double.toString(Lift.getInstance().getLeftTwoCurrent());
 			String R1 = Double.toString(Lift.getInstance().getRightOneCurrent());
 			String R2 = Double.toString(Lift.getInstance().getRightTwoCurrent());
-
-			String LLS = Boolean.toString(LimitSwitches.getInstance().getLowerLiftLimit());
-			String ULS = Boolean.toString(LimitSwitches.getInstance().getUpperLiftLimit());
 			// Pneumatics
-			String solenoid = Integer.toString(Variables.getInstance().getSolenoidTotal());
+			String solenoid = Integer.toString(totalSolenoid);
 			String comp = Double.toString(Globals.getInstance().getCompressor().getCompressorCurrent());
 			// IMU
 			String yaw = Double.toString(IMU.getInstance().getYaw());
@@ -105,10 +97,15 @@ public class Diagnostics {
 			String L = Double.toString(RangeFinder.getInstance().getDistanceLeft());
 			String R = Double.toString(RangeFinder.getInstance().getDistanceRight());
 
-			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + "," + LB + ","
-					+ RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + "," + rightLS + ","
-					+ Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + "," + comp + ","
-					+ solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z
+			String leftLS = Boolean.toString(LimitSwitches.getInstance().getLeftIntakeLimit());
+			String rightLS = Boolean.toString(LimitSwitches.getInstance().getRightIntakeLimit());
+			String LLS = Boolean.toString(LimitSwitches.getInstance().getLowerLiftLimit());
+			String ULS = Boolean.toString(LimitSwitches.getInstance().getUpperLiftLimit());
+
+			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
+					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
+					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
+					+ comp + "," + solenoid + "," + yaw + "," + pitch + "," + roll + "," + x + "," + y + "," + z + ","
 					+ F + "," + B + "," + L + "," + R);
 
 			out.newLine();
