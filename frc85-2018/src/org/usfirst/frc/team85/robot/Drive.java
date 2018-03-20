@@ -113,24 +113,33 @@ public class Drive {
 		}
 
 		if (controller.getA()) {
-			if (_var == 0) {
-				_var = .2;
-			} else if (_var == .2) {
-				_var = 0;
-			}
+			_var = .2;
 		}
+
+		if (controller.getB()) {
+			_var = .3;
+		}
+
+		if (controller.getX()) {
+			_var = .4;
+		}
+
+		if (controller.getY()) {
+			_var = .0;
+		}
+
 	}
 
 	private void TankDrive() {
-		if (Math.abs(controller.getAxis(3)) >= .1) {
-			_speedRight = controller.getAxis(3) + _var;
-		} else if (Math.abs(controller.getAxis(3)) < .1) {
+		if (Math.abs(controller.getAxis(3)) >= .05) {
+			_speedRight = controller.getAxis(3) + _var * (Math.abs(controller.getAxis(3)) / (controller.getAxis(3)));
+		} else if (Math.abs(controller.getAxis(3)) < .05) {
 			_speedRight = 0;
 		}
 
-		if (Math.abs(controller.getAxis(1)) >= .1) {
-			_speedLeft = controller.getAxis(1) + _var;
-		} else if (Math.abs(controller.getAxis(1)) < .1) {
+		if (Math.abs(controller.getAxis(1)) >= .05) {
+			_speedLeft = controller.getAxis(1) + _var * (Math.abs(controller.getAxis(3)) / (controller.getAxis(3)));
+		} else if (Math.abs(controller.getAxis(1)) < .05) {
 			_speedLeft = 0;
 		}
 		// if (controller.getLeftTrig()) {
@@ -167,6 +176,8 @@ public class Drive {
 				}
 			}
 		}
+		_speedLeft = .3;
+		_speedRight = .3;
 	}
 
 	public boolean isTank() {
