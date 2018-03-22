@@ -213,7 +213,6 @@ public class DriveStraight extends Command {
 				break;
 			}
 		}
-
 		return Math.abs(_distance - range);
 	}
 

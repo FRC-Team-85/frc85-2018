@@ -39,15 +39,17 @@ public class Robot extends IterativeRobot {
 
 		Intake.getInstance().apply(false);
 		Lift.getInstance().lock(false);
-		
+
 		IMU.getInstance().setInitialYPR();
 	}
 
 	@Override
 	public void autonomousInit() {
 		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
+				DriverStation.getInstance().getGameSpecificMessage(),
+				(int) SmartDashboard.getNumber("Autonomous Wait Time", 0),
 				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
-				DriverStation.getInstance().getGameSpecificMessage());
+				SmartDashboard.getBoolean("Autonomous Auto Line", false));
 		_autonomous.start();
 	}
 

@@ -15,7 +15,7 @@ public class Vision {
 
 	private VisionThread thread;
 	private static final int IMG_WIDTH = 320;
-	private static final int IMG_HEIGHT = 240;
+	// private static final int IMG_HEIGHT = 240;
 	private static final int FOV = 40; // degrees of field of view
 
 	private DriveStraight _cmd = null;

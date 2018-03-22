@@ -47,7 +47,7 @@ public class Variables {
 	private static final double DefaultLowJoystickPower = 3;
 	private static final double DefaultHighJoystickPower = 5;
 	private static final double DefaultUsefulDriveTrainPower = .15;
-	private static final double DefaultDriveStraightTolerance = .25;
+	private static final double DefaultDriveStraightTolerance = .35;
 	private static final double DefaultTractionControlMultiplier = .90;
 
 	private int _totalSolenoid = 0;
@@ -75,6 +75,19 @@ public class Variables {
 		SmartDashboard.putNumber("Useful DriveTrain Power", DefaultUsefulDriveTrainPower);
 		SmartDashboard.putNumber("DriveStraight Tolerance", DefaultDriveStraightTolerance);
 		SmartDashboard.putNumber("Traction Control Multiplier", DefaultTractionControlMultiplier);
+
+		if (!SmartDashboard.containsKey("Autonomous Position Selector")) {
+			SmartDashboard.putNumber("Autonomous Position Selector", 1);
+		}
+		if (!SmartDashboard.containsKey("Autonomous Prioritize Scale")) {
+			SmartDashboard.putBoolean("Autonomous Prioritize Scale", false);
+		}
+		if (!SmartDashboard.containsKey("Autonomous Wait Time")) {
+			SmartDashboard.putNumber("Autonomous Wait Time", 0);
+		}
+		if (!SmartDashboard.containsKey("Autonomous Auto Line")) {
+			SmartDashboard.putBoolean("Autonomous Auto Line", false);
+		}
 	}
 
 	public static Variables getInstance() {

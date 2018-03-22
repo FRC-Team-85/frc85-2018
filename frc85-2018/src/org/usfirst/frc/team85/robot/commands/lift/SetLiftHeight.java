@@ -1,6 +1,7 @@
 package org.usfirst.frc.team85.robot.commands.lift;
 
 import org.usfirst.frc.team85.robot.commands.intake.FullyRetractIntake;
+import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,7 +20,8 @@ public class SetLiftHeight extends Command {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		if (Lift.getInstance().isLifted() && !DriverStation.getInstance().isAutonomous()) {
+		if (Lift.getInstance().isLifted() && !DriverStation.getInstance().isAutonomous()
+				&& (Intake.getInstance().isApplied() || !Intake.getInstance().isProtected())) {
 			Scheduler.getInstance().add(new FullyRetractIntake());
 		}
 		Lift.getInstance().setDesiredHeight(_height);
