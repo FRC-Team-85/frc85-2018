@@ -38,8 +38,8 @@ public class Diagnostics {
 					+ "Left Front Output,Left Back Output,Right Front Output,Right Back Output,"
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
-					+ "Compressor,Total Solenoid Activations," + "Initial Yaw,Initial Pitch,Initial Roll,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration" + "Front,Back,Left,Right");
+					+ "Compressor,Total Solenoid Activations,Initial Yaw,Initial Pitch,Initial Roll,"
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration,Front,Back,Left,Right");
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
@@ -109,9 +109,7 @@ public class Diagnostics {
 					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
 					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
 					+ comp + "," + solenoid + "," + initialYaw + "," + initialPitch + "," + initialRoll + "," + yaw
-					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z
-
-					+ F + "," + B + "," + L + "," + R);
+					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z + "," + F + "," + B + "," + L + "," + R);
 
 			out.newLine();
 		} catch (Exception ex) {
