@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Autonomous extends CommandGroup {
 
-	public Autonomous(int position, String gameData, int wait, boolean scalePriority, boolean autoLine) {
+	public Autonomous(int position, String gameData, int wait, boolean scalePriority, boolean autoLine,
+			boolean dragRace) {
 		Encoders.getInstance().driveEncoderReset();
 		if (wait != 0) {
 			addSequential(new Wait(wait));
@@ -28,15 +29,15 @@ public class Autonomous extends CommandGroup {
 		if (autoLine) {
 			crossAutoLine();
 		} else if (position == 1) {
-			buildPosition1(gameData, scalePriority);
+			buildPosition1(gameData, scalePriority, dragRace);
 		} else if (position == 2) {
 			buildPosition2(gameData);
 		} else if (position == 3) {
-			buildPosition3(gameData, scalePriority);
+			buildPosition3(gameData, scalePriority, dragRace);
 		}
 	}
 
-	private void buildPosition1(String gameData, boolean scalePriority) {
+	private void buildPosition1(String gameData, boolean scalePriority, boolean dragRace) {
 		if (!scalePriority) {
 			gameData = gameData.substring(0, 2);
 			switch (gameData) {
@@ -47,7 +48,11 @@ public class Autonomous extends CommandGroup {
 				buildCloseSwitchFrom1();
 				break;
 			case "RL":
-				buildCloseScaleFrom1();
+				if (dragRace) {
+					buildDragRaceToCloseScaleFrom1();
+				} else {
+					buildCloseScaleFrom1();
+				}
 				break;
 			case "RR":
 				buildFarScaleFrom1();
@@ -58,7 +63,11 @@ public class Autonomous extends CommandGroup {
 
 			switch (scale) {
 			case 'L':
-				buildCloseScaleFrom1();
+				if (dragRace) {
+					buildDragRaceToCloseScaleFrom1();
+				} else {
+					buildCloseScaleFrom1();
+				}
 				break;
 			case 'R':
 				buildFarScaleFrom1();
@@ -79,7 +88,7 @@ public class Autonomous extends CommandGroup {
 		}
 	}
 
-	private void buildPosition3(String gameData, boolean scalePriority) {
+	private void buildPosition3(String gameData, boolean scalePriority, boolean dragRace) {
 		if (!scalePriority) {
 			gameData = gameData.substring(0, 2);
 			switch (gameData) {
@@ -87,7 +96,11 @@ public class Autonomous extends CommandGroup {
 				buildFarScaleFrom3();
 				break;
 			case "LR":
-				buildCloseScaleFrom3();
+				if (dragRace) {
+					buildDragRaceToCloseScaleFrom3();
+				} else {
+					buildCloseScaleFrom3();
+				}
 				break;
 			case "RL":
 				buildCloseSwitchFrom3();
@@ -104,7 +117,11 @@ public class Autonomous extends CommandGroup {
 				buildFarScaleFrom3();
 				break;
 			case 'R':
-				buildCloseScaleFrom3();
+				if (dragRace) {
+					buildDragRaceToCloseScaleFrom3();
+				} else {
+					buildCloseScaleFrom3();
+				}
 				break;
 			}
 		}
@@ -171,7 +188,7 @@ public class Autonomous extends CommandGroup {
 
 		addParallel(new DriveStraight(.8, 10));
 		addSequential(new CubeSearch());
-		addSequential(new DriveStraight(-.8, 4));
+		addSequential(new DriveStraight(-.8, 2.5));
 
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new SpinExactDegrees(140));
@@ -183,11 +200,11 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SpinExactDegrees(-140));
 	}
 
-	private void dragRaceToCloseScaleFrom1() {
+	private void buildDragRaceToCloseScaleFrom1() {
 		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-		addSequential(new DriveStraight(1.0, 16).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
+		addSequential(new DriveStraight(1.0, 17).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
 				.setAcceleration(true, false));
-		addSequential(new SweepingTurn(.8, 2, -45));
+		addSequential(new SweepingTurn(.6, 2, -45));
 		addSequential(new SetTransmissionHigh(false));
 		addSequential(new LiftPositionWait(false));
 		addSequential(new OpenGripper());
@@ -208,7 +225,7 @@ public class Autonomous extends CommandGroup {
 	}
 
 	private void buildFarScaleFrom1() {
-		addSequential(new DriveStraight(1.0, 18).setAutoShift()); // Shift
+		addSequential(new DriveStraight(1.0, 19).setAutoShift()); // Shift
 		addSequential(new SpinExactDegrees(-90));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new DriveStraight(1.0, 16.5).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()); // Shift
@@ -242,7 +259,7 @@ public class Autonomous extends CommandGroup {
 	// ***********************************************************************//
 
 	public void buildLeftSwitchFrom2() {
-		addSequential(new DriveStraight(.75, 1));
+		addSequential(new DriveStraight(.9, 1));
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new DriveStraight(1.0, 8.5));
@@ -250,14 +267,15 @@ public class Autonomous extends CommandGroup {
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.7, 1.5, 2).setAbsoluteDirection(AbsoluteDirection.FORWARD)); // RangeFinder
 		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.7, 1.5));
+		addSequential(new DriveStraight(-.8, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new DriveStraight(-1.0, 8.1));
 		addSequential(new SpinExactDegrees(-45));
 
 		// Second Cube
-		addParallel(new DriveStraight(.8, 6));
+		addParallel(new DriveStraight(.8, 6.5));
+		addSequential(new OpenGripper());
 
 		// addSequential(new CubeSearch());
 		// Altered Cube Search
@@ -269,14 +287,14 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new DriveStraight(1.0, 6.5));
 		addSequential(new SpinExactDegrees(-45));
-		addSequential(new DriveStraight(.7, 2));
+		addSequential(new DriveStraight(.8, 2));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.7, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	public void buildRightSwitchFrom2() {
-		addSequential(new DriveStraight(.75, 1));
+		addSequential(new DriveStraight(.9, 1));
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new DriveStraight(1.0, 8));
@@ -284,14 +302,15 @@ public class Autonomous extends CommandGroup {
 		addSequential(new LiftPositionWait(false));
 		addSequential(new DriveStraight(.7, 1.5, 2).setAbsoluteDirection(AbsoluteDirection.FORWARD)); // RangeFinder
 		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.7, 1.5));
+		addSequential(new DriveStraight(-.8, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new DriveStraight(-1.0, 8.3));
 		addSequential(new SpinExactDegrees(45));
 
 		// Second Cube
-		addParallel(new DriveStraight(.8, 6));
+		addParallel(new DriveStraight(.8, 6.5));
+		addSequential(new OpenGripper());
 
 		// addSequential(new CubeSearch());
 		// Altered Cube Search
@@ -303,7 +322,7 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new DriveStraight(1.0, 6.5));
 		addSequential(new SpinExactDegrees(45));
-		addSequential(new DriveStraight(.7, 2));
+		addSequential(new DriveStraight(.8, 2));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.7, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
@@ -353,7 +372,7 @@ public class Autonomous extends CommandGroup {
 
 		addParallel(new DriveStraight(.8, 10));
 		addSequential(new CubeSearch());
-		addSequential(new DriveStraight(-.8, 4));
+		addSequential(new DriveStraight(-.8, 2.5));
 
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 		addSequential(new SpinExactDegrees(-140));
@@ -365,20 +384,32 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SpinExactDegrees(140));
 	}
 
-	private void dragRaceToCloseScaleFrom3() {
+	private void buildDragRaceToCloseScaleFrom3() {
 		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-		addSequential(new DriveStraight(1.0, 16).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
+		addSequential(new DriveStraight(1.0, 17).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
 				.setAcceleration(true, false));
-		addSequential(new SweepingTurn(.7, 2, 45));
+		addSequential(new SweepingTurn(.8, 2, 45));
 		addSequential(new SetTransmissionHigh(false));
 		addSequential(new LiftPositionWait(false));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.8, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+
+		addSequential(new LiftPositionWait(false));
+		addSequential(new SpinExactDegrees(90));
+		addParallel(new DriveStraight(.7, 12));
+		addSequential(new CubeSearch());
+		addSequential(new DriveStraight(-.6, 1));
+		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		addSequential(new SpinExactDegrees(-135));
+		addSequential(new DriveStraight(.7, 5));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.7, 2));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	private void buildFarScaleFrom3() {
-		addSequential(new DriveStraight(1.0, 18).setAutoShift());
+		addSequential(new DriveStraight(1.0, 19).setAutoShift());
 		addSequential(new SpinExactDegrees(90));
 		addSequential(new DriveStraight(1.0, 16.5).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift());
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));

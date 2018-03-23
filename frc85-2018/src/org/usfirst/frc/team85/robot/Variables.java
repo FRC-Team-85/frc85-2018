@@ -88,6 +88,9 @@ public class Variables {
 		if (!SmartDashboard.containsKey("Autonomous Auto Line")) {
 			SmartDashboard.putBoolean("Autonomous Auto Line", false);
 		}
+		if (!SmartDashboard.containsKey("Autonomous Drag Race")) {
+			SmartDashboard.putBoolean("Autonomous Drag Race", false);
+		}
 	}
 
 	public static Variables getInstance() {
