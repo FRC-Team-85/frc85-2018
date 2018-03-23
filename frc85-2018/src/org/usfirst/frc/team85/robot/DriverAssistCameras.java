@@ -43,7 +43,7 @@ public class DriverAssistCameras {
 		}).start();
 	}
 
-	public static DriverAssistCameras getInstance() {
+	private static DriverAssistCameras getInstance() {
 		if (_instance == null) {
 			_instance = new DriverAssistCameras();
 		}

@@ -3,8 +3,12 @@ package org.usfirst.frc.team85.robot.commands;
 import org.usfirst.frc.team85.robot.Variables;
 import org.usfirst.frc.team85.robot.commands.drivetrain.AbsoluteDirection;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SetTransmissionHigh;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SweepingTurn;
+import org.usfirst.frc.team85.robot.commands.gripper.CloseGripper;
 import org.usfirst.frc.team85.robot.commands.gripper.OpenGripper;
+import org.usfirst.frc.team85.robot.commands.intake.IntakeLimitWait;
 import org.usfirst.frc.team85.robot.commands.lift.LiftPositionWait;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
@@ -139,9 +143,10 @@ public class Autonomous extends CommandGroup {
 
 		// Second Cube
 		addSequential(new SpinExactDegrees(90, 2));
-		addSequential(new DriveStraight(1.0, 6.5));
+		addSequential(new DriveStraight(1.0, 8));
 		addSequential(new SpinExactDegrees(-90, 2));
-		addSequential(new DriveStraight(.8, 7).setAbsoluteDirection(AbsoluteDirection.RIGHT)); // Use RangeFinders dist
+		addSequential(new DriveStraight(.8, 6.5).setAbsoluteDirection(AbsoluteDirection.RIGHT)); // Use RangeFinders
+																									// dist
 		addSequential(new SpinExactDegrees(-90));
 		addParallel(new DriveStraight(.7, 3, 3));
 		addSequential(new CubeSearch());
@@ -176,6 +181,30 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(-.8, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(-140));
+	}
+
+	private void dragRaceToCloseScaleFrom1() {
+		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		addSequential(new DriveStraight(1.0, 16).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
+				.setAcceleration(true, false));
+		addSequential(new SweepingTurn(.8, 2, -45));
+		addSequential(new SetTransmissionHigh(false));
+		addSequential(new LiftPositionWait(false));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.8, 2));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+
+		addSequential(new LiftPositionWait(false));
+		addSequential(new SpinExactDegrees(-90));
+		addParallel(new DriveStraight(.7, 12));
+		addSequential(new CubeSearch());
+		addSequential(new DriveStraight(-.6, 1));
+		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		addSequential(new SpinExactDegrees(135));
+		addSequential(new DriveStraight(.7, 5));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.7, 2));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	private void buildFarScaleFrom1() {
@@ -224,12 +253,17 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(-.7, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(45));
-		addSequential(new DriveStraight(-1.0, 8.2));
+		addSequential(new DriveStraight(-1.0, 8.1));
 		addSequential(new SpinExactDegrees(-45));
 
 		// Second Cube
 		addParallel(new DriveStraight(.8, 6));
-		addSequential(new CubeSearch());
+
+		// addSequential(new CubeSearch());
+		// Altered Cube Search
+		addSequential(new IntakeLimitWait());
+		addSequential(new CloseGripper());
+
 		addSequential(new DriveStraight(-.8, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new SpinExactDegrees(45));
@@ -248,9 +282,9 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(1.0, 8));
 		addSequential(new SpinExactDegrees(45));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.7, 2, 2).setAbsoluteDirection(AbsoluteDirection.FORWARD)); // RangeFinder
+		addSequential(new DriveStraight(.7, 1.5, 2).setAbsoluteDirection(AbsoluteDirection.FORWARD)); // RangeFinder
 		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.7, 2));
+		addSequential(new DriveStraight(-.7, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(-45));
 		addSequential(new DriveStraight(-1.0, 8.3));
@@ -258,7 +292,12 @@ public class Autonomous extends CommandGroup {
 
 		// Second Cube
 		addParallel(new DriveStraight(.8, 6));
-		addSequential(new CubeSearch());
+
+		// addSequential(new CubeSearch());
+		// Altered Cube Search
+		addSequential(new IntakeLimitWait());
+		addSequential(new CloseGripper());
+
 		addSequential(new DriveStraight(-.8, 2));
 		addSequential(new SetLiftHeight(Variables.LIFT_SWITCH));
 		addSequential(new SpinExactDegrees(-45));
@@ -287,9 +326,9 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 
 		addSequential(new SpinExactDegrees(-90, 2));
-		addSequential(new DriveStraight(1.0, 6.5));
+		addSequential(new DriveStraight(1.0, 8));
 		addSequential(new SpinExactDegrees(90, 2));
-		addSequential(new DriveStraight(.8, 7).setAbsoluteDirection(AbsoluteDirection.LEFT));
+		addSequential(new DriveStraight(.8, 6.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
 		addSequential(new SpinExactDegrees(90));
 		addParallel(new DriveStraight(.8, 3, 3));
 		addSequential(new CubeSearch());
@@ -324,6 +363,18 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(-.8, 3));
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new SpinExactDegrees(140));
+	}
+
+	private void dragRaceToCloseScaleFrom3() {
+		addParallel(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		addSequential(new DriveStraight(1.0, 16).setAbsoluteDirection(AbsoluteDirection.FORWARD).setAutoShift()
+				.setAcceleration(true, false));
+		addSequential(new SweepingTurn(.7, 2, 45));
+		addSequential(new SetTransmissionHigh(false));
+		addSequential(new LiftPositionWait(false));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.8, 2));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	private void buildFarScaleFrom3() {

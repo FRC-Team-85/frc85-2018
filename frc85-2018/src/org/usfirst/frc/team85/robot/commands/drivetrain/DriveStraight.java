@@ -186,9 +186,10 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if (getError() < Variables.getInstance().getDriveStraightTolerance()) {
+		if ((getError() < Variables.getInstance().getDriveStraightTolerance()) || isTimedOut()) {
 			return true;
 		}
+
 		return false;
 	}
 

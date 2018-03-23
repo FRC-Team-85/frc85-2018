@@ -33,7 +33,6 @@ public class Robot extends IterativeRobot {
 		IMU.getInstance();
 		LimitSwitches.getInstance();
 		RangeFinder.getInstance();
-		DriverAssistCameras.getInstance();
 
 		_diagnostics = new Diagnostics();
 
@@ -87,5 +86,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		_diagnostics.close();
+		Lift.getInstance().setDesiredHeight(Lift.getInstance().getPosition());
 	}
 }

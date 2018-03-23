@@ -49,7 +49,6 @@ public class IMU {
 	}
 
 	public double getInitialYaw() {
-		_initialYPR = getInitialYPR();
 		return _initialYPR[0];
 	}
 
