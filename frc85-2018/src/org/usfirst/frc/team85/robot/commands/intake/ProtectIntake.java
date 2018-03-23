@@ -4,7 +4,6 @@ import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  * Moves intake and wheels inside frame for protection
@@ -24,7 +23,7 @@ public class ProtectIntake extends Command {
 		if (!Lift.getInstance().isLifted()) {
 			Intake.getInstance().protect(_protect);
 		} else {
-			Scheduler.getInstance().add(new FullyRetractIntake());
+			Intake.getInstance().protect(true);
 		}
 	}
 

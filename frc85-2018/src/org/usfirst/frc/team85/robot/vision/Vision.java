@@ -21,20 +21,24 @@ public class Vision {
 	private DriveStraight _cmd = null;
 
 	private Vision() {
-		UsbCamera camera = DriverAssistCameras.getInstance().getVisionCamera();
-		thread = new VisionThread(camera, new GripPipeline(), pipeline -> {
-			if (!pipeline.filterContoursOutput().isEmpty()) {
-				Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				double error = (r.x + (r.width / 2)) - (IMG_WIDTH / 2);
-				double angle = error / IMG_WIDTH * FOV;
-				if (_cmd != null) {
-					_cmd.setAngle(-angle);
+		try {
+			UsbCamera camera = DriverAssistCameras.getInstance().getVisionCamera();
+			thread = new VisionThread(camera, new GripPipeline(), pipeline -> {
+				if (!pipeline.filterContoursOutput().isEmpty()) {
+					Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+					double error = (r.x + (r.width / 2)) - (IMG_WIDTH / 2);
+					double angle = error / IMG_WIDTH * FOV;
+					if (_cmd != null) {
+						_cmd.setAngle(-angle);
+					}
+					System.out.println(angle);
+					SmartDashboard.putNumber("Vision Tracking Angle", angle);
 				}
-				System.out.println(angle);
-				SmartDashboard.putNumber("Vision Tracking Angle", angle);
-			}
-		});
-		thread.start();
+			});
+			thread.start();
+		} catch (Exception e) {
+
+		}
 	}
 
 	public static Vision getInstance() {

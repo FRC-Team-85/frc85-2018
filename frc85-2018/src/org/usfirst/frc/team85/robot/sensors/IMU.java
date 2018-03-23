@@ -1,9 +1,8 @@
 package org.usfirst.frc.team85.robot.sensors;
 
-import org.usfirst.frc.team85.robot.Addresses;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,8 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IMU {
 
 	private static IMU _instance;
-
-	private TalonSRX _connectedTalon;
 	private PigeonIMU _pigeon;
 
 	private PigeonIMU.GeneralStatus _genStatus = new PigeonIMU.GeneralStatus();
@@ -23,8 +20,7 @@ public class IMU {
 	private double[] _initialYPR = new double[3];
 
 	private IMU() {
-		_connectedTalon = new TalonSRX(Addresses.IMU_TALON);
-		_pigeon = new PigeonIMU(_connectedTalon);
+		_pigeon = new PigeonIMU(Lift.getInstance().getIMUTalon());
 	}
 
 	public static IMU getInstance() {
@@ -43,25 +39,25 @@ public class IMU {
 		SmartDashboard.putString("IMU Error Code", error.toString());
 		return _ypr;
 	}
-	
+
 	public void setInitialYPR() {
 		_initialYPR = getYPR();
 	}
-	
+
 	public double[] getInitialYPR() {
 		return _initialYPR;
 	}
-	
+
 	public double getInitialYaw() {
 		_initialYPR = getInitialYPR();
 		return _initialYPR[0];
 	}
-	
+
 	public double getInitialPitch() {
 		_initialYPR = getInitialYPR();
 		return _initialYPR[2];
 	}
-	
+
 	public double getInitialRoll() {
 		_initialYPR = getInitialYPR();
 		return _initialYPR[1];

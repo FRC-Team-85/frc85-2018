@@ -153,4 +153,8 @@ public class Lift extends Subsystem {
 		return _leftTwo.getOutputCurrent();
 	}
 
+	public TalonSRX getIMUTalon() {
+		return _rightTwo;
+	}
+
 }
