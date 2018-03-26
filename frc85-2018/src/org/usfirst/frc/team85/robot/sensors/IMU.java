@@ -53,12 +53,10 @@ public class IMU {
 	}
 
 	public double getInitialPitch() {
-		_initialYPR = getInitialYPR();
 		return _initialYPR[2];
 	}
 
 	public double getInitialRoll() {
-		_initialYPR = getInitialYPR();
 		return _initialYPR[1];
 	}
 
