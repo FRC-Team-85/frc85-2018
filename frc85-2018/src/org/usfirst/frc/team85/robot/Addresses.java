@@ -42,6 +42,12 @@ public class Addresses {
 	public static final int INTAKE_LEFT_LIMIT = 5;
 	public static final int INTAKE_RIGHT_LIMIT = 4;
 
+	// Indicators
+	public static final int INDICATORS_LEFT_GREEN = 0;
+	public static final int INDICATORS_LEFT_RED = 1;
+	public static final int INDICATORS_RIGHT_GREEN = 2;
+	public static final int INDICATORS_RIGHT_RED = 3;
+
 	// drive encoders (DIO ports)
 	public final static int ENCODERS_LEFT_A = 2;
 	public final static int ENCODERS_LEFT_B = 3;
