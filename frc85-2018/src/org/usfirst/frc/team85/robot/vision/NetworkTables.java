@@ -1,5 +1,7 @@
 package org.usfirst.frc.team85.robot.vision;
 
+import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -12,26 +14,39 @@ public class NetworkTables {
 	private Thread thread;
 	private NetworkTable _table;
 
-	private double[] _values;
+	private DriveStraight _cmd = null;
+
+	private static final int IMG_WIDTH = 320;
+	private static final int FOV = 40;
 
 	private NetworkTables() {
-		_values = new double[] { -2.0, -2.0, -2.0, -2.0 };
-
 		try {
 			_table = NetworkTableInstance.getDefault().getTable("GRIP/myContoursReport");
-			NetworkTableEntry entry = _table.getEntry("key");
+			NetworkTableEntry foundx = _table.getEntry("foundx");
+			NetworkTableEntry foundw = _table.getEntry("foundw");
 
 			thread = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (!Thread.interrupted()) {
-						_values = entry.getDoubleArray(_values);
+						double x = foundx.getDouble(0);
+						double w = foundw.getDouble(0);
+						double center = x + w / 2;
+						double error = center - (IMG_WIDTH / 2);
+						double angle = -error / IMG_WIDTH * FOV;
+
+						System.out.println("Center: " + center + " Angle: " + angle);
+						if (_cmd != null) {
+							_cmd.setAngle(angle);
+						}
 						Timer.delay(.1);
 					}
 				}
 			});
 			thread.start();
-		} catch (Exception ex) {
+		} catch (
+
+		Exception ex) {
 			System.out.println("Error in NetworkTable connection: " + ex.toString());
 		}
 	}
@@ -43,7 +58,7 @@ public class NetworkTables {
 		return _instance;
 	}
 
-	public double[] getValues() {
-		return _values;
+	public void setCommand(DriveStraight cmd) {
+		_cmd = cmd;
 	}
 }
