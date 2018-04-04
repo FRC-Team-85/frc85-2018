@@ -21,7 +21,7 @@ public class SweepingTurn extends Command {
 
 		double ratio = (radius - Variables.wheelSpan) / radius;
 
-		if (angle > 0) {
+		if (angle > 0 || (angle < 0 && speed < 0)) {
 			_leftSpeed = ratio * speed;
 			_rightSpeed = speed;
 		} else {

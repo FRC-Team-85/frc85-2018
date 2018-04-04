@@ -32,10 +32,10 @@ public class LimitSwitches {
 	}
 
 	public boolean getLeftIntakeLimit() {
-		return _leftIntakeLimit.get();
+		return !_leftIntakeLimit.get();
 	}
 
 	public boolean getRightIntakeLimit() {
-		return _rightIntakeLimit.get();
+		return !_rightIntakeLimit.get();
 	}
 }

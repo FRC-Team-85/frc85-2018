@@ -9,7 +9,7 @@ import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Gripper;
 import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
-import org.usfirst.frc.team85.robot.vision.NetworkTables;
+import org.usfirst.frc.team85.robot.vision.Vision;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 		IMU.getInstance();
 		LimitSwitches.getInstance();
 		RangeFinder.getInstance();
-		NetworkTables.getInstance();
+		Vision.getInstance();
 
 		_diagnostics = new Diagnostics();
 
@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		Lift.getInstance().periodic();
 		Variables.getInstance().outputVariables();
+		Indicators.getInstance().periodic();
 		_diagnostics.log();
 	}
 
@@ -78,6 +79,7 @@ public class Robot extends IterativeRobot {
 		OI.getInstance().periodic();
 		Lift.getInstance().periodic();
 		Variables.getInstance().outputVariables();
+		Indicators.getInstance().periodic();
 		_diagnostics.log();
 	}
 
@@ -90,5 +92,6 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		_diagnostics.close();
 		Lift.getInstance().setDesiredHeight(Lift.getInstance().getPosition());
+		Encoders.getInstance().driveEncoderReset();
 	}
 }

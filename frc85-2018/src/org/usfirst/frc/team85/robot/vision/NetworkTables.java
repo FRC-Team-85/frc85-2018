@@ -22,6 +22,9 @@ public class NetworkTables {
 	private NetworkTables() {
 		try {
 			_table = NetworkTableInstance.getDefault().getTable("GRIP/myContoursReport");
+			NetworkTableEntry e1 = NetworkTableInstance.getDefault().getEntry("foundx");
+			NetworkTableEntry e2 = NetworkTableInstance.getDefault().getEntry("foundw");
+
 			NetworkTableEntry foundx = _table.getEntry("foundx");
 			NetworkTableEntry foundw = _table.getEntry("foundw");
 
@@ -29,6 +32,8 @@ public class NetworkTables {
 				@Override
 				public void run() {
 					while (!Thread.interrupted()) {
+						System.out.println("FoundX: " + e1.getDouble(0) + " FoundW: " + e2.getDouble(0));
+
 						double x = foundx.getDouble(0);
 						double w = foundw.getDouble(0);
 						double center = x + w / 2;
@@ -51,7 +56,7 @@ public class NetworkTables {
 		}
 	}
 
-	public static NetworkTables getInstance() {
+	private static NetworkTables getInstance() {
 		if (_instance == null) {
 			_instance = new NetworkTables();
 		}

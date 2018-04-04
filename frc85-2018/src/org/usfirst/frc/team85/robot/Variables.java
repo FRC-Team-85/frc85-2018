@@ -31,15 +31,15 @@ public class Variables {
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 
 	public static final double DefaultLiftTolerance = 400;
-	public static final double DefaultLiftDownwardDecelMultiple = 12;
+	public static final double DefaultLiftDownwardDecelMultiple = 13;
 	public static final double DefaultLiftUpwardDecelMultiple = 6;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
 	private static final double DefaultDriveTrainHighGearThreshold = 6;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
-	private static final double DefaultLiftUpSpeed = .80;
-	private static final double DefaultLiftDownSpeed = -.7;
+	private static final double DefaultLiftUpSpeed = .9;
+	private static final double DefaultLiftDownSpeed = -1.0;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
 	private static final double DefaultDriveStraightDecelDistance = 5;
