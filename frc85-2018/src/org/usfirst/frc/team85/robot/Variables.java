@@ -59,7 +59,7 @@ public class Variables {
 		SmartDashboard.putNumber("High FPS Turn Amplitude", DefaultTurningHighAmplitude);
 		SmartDashboard.putNumber("Low FPS Turn Amplitude", DefaultTurningLowAmplitude);
 		SmartDashboard.putNumber("Lift Up Speed", DefaultLiftUpSpeed);
-		SmartDashboard.getNumber("Lift Up Auto Speed", DefaultLiftUpAutoSpeed);
+		SmartDashboard.putNumber("Lift Up Auto Speed", DefaultLiftUpAutoSpeed);
 		SmartDashboard.putNumber("Lift Down Speed", DefaultLiftDownSpeed);
 		SmartDashboard.putNumber("Lift Manual Speed", DefaultLiftManualSpeed);
 		SmartDashboard.putNumber("Lift Fast Manual Speed", DefaultLiftFastManualSpeed);
