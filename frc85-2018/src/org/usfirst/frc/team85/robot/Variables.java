@@ -7,6 +7,7 @@ import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Variables {
@@ -38,7 +39,8 @@ public class Variables {
 	private static final double DefaultDriveTrainHighGearThreshold = 6;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
-	private static final double DefaultLiftUpSpeed = .9;
+	private static final double DefaultLiftUpSpeed = 1.0;
+	private static final double DefaultLiftUpAutoSpeed = .8;
 	private static final double DefaultLiftDownSpeed = -1.0;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
@@ -57,6 +59,7 @@ public class Variables {
 		SmartDashboard.putNumber("High FPS Turn Amplitude", DefaultTurningHighAmplitude);
 		SmartDashboard.putNumber("Low FPS Turn Amplitude", DefaultTurningLowAmplitude);
 		SmartDashboard.putNumber("Lift Up Speed", DefaultLiftUpSpeed);
+		SmartDashboard.getNumber("Lift Up Auto Speed", DefaultLiftUpAutoSpeed);
 		SmartDashboard.putNumber("Lift Down Speed", DefaultLiftDownSpeed);
 		SmartDashboard.putNumber("Lift Manual Speed", DefaultLiftManualSpeed);
 		SmartDashboard.putNumber("Lift Fast Manual Speed", DefaultLiftFastManualSpeed);
@@ -114,7 +117,11 @@ public class Variables {
 	}
 
 	public double getLiftUpSpeed() {
-		return SmartDashboard.getNumber("Lift Up Speed", DefaultLiftUpSpeed);
+		if (DriverStation.getInstance().isAutonomous()) {
+			return SmartDashboard.getNumber("Lift Up Auto Speed", DefaultLiftUpSpeed);
+		} else {
+			return SmartDashboard.getNumber("Lift Up Speed", DefaultLiftUpSpeed);
+		}
 	}
 
 	public double getLiftDownSpeed() {
