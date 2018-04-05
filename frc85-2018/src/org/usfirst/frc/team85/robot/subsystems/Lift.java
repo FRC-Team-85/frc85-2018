@@ -87,13 +87,15 @@ public class Lift extends Subsystem {
 				speed = Variables.getInstance().getLiftUpSpeed();
 				if (error <= Variables.getInstance().getLiftUpwardDecelMultiple()
 						* Variables.getInstance().getLiftTolerance()) {
-					speed *= .2;
+					speed = speed * (error / (Variables.getInstance().getLiftUpwardDecelMultiple()
+							* Variables.getInstance().getLiftTolerance())) + .05;
 				}
 			} else {
 				speed = Variables.getInstance().getLiftDownSpeed();
 				if (error <= Variables.getInstance().getLiftDownwardDecelMultiple()
 						* Variables.getInstance().getLiftTolerance()) {
-					speed *= .2;
+					speed = speed * (error / (Variables.getInstance().getLiftDownwardDecelMultiple()
+							* Variables.getInstance().getLiftTolerance())) - .05;
 				}
 			}
 
@@ -115,11 +117,16 @@ public class Lift extends Subsystem {
 			_rightOne.setSelectedSensorPosition(0, 0, 0);
 		}
 
+		speed = 0; // Lift Stop
 		_rightOne.set(ControlMode.PercentOutput, speed);
 	}
 
 	public double getPosition() {
 		return -_rightOne.getSelectedSensorPosition(0);
+	}
+
+	public double getVelocity() {
+		return -_rightOne.getSelectedSensorVelocity(0);
 	}
 
 	public void lock(boolean lock) {

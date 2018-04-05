@@ -5,7 +5,6 @@ import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
-import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
@@ -50,14 +49,6 @@ public class OI {
 		_liftStop = new MoveLift(0);
 		_liftFastUp = new MoveLift(Variables.getInstance().getLiftFastManualSpeed() - .5);
 		_liftFastDown = new MoveLift(-Variables.getInstance().getLiftFastManualSpeed());
-
-		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4);
-		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5);
-		JoystickButton turnAround = new JoystickButton(_leftJoystick, 3);
-
-		turnLeft.whenPressed(new SpinExactDegrees(90));
-		turnRight.whenPressed(new SpinExactDegrees(-90));
-		turnAround.whenPressed(new SpinExactDegrees(180));
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
 		manualTrans.whenPressed(new ToggleTransmission());

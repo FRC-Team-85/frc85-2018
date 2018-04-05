@@ -50,5 +50,6 @@ public class SweepingTurn extends Command {
 	protected void end() {
 		super.end();
 		Encoders.getInstance().driveEncoderReset();
+		DriveTrain.getInstance().drive(0, 0);
 	}
 }

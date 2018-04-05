@@ -200,6 +200,7 @@ public class Variables {
 		SmartDashboard.putNumber("DriveTrain Total Current", DriveTrain.getInstance().getTotalCurrent());
 		SmartDashboard.putNumber("DriveTrain Joystick Power", OI.getInstance().getPower());
 		SmartDashboard.putNumber("Lift Encoder Values", Lift.getInstance().getPosition());
+		SmartDashboard.putNumber("Lift Encoder Velocity", Lift.getInstance().getVelocity());
 		SmartDashboard.putNumber("Lift Desired Height", Lift.getInstance().getDesiredHeight());
 
 		if (DriveTrain.getInstance().getTransmissionHighGear()) {
