@@ -17,7 +17,7 @@ public class Globals {
 		_compressor.start();
 
 		cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-		// cam1 = CameraServer.getInstance().startAutomaticCapture(1);
+		cam1 = CameraServer.getInstance().startAutomaticCapture(1);
 	}
 
 	public static Globals getInstance() {
