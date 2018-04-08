@@ -20,8 +20,6 @@ public class Diagnostics {
 
 	private int placeHolder = 0;
 
-	public int totalSolenoid = 0;
-
 	public void init() {
 		try {
 			close();
@@ -81,7 +79,7 @@ public class Diagnostics {
 			String R1 = Double.toString(Lift.getInstance().getRightOneCurrent());
 			String R2 = Double.toString(Lift.getInstance().getRightTwoCurrent());
 			// Pneumatics
-			String solenoid = Integer.toString(totalSolenoid);
+			String solenoid = Integer.toString(Variables.getInstance().getSolenoidFire());
 			String comp = Double.toString(Globals.getInstance().getCompressor().getCompressorCurrent());
 			// IMU
 			String initialYaw = Double.toString(IMU.getInstance().getInitialYaw());

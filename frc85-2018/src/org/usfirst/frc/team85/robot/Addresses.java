@@ -73,4 +73,5 @@ public class Addresses {
 	public final static int OS_MISC_CUBE_SEARCH = 9;
 	public final static int OS_MISC_EXCHANGE_BUTTON = 10;
 	public final static int OS_MISC_LIFT_CLIMB = 11;
+	public final static int OS_MISC_VISION_SEARCH = 8;
 }

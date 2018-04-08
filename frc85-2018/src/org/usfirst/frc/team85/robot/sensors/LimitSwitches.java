@@ -9,6 +9,8 @@ public class LimitSwitches {
 	private static LimitSwitches _instance;
 	private DigitalInput _lowerLiftLimit, _upperLiftlimit, _leftIntakeLimit, _rightIntakeLimit;
 
+	private int _lowerLiftDebounce = 0, _upperLiftDebounce = 0;
+
 	private LimitSwitches() {
 		_lowerLiftLimit = new DigitalInput(Addresses.LIFT_LOWER_LIMIT_SWITCH);
 		_upperLiftlimit = new DigitalInput(Addresses.LIFT_UPPER_LIMIT_SWITCH);
@@ -24,6 +26,7 @@ public class LimitSwitches {
 	}
 
 	public boolean getLowerLiftLimit() {
+		_lowerLiftDebounce++;
 		return _lowerLiftLimit.get();
 	}
 

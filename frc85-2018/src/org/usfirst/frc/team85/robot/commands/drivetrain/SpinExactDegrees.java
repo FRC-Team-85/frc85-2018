@@ -73,7 +73,7 @@ public class SpinExactDegrees extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return _pid.onTarget();
+		return _pid.onTarget() || isTimedOut();
 	}
 
 	@Override

@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 				(int) SmartDashboard.getNumber("Autonomous Wait Time", 0),
 				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
 				SmartDashboard.getBoolean("Autonomous Auto Line", false),
-				SmartDashboard.getBoolean("Autonomous Drag Race", false));
+				SmartDashboard.getBoolean("Autonomous Platform", false));
 		_autonomous.start();
 	}
 

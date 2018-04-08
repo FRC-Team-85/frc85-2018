@@ -25,23 +25,23 @@ public class Variables {
 	public static final double LIFT_PLATFORM = 4000;
 	public static final double LIFT_SWITCH = 10500;
 	public static final double LIFT_LOCK = 9500;
-	public static final double LIFT_SCALE_LOW = 21500;
+	public static final double LIFT_SCALE_LOW = 26500;
 	public static final double LIFT_SCALE = 30000;
 	public static final double LIFT_CLIMB = 34500;
 	public static final double LIFT_SCALE_HIGH = 37700;
 	public static final double LIFT_SCALE_HIGH_DOUBLE = 39600;
 
 	public static final double DefaultLiftTolerance = 400;
-	public static final double DefaultLiftDownwardDecelMultiple = 13;
-	public static final double DefaultLiftUpwardDecelMultiple = 6;
+	public static final double DefaultLiftDownwardDecelMultiple = 35;
+	public static final double DefaultLiftUpwardDecelMultiple = 12;
 
 	private static final double DefaultDriveTrainCurrentThreshold = 155;
 	private static final double DefaultDriveTrainHighGearThreshold = 6;
 	private static final double DefaultTurningHighAmplitude = .65;
 	private static final double DefaultTurningLowAmplitude = .35;
 	private static final double DefaultLiftUpSpeed = 1.0;
-	private static final double DefaultLiftUpAutoSpeed = .8;
-	private static final double DefaultLiftDownSpeed = -1.0;
+	private static final double DefaultLiftUpAutoSpeed = .9;
+	private static final double DefaultLiftDownSpeed = -.85;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
 	private static final double DefaultDriveStraightDecelDistance = 5;
@@ -91,8 +91,8 @@ public class Variables {
 		if (!SmartDashboard.containsKey("Autonomous Auto Line")) {
 			SmartDashboard.putBoolean("Autonomous Auto Line", false);
 		}
-		if (!SmartDashboard.containsKey("Autonomous Drag Race")) {
-			SmartDashboard.putBoolean("Autonomous Drag Race", false);
+		if (!SmartDashboard.containsKey("Autonomous Platform")) {
+			SmartDashboard.putBoolean("Autonomous Platform", false);
 		}
 	}
 
@@ -259,5 +259,9 @@ public class Variables {
 
 	public void addSolenoidFire() {
 		_totalSolenoid++;
+	}
+
+	public int getSolenoidFire() {
+		return _totalSolenoid;
 	}
 }

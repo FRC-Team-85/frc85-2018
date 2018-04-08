@@ -20,8 +20,11 @@ public class Lift extends Subsystem {
 	private double _desiredHeight = 0;
 	private double _overrideSpeed = 0;
 
+	private TalonSRX[] talons = new TalonSRX[4];
 	private TalonSRX _leftOne, _leftTwo, _rightOne, _rightTwo;
 	private Solenoid _lock;
+
+	private int _resetDebounce = 0;
 
 	private Lift() {
 		_rightOne = new TalonSRX(Addresses.LIFT_RIGHT_ONE);
@@ -29,18 +32,19 @@ public class Lift extends Subsystem {
 		_rightOne.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 20);
 		_rightOne.setSelectedSensorPosition(0, 0, 0);
 		_rightOne.selectProfileSlot(0, 0);
+		talons[0] = _rightOne;
 
 		_rightTwo = new TalonSRX(Addresses.LIFT_RIGHT_TWO);
-		_rightTwo.follow(_rightOne);
 		_rightTwo.setNeutralMode(NeutralMode.Brake);
+		talons[1] = _rightTwo;
 
 		_leftOne = new TalonSRX(Addresses.LIFT_LEFT_ONE);
-		_leftOne.follow(_rightOne);
 		_leftOne.setNeutralMode(NeutralMode.Brake);
+		talons[2] = _leftOne;
 
 		_leftTwo = new TalonSRX(Addresses.LIFT_LEFT_TWO);
-		_leftTwo.follow(_rightOne);
 		_leftTwo.setNeutralMode(NeutralMode.Brake);
+		talons[3] = _leftTwo;
 
 		_lock = new Solenoid(Addresses.LIFT_LOCK);
 	}
@@ -87,19 +91,17 @@ public class Lift extends Subsystem {
 				speed = Variables.getInstance().getLiftUpSpeed();
 				if (error <= Variables.getInstance().getLiftUpwardDecelMultiple()
 						* Variables.getInstance().getLiftTolerance()) {
-					// speed = speed * (error /
-					// (Variables.getInstance().getLiftUpwardDecelMultiple()
-					// * Variables.getInstance().getLiftTolerance())) + .05;
-					speed *= .1;
+					speed = speed * (error / (Variables.getInstance().getLiftUpwardDecelMultiple()
+							* Variables.getInstance().getLiftTolerance())) + .05;
+					// speed *= .1;
 				}
 			} else {
 				speed = Variables.getInstance().getLiftDownSpeed();
 				if (error <= Variables.getInstance().getLiftDownwardDecelMultiple()
 						* Variables.getInstance().getLiftTolerance()) {
-					// speed = speed * (error /
-					// (Variables.getInstance().getLiftDownwardDecelMultiple()
-					// * Variables.getInstance().getLiftTolerance())) - .05;
-					speed *= .1;
+					speed = speed * (error / (Variables.getInstance().getLiftDownwardDecelMultiple()
+							* Variables.getInstance().getLiftTolerance())) - .05;
+					// speed *= .1;
 				}
 			}
 
@@ -108,7 +110,7 @@ public class Lift extends Subsystem {
 			}
 		}
 
-		if ((LimitSwitches.getInstance().getUpperLiftLimit() && speed > 0)
+		if ((LimitSwitches.getInstance().getUpperLiftLimit() && speed > 0 && getPosition() > 30000)
 				|| (LimitSwitches.getInstance().getLowerLiftLimit() && speed < 0)) {
 			speed = 0;
 		}
@@ -118,10 +120,18 @@ public class Lift extends Subsystem {
 		}
 
 		if (LimitSwitches.getInstance().getLowerLiftLimit()) {
+			_resetDebounce++;
+		} else {
+			_resetDebounce = 0;
+		}
+
+		if (_resetDebounce >= 3) {
 			_rightOne.setSelectedSensorPosition(0, 0, 0);
 		}
 
-		_rightOne.set(ControlMode.PercentOutput, speed);
+		for (TalonSRX talon : talons) {
+			talon.set(ControlMode.PercentOutput, speed);
+		}
 	}
 
 	public double getPosition() {

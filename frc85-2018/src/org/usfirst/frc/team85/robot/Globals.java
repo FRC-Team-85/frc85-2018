@@ -16,8 +16,9 @@ public class Globals {
 		_compressor.setClosedLoopControl(true);
 		_compressor.start();
 
-		cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-		cam1 = CameraServer.getInstance().startAutomaticCapture(1);
+		cam0 = CameraServer.getInstance().startAutomaticCapture();
+		cam0.setResolution(320, 240);
+		// cam1 = CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	public static Globals getInstance() {

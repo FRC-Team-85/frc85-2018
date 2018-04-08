@@ -5,7 +5,9 @@ import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
+import org.usfirst.frc.team85.robot.commands.drivetrain.ThreePointTurn;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
+import org.usfirst.frc.team85.robot.commands.drivetrain.VisionCubeSearch;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
@@ -43,6 +45,11 @@ public class OI {
 		_rightJoystick = new Joystick(Addresses.RIGHT_JOYSTICK);
 		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
 		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
+
+		JoystickButton slideLeft = new JoystickButton(_rightJoystick, 7);
+		JoystickButton slideRight = new JoystickButton(_rightJoystick, 8);
+		slideLeft.whenPressed(new ThreePointTurn(1.0, -1, 2));
+		slideRight.whenPressed(new ThreePointTurn(1.0, 1, 2));
 
 		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
 		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
@@ -86,6 +93,7 @@ public class OI {
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
 		JoystickButton ejectCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_EXCHANGE_BUTTON);
+		JoystickButton visionSearchButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_VISION_SEARCH);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -103,6 +111,9 @@ public class OI {
 
 		ejectCubeButton.whenPressed(new EjectCube());
 		ejectCubeButton.whenReleased(new CancelEjectCube());
+
+		visionSearchButton.whenPressed(new VisionCubeSearch());
+		visionSearchButton.whenReleased(new CancelCubeSearch());
 	}
 
 	public void periodic() {
@@ -254,39 +265,35 @@ public class OI {
 		double lift = Lift.getInstance().getPosition();
 		double turnRate = Math.abs(yaw - _previousYaw);
 
-		// if (Math.abs(roll) > 12) { //If tilting left or right
-		// if (lift > 13000) { //Move lift down
-		// Lift.getInstance().setDesiredHeight(10000);
-		// return 1.0;
-		// } else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) ||
-		// (turnRate > 10)) { //Slow robot down
-		// /*
-		// * Returns multiplier (For example, 0.90)
-		// * which the speed (in tank and fps drive)
-		// * is multiplied by it to slow robot down (by 10%)
-		// */
-		// return Variables.getInstance().getTractionControlMultiplier();
-		// } else {
-		// return 1.0;
-		// }
-		// }
-		//
-		// if (Math.abs(pitch) > 20) { //If tilting forwards or backwards
-		// if (lift > 13000) { //Move lift down
-		// Lift.getInstance().setDesiredHeight(10000);
-		// return 1.0;
-		// } else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) {
-		// //Slow robot down
-		// return Variables.getInstance().getTractionControlMultiplier();
-		// } else {
-		// return 1.0;
-		// }
-		// } else {
-		// return 1.0;
-		// }
-
 		_previousYaw = yaw;
 
+		if (Math.abs(roll) > 12) { // If tilting left or right
+			if (lift > 13000) { // Move lift down
+				Lift.getInstance().setDesiredHeight(10000);
+				return 1.0;
+			} else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) || (turnRate > 10)) { // Slow robot
+																											// down
+				/*
+				 * Returns multiplier (For example, 0.90) which the speed (in tank and fps
+				 * drive) is multiplied by it to slow robot down (by 10%)
+				 */
+				return Variables.getInstance().getTractionControlMultiplier();
+			} else {
+				return 1.0;
+			}
+		}
+
+		if (Math.abs(pitch) > 20) { // If tilting forwards or backwards
+			if (lift > 13000) { // Move lift down
+				Lift.getInstance().setDesiredHeight(10000);
+				return 1.0;
+			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) {
+				// Slow robot down
+				return Variables.getInstance().getTractionControlMultiplier();
+			} else {
+				return 1.0;
+			}
+		}
 		return 1.0;
 	}
 
