@@ -32,6 +32,8 @@ public class DriveStraight extends Command {
 	private boolean _useRangeFinders = false;
 	private AbsoluteDirection _rangeDirection;
 
+	private int outputRange = 25;
+
 	public DriveStraight(double speed, double distance) {
 		requires(DriveTrain.getInstance());
 		Encoders.getInstance().driveEncoderReset();
@@ -65,12 +67,17 @@ public class DriveStraight extends Command {
 
 	public DriveStraight setVisionTrack() {
 		_visionTrack = true;
-		return this;
+		return setGradualTurn();
 	}
 
 	public DriveStraight setRangeFinderDistance(AbsoluteDirection rangeDirection) {
 		_useRangeFinders = true;
 		_rangeDirection = rangeDirection;
+		return this;
+	}
+
+	public DriveStraight setGradualTurn() {
+		outputRange = 1;
 		return this;
 	}
 
@@ -131,7 +138,7 @@ public class DriveStraight extends Command {
 		_pid.setSetpoint(_heading);
 		_pid.setAbsoluteTolerance(2);
 
-		_pid.setOutputRange(-10, 10);
+		_pid.setOutputRange(-outputRange, outputRange);
 
 		_pid.reset();
 		_pid.enable();

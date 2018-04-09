@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class VisionCubeSearch extends CommandGroup {
 
 	public VisionCubeSearch() {
-		addParallel(new DriveStraight(.25, 8).setVisionTrack());
+		addParallel(new DriveStraight(.25, 2).setVisionTrack().setRangeFinderDistance(AbsoluteDirection.FORWARD));
 		addSequential(new CubeSearch());
 	}
 }

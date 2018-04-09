@@ -202,11 +202,11 @@ public class Autonomous extends CommandGroup {
 	private void buildCloseScale() {
 		addParallel(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), .5));
 		if (mult == 1) {
-			addSequential(new DriveStraight(1.0, 18).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+			addSequential(new DriveStraight(1.0, 19).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 					.setAcceleration(true, false).setAutoShift());
 			addSequential(new SweepingTurn(.6, 1.5, -45 * mult));
 		} else {
-			addSequential(new DriveStraight(1.0, 18).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+			addSequential(new DriveStraight(1.0, 19).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 					.setAcceleration(true, false).setAutoShift());
 			addSequential(new SweepingTurn(.6, 1.5, -45 * mult));
 		}
@@ -224,9 +224,8 @@ public class Autonomous extends CommandGroup {
 
 		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 		addSequential(new LiftPositionWait(false));
-		addSequential(new DriveStraight(.6, 6).setAcceleration(true, false));
-		addSequential(new SpinExactDegrees(-20 * mult));
-		addParallel(new DriveStraight(.2, 4).setVisionTrack().setAcceleration(false, true));
+		addSequential(new DriveStraight(.6, 5.5).setAcceleration(true, false));
+		addParallel(new DriveStraight(.2, 3).setVisionTrack().setAcceleration(false, true));
 		addSequential(new CubeSearch());
 		addSequential(new DriveStraight(-.7, 1.5));
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
@@ -282,11 +281,11 @@ public class Autonomous extends CommandGroup {
 		addParallel(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), .1));
 
 		if (mult == 1) {
-			addSequential(new DriveStraight(.5, 3).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
-					.setAcceleration(false, true));
+			addSequential(new DriveStraight(.5, 14.5).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
+					.setAbsoluteDirection(AbsoluteDirection.BACKWARD).setAcceleration(false, true));
 		} else {
-			addSequential(new DriveStraight(.5, 3).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
-					.setAcceleration(false, true));
+			addSequential(new DriveStraight(.5, 14.5).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
+					.setAbsoluteDirection(AbsoluteDirection.BACKWARD).setAcceleration(false, true));
 		}
 
 		addSequential(new SpinExactDegrees(30 * mult, 1));

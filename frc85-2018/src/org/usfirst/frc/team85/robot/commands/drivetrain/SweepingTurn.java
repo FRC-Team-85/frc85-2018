@@ -21,13 +21,29 @@ public class SweepingTurn extends Command {
 
 		double ratio = (radius - Variables.wheelSpan) / radius;
 
-		if (angle > 0 || (angle < 0 && speed < 0)) {
-			_leftSpeed = ratio * speed;
-			_rightSpeed = speed;
+		if (speed > 0) {
+			if (angle > 0) {
+				weakLeftTurn(speed, ratio);
+			} else {
+				weakRightTurn(speed, ratio);
+			}
 		} else {
-			_leftSpeed = speed;
-			_rightSpeed = ratio * speed;
+			if (angle > 0) {
+				weakRightTurn(speed, ratio);
+			} else {
+				weakLeftTurn(speed, ratio);
+			}
 		}
+	}
+
+	public void weakLeftTurn(double speed, double ratio) {
+		_leftSpeed = ratio * speed;
+		_rightSpeed = speed;
+	}
+
+	public void weakRightTurn(double speed, double ratio) {
+		_leftSpeed = speed;
+		_rightSpeed = ratio * speed;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ThreePointTurn;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.drivetrain.VisionCubeSearch;
@@ -59,6 +60,13 @@ public class OI {
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
 		manualTrans.whenPressed(new ToggleTransmission());
+
+		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 3); // button?
+		JoystickButton turnRight = new JoystickButton(_leftJoystick, 4); // button?
+		JoystickButton turnAround = new JoystickButton(_leftJoystick, 5); // button?
+		turnLeft.whenPressed(new SpinExactDegrees(90, 1));
+		turnRight.whenPressed(new SpinExactDegrees(-90, 1));
+		turnAround.whenPressed(new SpinExactDegrees(180, 1.5));
 
 		JoystickButton cubeSearchDriverButton = new JoystickButton(_rightJoystick, 2);
 		cubeSearchDriverButton.whenPressed(new CubeSearch());
