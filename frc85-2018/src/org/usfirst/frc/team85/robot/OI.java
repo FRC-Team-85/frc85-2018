@@ -61,9 +61,9 @@ public class OI {
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
 		manualTrans.whenPressed(new ToggleTransmission());
 
-		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 3); // button?
-		JoystickButton turnRight = new JoystickButton(_leftJoystick, 4); // button?
-		JoystickButton turnAround = new JoystickButton(_leftJoystick, 5); // button?
+		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4); // button?
+		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5); // button?
+		JoystickButton turnAround = new JoystickButton(_leftJoystick, 3); // button?
 		turnLeft.whenPressed(new SpinExactDegrees(90, 1));
 		turnRight.whenPressed(new SpinExactDegrees(-90, 1));
 		turnAround.whenPressed(new SpinExactDegrees(180, 1.5));

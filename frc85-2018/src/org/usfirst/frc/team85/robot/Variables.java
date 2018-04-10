@@ -94,6 +94,9 @@ public class Variables {
 		if (!SmartDashboard.containsKey("Autonomous Platform")) {
 			SmartDashboard.putBoolean("Autonomous Platform", false);
 		}
+		if (!SmartDashboard.containsKey("Autonomous Switch Then Scale")) {
+			SmartDashboard.putBoolean("Autonomous Switch Then Scale", false);
+		}
 	}
 
 	public static Variables getInstance() {

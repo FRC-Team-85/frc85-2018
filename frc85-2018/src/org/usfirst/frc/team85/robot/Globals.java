@@ -18,7 +18,8 @@ public class Globals {
 
 		cam0 = CameraServer.getInstance().startAutomaticCapture();
 		cam0.setResolution(320, 240);
-		// cam1 = CameraServer.getInstance().startAutomaticCapture();
+		cam1 = CameraServer.getInstance().startAutomaticCapture();
+		cam1.setResolution(320, 240);
 	}
 
 	public static Globals getInstance() {

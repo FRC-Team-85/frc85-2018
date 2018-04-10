@@ -77,7 +77,7 @@ public class DriveStraight extends Command {
 	}
 
 	public DriveStraight setGradualTurn() {
-		outputRange = 1;
+		outputRange = 5;
 		return this;
 	}
 
@@ -193,11 +193,17 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if ((getError() < Variables.getInstance().getDriveStraightTolerance()) || isTimedOut()) {
-			return true;
-		}
+		boolean inTolerance = getError() < Variables.getInstance().getDriveStraightTolerance();
+		boolean runOverForward = (Encoders.getInstance().getRightVelocity() + Encoders.getInstance().getLeftVelocity())
+				/ 2 > 4
+				&& (Encoders.getInstance().getRightDistance() + Encoders.getInstance().getLeftDistance())
+						/ 2 > _distance;
+		boolean runOverBackward = (Encoders.getInstance().getRightVelocity() + Encoders.getInstance().getLeftVelocity())
+				/ 2 < -4
+				&& Math.abs(Encoders.getInstance().getRightDistance() + Encoders.getInstance().getLeftDistance())
+						/ 2 > _distance;
 
-		return false;
+		return (inTolerance || runOverBackward || runOverForward || isTimedOut());
 	}
 
 	private double getError() {
