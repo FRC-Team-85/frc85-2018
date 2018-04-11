@@ -110,7 +110,7 @@ public class Lift extends Subsystem {
 			}
 		}
 
-		if ((LimitSwitches.getInstance().getUpperLiftLimit() && speed > 0 && getPosition() > 30000)
+		if ((LimitSwitches.getInstance().getUpperLiftLimit() && speed > 0)
 				|| (LimitSwitches.getInstance().getLowerLiftLimit() && speed < 0)) {
 			speed = 0;
 		}
@@ -132,6 +132,10 @@ public class Lift extends Subsystem {
 		for (TalonSRX talon : talons) {
 			talon.set(ControlMode.PercentOutput, speed);
 		}
+	}
+
+	private double getTotalCurrent() {
+		return getRightOneCurrent() + getRightTwoCurrent() + getLeftOneCurrent() + getLeftTwoCurrent();
 	}
 
 	public double getPosition() {

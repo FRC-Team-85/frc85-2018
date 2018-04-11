@@ -43,7 +43,7 @@ public class Vision {
 						} catch (Exception ex) {
 							System.out.println("Error Reading Serial Port: " + ex.toString());
 						}
-						Timer.delay(.1);
+						Timer.delay(.02);
 					}
 				}
 			});

@@ -44,7 +44,7 @@ public class Variables {
 	private static final double DefaultLiftDownSpeed = -.85;
 	private static final double DefaultLiftManualSpeed = .25;
 	private static final double DefaultLiftFastManualSpeed = 1.0;
-	private static final double DefaultDriveStraightDecelDistance = 5;
+	private static final double DefaultDriveStraightDecelDistance = 3;
 	private static final double DefaultDriveStraightAccelDistance = 3;
 	private static final double DefaultLowJoystickPower = 3;
 	private static final double DefaultHighJoystickPower = 5;
