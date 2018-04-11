@@ -97,6 +97,12 @@ public class Variables {
 		if (!SmartDashboard.containsKey("Autonomous Switch Then Scale")) {
 			SmartDashboard.putBoolean("Autonomous Switch Then Scale", false);
 		}
+		if (!SmartDashboard.containsKey("Autonomous Second Cube")) {
+			SmartDashboard.putBoolean("Autonomous Second Cube", true);
+		}
+		if (!SmartDashboard.containsKey("Autonomous Ignore Scale")) {
+			SmartDashboard.putBoolean("Autonomous Ignore Scale", false);
+		}
 	}
 
 	public static Variables getInstance() {
