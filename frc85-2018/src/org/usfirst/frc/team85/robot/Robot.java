@@ -53,7 +53,8 @@ public class Robot extends IterativeRobot {
 				SmartDashboard.getBoolean("Autonomous Platform", false),
 				SmartDashboard.getBoolean("Autonomous Switch Then Scale", false),
 				SmartDashboard.getBoolean("Autonomous Second Cube", true),
-				SmartDashboard.getBoolean("Autonomous Ignore Scale", false));
+				SmartDashboard.getBoolean("Autonomous Ignore Scale", false),
+				SmartDashboard.getBoolean("Autonomous Do Not Cross Field", false));
 		_autonomous.start();
 	}
 

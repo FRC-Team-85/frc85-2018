@@ -103,6 +103,9 @@ public class Variables {
 		if (!SmartDashboard.containsKey("Autonomous Ignore Scale")) {
 			SmartDashboard.putBoolean("Autonomous Ignore Scale", false);
 		}
+		if (!SmartDashboard.containsKey("Autonomous Do Not Cross Field")) {
+			SmartDashboard.putBoolean("Autonomous Do Not Cross Field", false);
+		}
 	}
 
 	public static Variables getInstance() {

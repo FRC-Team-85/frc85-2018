@@ -20,9 +20,9 @@ public class Globals {
 		_compressor.start();
 
 		cam0 = CameraServer.getInstance().startAutomaticCapture(0);
-		// cam0.setResolution(320, 240);
+		cam0.setResolution(320, 240);
 		cam1 = CameraServer.getInstance().startAutomaticCapture(1);
-		// cam1.setResolution(320, 240);
+		cam1.setResolution(320, 240);
 
 		leds = new Relay(0, Direction.kForward);
 		leds.set(Value.kOn);
