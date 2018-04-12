@@ -120,7 +120,7 @@ public class OI {
 		ejectCubeButton.whenPressed(new EjectCube());
 		ejectCubeButton.whenReleased(new CancelEjectCube());
 
-		visionSearchButton.whenPressed(new VisionCubeSearch());
+		visionSearchButton.whenPressed(new VisionCubeSearch(.25, 4));
 		visionSearchButton.whenReleased(new CancelCubeSearch());
 	}
 
