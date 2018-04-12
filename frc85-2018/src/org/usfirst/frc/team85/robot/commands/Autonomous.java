@@ -224,11 +224,11 @@ public class Autonomous extends CommandGroup {
 		addParallel(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), .5));
 
 		if (mult == 1) { // left and right different if needed
-			addSequential(new DriveStraight(1.0, 19).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+			addSequential(new DriveStraight(1.0, 19.5).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 					.setAcceleration(true, false).setAutoShift());
 			addSequential(new SweepingTurn(.6, 1.5, -45 * mult));
 		} else {
-			addSequential(new DriveStraight(1.0, 19).setAbsoluteDirection(AbsoluteDirection.FORWARD)
+			addSequential(new DriveStraight(1.0, 20.5).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 					.setAcceleration(true, false).setAutoShift());
 			addSequential(new SweepingTurn(.6, 1.5, -45 * mult));
 		}
@@ -311,17 +311,21 @@ public class Autonomous extends CommandGroup {
 		addSequential(new SweepingTurn(1.0, 3, -90 * mult));
 
 		if (mult == 1) {
-			addSequential(new DriveStraight(1.0, 4).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
+			addSequential(new DriveStraight(1.0, 3).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
 					.setAcceleration(false, true)); // Shift
 		} else {
-			addSequential(new DriveStraight(1.0, 4).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
+			addSequential(new DriveStraight(1.0, 3).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
 					.setAcceleration(false, true));
 		}
 
 		addSequential(new SpinExactDegrees(-90 * mult));
-		addSequential(new DriveStraight(-.75, 5, 1));
-		addSequential(new SpinExactDegrees(90 * mult));
-		addSequential(new DriveStraight(.75, 3));
+		addSequential(new DriveStraight(-.75, 5, 2));
+		addSequential(new SpinExactDegrees(90 * mult, 2));
+		if (mult == 1) {
+			addSequential(new DriveStraight(.75, 3, 1.5).setAbsoluteDirection(AbsoluteDirection.RIGHT));
+		} else {
+			addSequential(new DriveStraight(.75, 3, 1.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
+		}
 		addSequential(new SpinExactDegrees(30 * mult, 1));
 		addSequential(new OpenGripper());
 		addSequential(new DriveStraight(-.75, 5));

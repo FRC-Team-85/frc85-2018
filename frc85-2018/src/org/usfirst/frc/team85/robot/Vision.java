@@ -3,7 +3,6 @@ package org.usfirst.frc.team85.robot;
 import org.usfirst.frc.team85.robot.commands.drivetrain.DriveStraight;
 
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.Timer;
 
 public class Vision {
 
@@ -15,6 +14,9 @@ public class Vision {
 
 	private DriveStraight _cmd = null;
 
+	private int _index, _centerX;
+	private double _error, _angle;
+
 	private Vision() {
 		try {
 			SerialPort cam = new SerialPort(115200, SerialPort.Port.kUSB);
@@ -23,27 +25,31 @@ public class Vision {
 				public void run() {
 					while (!Thread.interrupted()) {
 						try {
-							String input = cam.readString();
-							System.out.println("Serial Input: " + input);
-							if (input != null && !input.equals("")) {
-								int index = Integer.parseInt(input.substring(0, 1));
-								int centerX = Integer
-										.parseInt(input.substring(input.indexOf(" "), input.indexOf(".")).trim());
+							for (String input : cam.readString().split("\n")) {
+								if (input != null && !input.equals("")) {
+									if (input.startsWith("I") || input.startsWith("E")) {
+										System.out.println(input);
+										continue;
+									}
 
-								double error = centerX - (IMG_WIDTH / 2);
-								double angle = -error / IMG_WIDTH * FOV;
+									_index = Integer.parseInt(input.substring(0, 1));
+									_centerX = Integer
+											.parseInt(input.substring(input.indexOf(" "), input.indexOf(".")).trim());
 
-								System.out.println("Index: " + index + " Center: " + centerX + " Angle: " + angle);
-								if (_cmd != null && index == 0) {
-									_cmd.setAngle(angle);
+									_error = _centerX - (IMG_WIDTH / 2);
+									_angle = -_error / IMG_WIDTH * FOV;
+
+									System.out
+											.println("Index: " + _index + " Center: " + _centerX + " Angle: " + _angle);
+									if (_cmd != null && _index == 0) {
+										_cmd.setAngle(_angle);
+									}
 								}
 							}
-
-							System.out.println(input);
+							Thread.sleep(20);
 						} catch (Exception ex) {
 							System.out.println("Error Reading Serial Port: " + ex.toString());
 						}
-						Timer.delay(.02);
 					}
 				}
 			});

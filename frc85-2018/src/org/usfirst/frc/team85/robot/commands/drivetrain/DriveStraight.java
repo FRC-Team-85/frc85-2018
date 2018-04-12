@@ -232,6 +232,7 @@ public class DriveStraight extends Command {
 
 	@Override
 	protected void end() {
+		super.end();
 		_pid.disable();
 		DriveTrain.getInstance().drive(0, 0);
 		Encoders.getInstance().driveEncoderReset();
