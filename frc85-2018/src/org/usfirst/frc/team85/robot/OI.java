@@ -5,10 +5,9 @@ import org.usfirst.frc.team85.robot.commands.CancelEjectCube;
 import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
+import org.usfirst.frc.team85.robot.commands.OpenCubeSearch;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
-import org.usfirst.frc.team85.robot.commands.drivetrain.ThreePointTurn;
 import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
-import org.usfirst.frc.team85.robot.commands.drivetrain.VisionCubeSearch;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
@@ -47,10 +46,10 @@ public class OI {
 		_liftOperatorStation = new Joystick(Addresses.OPERATOR_STATION_LIFT);
 		_miscOperatorStation = new Joystick(Addresses.OPERATOR_STATION_MISC);
 
-		JoystickButton slideLeft = new JoystickButton(_rightJoystick, 7);
-		JoystickButton slideRight = new JoystickButton(_rightJoystick, 8);
-		slideLeft.whenPressed(new ThreePointTurn(1.0, -1, 2));
-		slideRight.whenPressed(new ThreePointTurn(1.0, 1, 2));
+		// JoystickButton slideLeft = new JoystickButton(_rightJoystick, 7);
+		// JoystickButton slideRight = new JoystickButton(_rightJoystick, 8);
+		// slideLeft.whenPressed(new ThreePointTurn(1.0, -1, 2));
+		// slideRight.whenPressed(new ThreePointTurn(1.0, 1, 2));
 
 		_liftUp = new MoveLift(Variables.getInstance().getLiftManualSpeed());
 		_liftDown = new MoveLift(-Variables.getInstance().getLiftManualSpeed());
@@ -101,7 +100,7 @@ public class OI {
 		JoystickButton compressorOffButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_COMPRESSOR_OFF);
 		JoystickButton searchCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_CUBE_SEARCH);
 		JoystickButton ejectCubeButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_EXCHANGE_BUTTON);
-		JoystickButton visionSearchButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_VISION_SEARCH);
+		JoystickButton openSearchButton = new JoystickButton(_miscOperatorStation, Addresses.OS_MISC_VISION_SEARCH);
 
 		gripperButton.whenPressed(new ToggleGripper());
 		protectButton.whenPressed(new ToggleProtectIntake());
@@ -120,8 +119,8 @@ public class OI {
 		ejectCubeButton.whenPressed(new EjectCube());
 		ejectCubeButton.whenReleased(new CancelEjectCube());
 
-		visionSearchButton.whenPressed(new VisionCubeSearch(.25, 4));
-		visionSearchButton.whenReleased(new CancelCubeSearch());
+		openSearchButton.whenPressed(new OpenCubeSearch());
+		openSearchButton.whenReleased(new CancelCubeSearch());
 	}
 
 	public void periodic() {

@@ -21,7 +21,7 @@ public class Variables {
 	public static final double wheelSpan = 1.583;
 	public static final double maxSpeed = 16;
 
-	public static final double LIFT_GROUND = 0;
+	public static final double LIFT_GROUND = -200;
 	public static final double LIFT_PLATFORM = 4000;
 	public static final double LIFT_SWITCH = 10500;
 	public static final double LIFT_LOCK = 9500;

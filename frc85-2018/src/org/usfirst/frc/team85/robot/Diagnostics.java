@@ -12,6 +12,7 @@ import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 
 public class Diagnostics {
 
@@ -37,7 +38,7 @@ public class Diagnostics {
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
 					+ "Compressor,Total Solenoid Activations,Initial Yaw,Initial Pitch,Initial Roll,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration,Front,Back,Left,Right");
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration,Front,Back,Left,Right,Battery Voltage");
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
@@ -103,11 +104,14 @@ public class Diagnostics {
 			String LLS = Boolean.toString(LimitSwitches.getInstance().getLowerLiftLimit());
 			String ULS = Boolean.toString(LimitSwitches.getInstance().getUpperLiftLimit());
 
+			String voltage = Double.toString(RobotController.getBatteryVoltage());
+
 			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
 					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
 					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
 					+ comp + "," + solenoid + "," + initialYaw + "," + initialPitch + "," + initialRoll + "," + yaw
-					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z + "," + F + "," + B + "," + L + "," + R);
+					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z + "," + F + "," + B + "," + L + "," + R
+					+ "," + voltage);
 
 			out.newLine();
 		} catch (Exception ex) {

@@ -15,7 +15,6 @@ public class OpenCubeSearch extends CommandGroup {
 
 	public OpenCubeSearch() {
 		addSequential(new ProtectIntake(false));
-		addSequential(new Wait(.2));
 		addSequential(new OpenGripper());
 		addSequential(new ActivateIntake(1.0));
 
