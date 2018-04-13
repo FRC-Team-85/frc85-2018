@@ -246,20 +246,22 @@ public class Autonomous extends CommandGroup {
 			addSequential(new SpinExactDegrees(-95 * mult));
 			addSequential(new LiftPositionWait(false));
 
-			addSequential(new DriveStraight(.6, 6.5).setAcceleration(true, false));
-			addParallel(new DriveStraight(.3, 3).setVisionTrack().setAcceleration(false, true));
-			addSequential(new CubeSearch());
+			// addSequential(new DriveStraight(.6, 6.5).setAcceleration(true, false));
+			// addParallel(new DriveStraight(.3, 3).setVisionTrack().setAcceleration(false,
+			// true));
+			// addSequential(new CubeSearch());
 
 			// test intake
-//			addParallel(new VisionApproachAndBackup(.75, 8.5));
-//			addSequential(new CubeSearch());
+			addSequential(new DriveStraight(.75, 6.5).setAcceleration(true, false));
+			addParallel(new DriveStraight(.35, 3).setAcceleration(false, true).setVisionTrack());
+			addSequential(new OpenCubeSearch());
 
 			addSequential(new DriveStraight(-.8, 1.5));
 			addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
 			addSequential(new SpinExactDegrees(140 * mult));
 			addSequential(new DriveStraight(1.0, 6, 3).setAbsoluteDirection(AbsoluteDirection.FORWARD)
 					.setAcceleration(true, false));
-			addSequential(new SweepingTurn(.5, .75, -45 * mult));
+			addSequential(new SweepingTurn(.5, .75, -35 * mult));
 			// addSequential(new SpinExactDegrees(-45 * mult));
 			// addSequential(new DriveStraight(.75, 1, .5));
 			addSequential(new OpenGripper());
@@ -314,39 +316,46 @@ public class Autonomous extends CommandGroup {
 			return;
 		}
 
-		addParallel(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), 2));
-		addSequential(new DriveStraight(1.0, 9.5).setAutoShift().setAcceleration(true, false));
-		addSequential(new SweepingTurn(1.0, 3, -90 * mult));
-
-		if (mult == 1) {
-			addSequential(new DriveStraight(1.0, 5.5).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
-					.setAcceleration(false, true)); // Shift
-		} else {
-			addSequential(new DriveStraight(1.0, 5.5).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
-					.setAcceleration(false, true));
-		}
-
-		addSequential(new SpinExactDegrees(-90 * mult));
-		addSequential(new DriveStraight(-.75, 4, 2));
-		addSequential(new SpinExactDegrees(90 * mult, 2));
-		if (mult == 1) {
-			addSequential(new DriveStraight(.75, 3, 1.5).setAbsoluteDirection(AbsoluteDirection.RIGHT));
-		} else {
-			addSequential(new DriveStraight(.75, 3, 1.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
-		}
-		addSequential(new SpinExactDegrees(45 * mult, 1));
-		addSequential(new OpenGripper());
-		addSequential(new DriveStraight(-.75, 4));
-		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
-
-		if (secondCube) {
-			addSequential(new SpinExactDegrees(-120 * mult));
-			addSequential(new LiftPositionWait(false));
-			addSequential(new DriveStraight(.8, 2).setAcceleration(true, false));
-			addParallel(new DriveStraight(.4, 2).setVisionTrack().setAcceleration(false, true));
-			addSequential(new CubeSearch());
-			addSequential(new DriveStraight(-1.0, 2));
-		}
+		// addParallel(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH),
+		// 2));
+		// addSequential(new DriveStraight(1.0,
+		// 9.5).setAutoShift().setAcceleration(true, false));
+		// addSequential(new SweepingTurn(1.0, 3, -90 * mult));
+		//
+		// if (mult == 1) {
+		// addSequential(new DriveStraight(1.0,
+		// 5.5).setAbsoluteDirection(AbsoluteDirection.RIGHT).setAutoShift()
+		// .setAcceleration(false, true)); // Shift
+		// } else {
+		// addSequential(new DriveStraight(1.0,
+		// 5.5).setAbsoluteDirection(AbsoluteDirection.LEFT).setAutoShift()
+		// .setAcceleration(false, true));
+		// }
+		//
+		// addSequential(new SpinExactDegrees(-90 * mult));
+		// addSequential(new DriveStraight(-.75, 4, 2));
+		// addSequential(new SpinExactDegrees(90 * mult, 2));
+		// if (mult == 1) {
+		// addSequential(new DriveStraight(.75, 3,
+		// 1.5).setAbsoluteDirection(AbsoluteDirection.RIGHT));
+		// } else {
+		// addSequential(new DriveStraight(.75, 3,
+		// 1.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
+		// }
+		// addSequential(new SpinExactDegrees(45 * mult, 1));
+		// addSequential(new OpenGripper());
+		// addSequential(new DriveStraight(-.75, 4));
+		// addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+		//
+		// if (secondCube) {
+		// addSequential(new SpinExactDegrees(-120 * mult));
+		// addSequential(new LiftPositionWait(false));
+		// addSequential(new DriveStraight(.8, 2).setAcceleration(true, false));
+		// addParallel(new DriveStraight(.4, 2).setVisionTrack().setAcceleration(false,
+		// true));
+		// addSequential(new CubeSearch());
+		// addSequential(new DriveStraight(-1.0, 2));
+		// }
 
 		///
 		///
@@ -394,14 +403,14 @@ public class Autonomous extends CommandGroup {
 		///
 		///
 
-//		addSequential(new DriveStraight(1.0, 23.5).setAutoShift());
-//		addSequential(new SpinExactDegrees(-90 * mult));
-//		addSequential(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), 1.5));
-//		addSequential(new DriveStraight(.75, 15));
-//		addSequential(new SpinExactDegrees(-30 * mult, 1));
-//		addSequential(new OpenGripper());
-//		addSequential(new DriveStraight(-.5, 4));
-//		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+		addSequential(new DriveStraight(1.0, 23.5).setAutoShift());
+		addSequential(new SpinExactDegrees(-90 * mult));
+		addSequential(new DelayedCommand(new SetLiftHeight(Variables.LIFT_SCALE_HIGH), 3));
+		addSequential(new DriveStraight(1.0, 15));
+		addSequential(new SpinExactDegrees(30 * mult, 1));
+		addSequential(new OpenGripper());
+		addSequential(new DriveStraight(-.5, 4));
+		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 	}
 
 	// ***********************************************************************//
