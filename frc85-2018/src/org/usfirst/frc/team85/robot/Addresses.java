@@ -35,7 +35,9 @@ public class Addresses {
 	public static final int RANGEFINDER_FRONT = 53;
 	public static final int RANGEFINDER_LEFT = 51;
 	public static final int RANGEFINDER_RIGHT = 50;
-	public static final int RANGEFINDER_BACK = 52;
+	public static final int RANGEFINDER_BACK = 51;
+	// public static final int RANGEFINDER_BACK = 52;
+
 	public static final int IMU_TALON = 6;
 	public static final int LIFT_LOWER_LIMIT_SWITCH = 8;
 	public static final int LIFT_UPPER_LIMIT_SWITCH = 9;

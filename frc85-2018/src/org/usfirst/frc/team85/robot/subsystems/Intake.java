@@ -45,6 +45,11 @@ public class Intake extends Subsystem {
 		_rightMotor.set(ControlMode.PercentOutput, power);
 	}
 
+	public void setPower(double left, double right) {
+		_leftMotor.set(ControlMode.PercentOutput, -left);
+		_rightMotor.set(ControlMode.PercentOutput, right);
+	}
+
 	public void protect(boolean protect) {
 		if (protect != isProtected()) {
 			Variables.getInstance().addSolenoidFire();

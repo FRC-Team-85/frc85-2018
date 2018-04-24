@@ -22,7 +22,7 @@ public class OpenCubeSearch extends CommandGroup {
 		addSequential(new ApplyIntake(true));
 
 		addSequential(new IntakeLimitWait());
-		addSequential(new Wait(.05));
+		addSequential(new Wait(.1));
 		addSequential(new CloseGripper());
 		addSequential(new Wait(.05));
 		addSequential(new ActivateIntake(0.0));

@@ -61,6 +61,7 @@ public class DriveTrain extends Subsystem {
 		if (highGear != getTransmissionHighGear()) {
 			Variables.getInstance().addSolenoidFire();
 		}
+
 		_transmissionSolenoid.set(highGear);
 	}
 

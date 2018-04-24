@@ -6,8 +6,8 @@ import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
 import org.usfirst.frc.team85.robot.commands.OpenCubeSearch;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SetTransmissionHigh;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
-import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
@@ -58,7 +58,8 @@ public class OI {
 		_liftFastDown = new MoveLift(-Variables.getInstance().getLiftFastManualSpeed());
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
-		manualTrans.whenPressed(new ToggleTransmission());
+		manualTrans.whenPressed(new SetTransmissionHigh(true));
+		manualTrans.whenReleased(new SetTransmissionHigh(false));
 
 		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4); // button?
 		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5); // button?
@@ -162,7 +163,7 @@ public class OI {
 			tankDrive();
 		}
 
-		autoTrans();
+		// autoTrans();
 
 		SmartDashboard.putNumber("Power", _power);
 

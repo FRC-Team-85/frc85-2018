@@ -8,7 +8,7 @@ public class FullyRetractIntake extends CommandGroup {
 
 	public FullyRetractIntake() {
 		addSequential(new ApplyIntake(false));
-		addSequential(new Wait(.3));
+		addSequential(new Wait(.2));
 		addSequential(new ProtectIntake(true));
 	}
 }
