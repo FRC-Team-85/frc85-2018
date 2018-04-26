@@ -8,8 +8,9 @@ public class LiftClear extends Command {
 
 	public LiftClear(boolean clear) {
 		Lift.getInstance().setClear(clear);
+		Lift.getInstance().setDesiredHeight(Lift.getInstance().getPosition());
 	}
-	
+
 	@Override
 	protected boolean isFinished() {
 		return true;
