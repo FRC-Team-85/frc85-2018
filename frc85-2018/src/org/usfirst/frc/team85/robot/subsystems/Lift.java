@@ -26,6 +26,8 @@ public class Lift extends Subsystem {
 
 	private int _resetDebounce = 0;
 
+	private boolean _liftClear = true;
+
 	private Lift() {
 		_rightOne = new TalonSRX(Addresses.LIFT_RIGHT_ONE);
 		_rightOne.setNeutralMode(NeutralMode.Brake);
@@ -115,7 +117,8 @@ public class Lift extends Subsystem {
 			speed = 0;
 		}
 
-		if (_desiredHeight == -1) {
+		if (_desiredHeight == -1 || Intake.getInstance().isApplied() || !Intake.getInstance().isProtected()
+				|| !_liftClear) {
 			speed = 0;
 		}
 
@@ -179,6 +182,10 @@ public class Lift extends Subsystem {
 
 	public TalonSRX getIMUTalon() {
 		return _rightTwo;
+	}
+
+	public void setClear(boolean clear) {
+		_liftClear = clear;
 	}
 
 }

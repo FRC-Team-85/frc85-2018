@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class CubeSearch extends CommandGroup {
 
 	public CubeSearch() {
+		addSequential(new LiftClear(false));
 		addSequential(new FullyExtendIntake());
 		addSequential(new Wait(.2));
 		addParallel(new OpenGripper());
@@ -26,5 +27,7 @@ public class CubeSearch extends CommandGroup {
 		addSequential(new Wait(.05));
 		addSequential(new ActivateIntake(0.0));
 		addSequential(new ApplyIntake(false));
+		addSequential(new Wait(.1));
+		addSequential(new LiftClear(true));
 	}
 }
