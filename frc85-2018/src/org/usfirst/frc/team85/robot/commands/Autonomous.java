@@ -52,14 +52,15 @@ public class Autonomous extends CommandGroup {
 		} else if (position == 3) {
 			mult = -1;
 			buildPosition3();
-		} else if (position == 4) {
-			mult = 1;
-			addSequential(new DriveStraight(.8, 19.5));
-			for (int i = 3; i < 6; i++) {
-				getCubeFromLane(i);
-				goToScaleFromLane();
-			}
 		}
+		// else if (position == 4) {
+		// mult = 1;
+		// addSequential(new DriveStraight(.8, 19.5));
+		// for (int i = 3; i < 6; i++) {
+		// getCubeFromLane(i);
+		// goToScaleFromLane();
+		// }
+		// }
 		// else if (position == 5) {
 		// // test method
 		// addParallel(new DriveStraight(.5, 12).setVisionTrack());
@@ -312,15 +313,14 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(1.0, 15.5).setAcceleration(true, false));
 		addSequential(new SweepingTurn(1.0, 4, -90 * mult));
 		if (mult == 1) {
-			addSequential(new DriveStraight(.75, 7.25).setAbsoluteDirection(AbsoluteDirection.RIGHT) // was 11.5
+			addSequential(new DriveStraight(.75, 7.75).setAbsoluteDirection(AbsoluteDirection.RIGHT) // was 11.5
 					.setAcceleration(false, true));
 		} else {
-			addSequential(new DriveStraight(.75, 7.25).setAbsoluteDirection(AbsoluteDirection.LEFT)
+			addSequential(new DriveStraight(.75, 7.75).setAbsoluteDirection(AbsoluteDirection.LEFT)
 					.setAcceleration(false, true));
 		}
 
 		addSequential(new SpinExactDegrees(45 * mult, 1));
-		addSequential(new DriveStraight(.5, 1, .5));
 		addSequential(new Wait(.075));
 		addSequential(new OpenGripper());
 		addSequential(new Wait(.075));
