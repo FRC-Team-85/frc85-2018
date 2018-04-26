@@ -309,35 +309,64 @@ public class Autonomous extends CommandGroup {
 			return;
 		}
 
+		// addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		// addSequential(new DriveStraight(1.0, 15.5).setAcceleration(true, false));
+		// addSequential(new SweepingTurn(1.0, 4, -90 * mult));
+		// if (mult == 1) {
+		// addSequential(new DriveStraight(.75,
+		// 7.75).setAbsoluteDirection(AbsoluteDirection.RIGHT) // was 11.5
+		// .setAcceleration(false, true));
+		// } else {
+		// addSequential(new DriveStraight(.75,
+		// 7.75).setAbsoluteDirection(AbsoluteDirection.LEFT)
+		// .setAcceleration(false, true));
+		// }
+		//
+		// addSequential(new SpinExactDegrees(45 * mult, 1));
+		// addSequential(new Wait(.075));
+		// addSequential(new OpenGripper());
+		// addSequential(new Wait(.075));
+		// addSequential(new DriveStraight(-.5, 6));
+		// addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+		//
+		// if (secondCube) {
+		// addSequential(new SpinExactDegrees(-135 * mult));
+		// addSequential(new LiftPositionWait(false));
+		// addSequential(new DriveStraight(.5, 2));
+		// addParallel(new DriveStraight(.4, 2).setVisionTrack().setAcceleration(false,
+		// true));
+		// addSequential(new CubeSearch());
+		// addSequential(new DriveStraight(-.75, 2));
+		// addSequential(new SpinExactDegrees(135 * mult));
+		// addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
+		// addSequential(new DriveStraight(.5, 6.5));
+		// addSequential(new OpenGripper());
+		// }
+
 		addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-		addSequential(new DriveStraight(1.0, 15.5).setAcceleration(true, false));
-		addSequential(new SweepingTurn(1.0, 4, -90 * mult));
+		addSequential(new DriveStraight(1.0, 23.5));
+		addSequential(new SpinExactDegrees(-90 * mult, 1.2));
 		if (mult == 1) {
-			addSequential(new DriveStraight(.75, 7.75).setAbsoluteDirection(AbsoluteDirection.RIGHT) // was 11.5
-					.setAcceleration(false, true));
+			addSequential(new DriveStraight(.75, 15.5).setAbsoluteDirection(AbsoluteDirection.RIGHT));
 		} else {
-			addSequential(new DriveStraight(.75, 7.75).setAbsoluteDirection(AbsoluteDirection.LEFT)
-					.setAcceleration(false, true));
+			addSequential(new DriveStraight(.75, 15.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
 		}
 
 		addSequential(new SpinExactDegrees(45 * mult, 1));
-		addSequential(new Wait(.075));
+		addSequential(new Wait(.1));
 		addSequential(new OpenGripper());
-		addSequential(new Wait(.075));
-		addSequential(new DriveStraight(-.5, 6));
-		addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
+		addSequential(new Wait(.1));
 
 		if (secondCube) {
+			addSequential(new DriveStraight(-.5, 5));
+			addSequential(new SetLiftHeight(Variables.LIFT_GROUND));
 			addSequential(new SpinExactDegrees(-135 * mult));
-			addSequential(new LiftPositionWait(false));
-			addSequential(new DriveStraight(.5, 2));
-			addParallel(new DriveStraight(.4, 2).setVisionTrack().setAcceleration(false, true));
-			addSequential(new CubeSearch());
-			addSequential(new DriveStraight(-.75, 2));
-			addSequential(new SpinExactDegrees(135 * mult));
-			addSequential(new SetLiftHeight(Variables.LIFT_SCALE_HIGH));
-			addSequential(new DriveStraight(.5, 6.5));
-			addSequential(new OpenGripper());
+			addParallel(new DriveStraight(.25, 3).setVisionTrack());
+			addSequential(new OpenCubeSearch());
+			addSequential(new DriveStraight(-.75, 1));
+		} else {
+			addSequential(new SpinExactDegrees(-45 * mult, 1));
+			addSequential(new DriveStraight(-.5, 3));
 		}
 	}
 
