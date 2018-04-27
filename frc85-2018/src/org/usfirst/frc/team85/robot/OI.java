@@ -328,4 +328,12 @@ public class OI {
 			return 0;
 		}
 	}
+
+	public Joystick getLiftController() {
+		return _liftOperatorStation;
+	}
+	
+	public Joystick getMiscController() {
+		return _miscOperatorStation;
+	}
 }

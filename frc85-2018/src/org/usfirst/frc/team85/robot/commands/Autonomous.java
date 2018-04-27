@@ -352,7 +352,8 @@ public class Autonomous extends CommandGroup {
 			addSequential(new DriveStraight(.75, 15.2).setAbsoluteDirection(AbsoluteDirection.LEFT));
 		}
 
-		addSequential(new SpinExactDegrees(45 * mult, 1));
+		addSequential(new SpinExactDegrees(50 * mult, 1));
+		addSequential(new DriveStraight(.5, .5, .5));
 		addSequential(new Wait(.1));
 		addSequential(new OpenGripper());
 		addSequential(new Wait(.1));
