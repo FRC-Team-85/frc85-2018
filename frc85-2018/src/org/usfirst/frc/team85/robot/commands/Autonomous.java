@@ -347,12 +347,12 @@ public class Autonomous extends CommandGroup {
 		addSequential(new DriveStraight(1.0, 23.35));
 		addSequential(new SpinExactDegrees(-90 * mult, 1.2));
 		if (mult == 1) {
-			addSequential(new DriveStraight(.75, 15.2).setAbsoluteDirection(AbsoluteDirection.RIGHT));
+			addSequential(new DriveStraight(.75, 15.5).setAbsoluteDirection(AbsoluteDirection.RIGHT));
 		} else {
-			addSequential(new DriveStraight(.75, 15.2).setAbsoluteDirection(AbsoluteDirection.LEFT));
+			addSequential(new DriveStraight(.75, 15.5).setAbsoluteDirection(AbsoluteDirection.LEFT));
 		}
 
-		addSequential(new SpinExactDegrees(50 * mult, 1));
+		addSequential(new SpinExactDegrees(45 * mult, 1));
 		addSequential(new DriveStraight(.5, .5, .5));
 		addSequential(new Wait(.1));
 		addSequential(new OpenGripper());
