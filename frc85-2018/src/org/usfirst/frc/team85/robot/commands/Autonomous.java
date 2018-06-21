@@ -52,20 +52,28 @@ public class Autonomous extends CommandGroup {
 		} else if (position == 3) {
 			mult = -1;
 			buildPosition3();
+		} else if (position == 4) {
+			mult = -1;
+			buildWorldAuto();
 		}
-		// else if (position == 4) {
-		// mult = 1;
-		// addSequential(new DriveStraight(.8, 19.5));
-		// for (int i = 3; i < 6; i++) {
-		// getCubeFromLane(i);
-		// goToScaleFromLane();
-		// }
-		// }
-		// else if (position == 5) {
-		// // test method
-		// addParallel(new DriveStraight(.5, 12).setVisionTrack());
-		// addSequential(new CubeSearch());
-		// }
+	}
+
+	private void buildWorldAuto() {
+		String half = gameData.substring(0, 2);
+		switch (half) {
+		case "LL":
+			crossAutoLine();
+			break;
+		case "LR":
+			buildCloseScale();
+			break;
+		case "RL":
+			buildCloseSwitch();
+			break;
+		case "RR":
+			buildCloseScale();
+			break;
+		}
 	}
 
 	private void buildPosition1() {
