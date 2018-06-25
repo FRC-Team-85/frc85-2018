@@ -1,122 +1,42 @@
 package org.usfirst.frc.team85.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Relay.Direction;
+import edu.wpi.first.wpilibj.Relay.Value;
 
 public class Globals {
 
-	protected static Globals instance = null;
-
-	private Joystick leftJoystick;
-	private Joystick rightJoystick;
-	private MotorGroup mgLeft; // Left Drive Train
-	private MotorGroup mgRight; // Right Drive Train
-	private ADXRS450_Gyro gyro;
-	// private IMU imu;
-	private RangeFinder rangeFinder;
-	private TalonSRX leftIntakeWheel, rightIntakeWheel;
-	private Solenoid leftIntakeSolenoid, rightIntakeSolenoid;
-	private Compressor compressor;
-	private Solenoid transmissionSolenoid;
-	private Pneumatics pneumatics;
-	private PowerDistributionPanel powerDistributionPanel;
+	private static Globals _instance;
+	private Compressor _compressor;
+	private UsbCamera cam0, cam1;
+	private Relay leds;
 
 	private Globals() {
+		_compressor = new Compressor(0);
+		_compressor.setClosedLoopControl(true);
+		_compressor.stop();
 
-		leftJoystick = new Joystick(Addresses.leftDriveStick);
-		rightJoystick = new Joystick(Addresses.rightDriveStick);
+		cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+		cam0.setResolution(320, 240);
+		cam1 = CameraServer.getInstance().startAutomaticCapture(1);
+		cam1.setResolution(320, 240);
 
-		mgLeft = new MotorGroup(new int[] { Addresses.leftBackTalon, Addresses.leftFrontTalon });
-		mgRight = new MotorGroup(new int[] { Addresses.rightBackTalon, Addresses.rightFrontTalon });
-
-		rangeFinder = RangeFinder.getInstance();
-
-		gyro = new ADXRS450_Gyro(SPI.Port.kOnboardCS0);
-
-		// imu = new IMU();
-		
-		powerDistributionPanel = new PowerDistributionPanel(Addresses.powerDistributionPanel);
-
-		// leftIntakeWheel = new TalonSRX(Addresses.leftIntakeTalon);
-		// rightIntakeWheel = new TalonSRX(Addresses.rightIntakeTalon);
-
-		// leftIntakeSolenoid = new Solenoid(Addresses.leftIntakeSolenoid);
-		// rightIntakeSolenoid = new Solenoid(Addresses.rightIntakeSolenoid);
+		leds = new Relay(0, Direction.kForward);
+		leds.set(Value.kOn);
 	}
 
 	public static Globals getInstance() {
-		if (instance == null) {
-			instance = new Globals();
+		if (_instance == null) {
+			_instance = new Globals();
 		}
-		return instance;
-	}
-	
-	public PowerDistributionPanel getPowerDistributionPanel() {
-		return powerDistributionPanel;
-	}
-	
-	public Joystick getLeftJoystick() {
-		return leftJoystick;
+
+		return _instance;
 	}
 
-	public Joystick getRightJoystick() {
-		return rightJoystick;
-	}
-
-	public MotorGroup getMotorGroupLeft() {
-		return mgLeft;
-	}
-
-	public MotorGroup getMotorGroupRight() {
-		return mgRight;
-	}
-
-	// IMU getIMU() {
-	// return imu;
-	// }
-
-	public RangeFinder getRangeFinder() {
-		return rangeFinder;
-	}
-
-	public ADXRS450_Gyro getGyro() {
-		return gyro;
-	}
-
-	public TalonSRX getLeftIntakeWheel() {
-		return leftIntakeWheel;
-	}
-
-	public TalonSRX getRightIntakeWheel() {
-		return rightIntakeWheel;
-	}
-
-	public Solenoid getLeftIntakeSolenoid() {
-		return leftIntakeSolenoid;
-	}
-
-	public Solenoid getRightIntakeSolenoid() {
-		return rightIntakeSolenoid;
-	}
-	
 	public Compressor getCompressor() {
-		return compressor;
-	}
-	
-	public Pneumatics getPneumatics() {
-		return pneumatics;
-	}
-	
-	public Solenoid getTransmissionSolenoid() {
-		return transmissionSolenoid;
+		return _compressor;
 	}
 }

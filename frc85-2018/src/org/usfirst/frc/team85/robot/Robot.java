@@ -1,49 +1,103 @@
 package org.usfirst.frc.team85.robot;
 
-import org.usfirst.frc.team85.robot.auto.Auto;
+import org.usfirst.frc.team85.robot.commands.Autonomous;
+import org.usfirst.frc.team85.robot.sensors.Encoders;
+import org.usfirst.frc.team85.robot.sensors.IMU;
+import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
+import org.usfirst.frc.team85.robot.sensors.RangeFinder;
+import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
+import org.usfirst.frc.team85.robot.subsystems.Intake;
+import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	private Globals _globals;
-	private Drive _drive;
-	private Auto _auto;
+	private Autonomous _autonomous;
+	private Diagnostics _diagnostics;
 
 	@Override
 	public void robotInit() {
-		_globals = Globals.getInstance();
-		_drive = Drive.getInstance();
+		Globals.getInstance();
+
+		DriveTrain.getInstance();
+		Gripper.getInstance();
+		Intake.getInstance();
+		Lift.getInstance();
+
+		Encoders.getInstance();
+		IMU.getInstance();
+		LimitSwitches.getInstance();
+		RangeFinder.getInstance();
+		Vision.getInstance();
+
+		_diagnostics = new Diagnostics();
+
+		Intake.getInstance().apply(false);
+		Lift.getInstance().lock(false);
+
+		IMU.getInstance().setInitialYPR();
 	}
 
 	@Override
 	public void autonomousInit() {
-		String fieldKey = DriverStation.getInstance().getGameSpecificMessage();
-		_auto = new Auto(fieldKey);
+		_autonomous = new Autonomous((int) SmartDashboard.getNumber("Autonomous Position Selector", 1),
+				DriverStation.getInstance().getGameSpecificMessage(),
+				(int) SmartDashboard.getNumber("Autonomous Wait Time", 0),
+				SmartDashboard.getBoolean("Autonomous Prioritize Scale", false),
+				SmartDashboard.getBoolean("Autonomous Auto Line", false),
+				SmartDashboard.getBoolean("Autonomous Platform", false),
+				SmartDashboard.getBoolean("Autonomous Switch Then Scale", false),
+				SmartDashboard.getBoolean("Autonomous Second Cube", true),
+				SmartDashboard.getBoolean("Autonomous Ignore Scale", false),
+				SmartDashboard.getBoolean("Autonomous Do Not Cross Field", false));
+		_autonomous.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		double[] temp = _auto.autoTick();
+		Scheduler.getInstance().run();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		Indicators.getInstance().periodic();
+		_diagnostics.log();
+	}
 
-		_globals.getMotorGroupLeft().setPower(temp[0]);
-		_globals.getMotorGroupRight().setPower(temp[1]);
+	@Override
+	public void teleopInit() {
+		super.teleopInit();
+		if (_autonomous != null) {
+			_autonomous.cancel();
+		}
+		Encoders.getInstance().driveEncoderReset();
+		Globals.getInstance().getCompressor().start();
+		Gripper.getInstance().close();
+		Intake.getInstance().apply(false);
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		_drive.periodic();
+		Scheduler.getInstance().run();
+		OI.getInstance().periodic();
+		Lift.getInstance().periodic();
+		Variables.getInstance().outputVariables();
+		Indicators.getInstance().periodic();
+		_diagnostics.log();
 	}
 
 	@Override
 	public void testPeriodic() {
 
 	}
-	
+
 	@Override
 	public void disabledPeriodic() {
-		//System.out.println("Range finder verify: " + _rangeFinder.verify());
+		_diagnostics.close();
+		Lift.getInstance().setDesiredHeight(Lift.getInstance().getPosition());
+		Encoders.getInstance().driveEncoderReset();
 	}
 }
