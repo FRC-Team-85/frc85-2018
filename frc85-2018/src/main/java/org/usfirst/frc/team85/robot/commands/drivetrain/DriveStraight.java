@@ -30,6 +30,7 @@ public class DriveStraight extends Command {
 	private boolean _autoShift = false;
 	private boolean _visionTrack = false;
 	private boolean _useRangeFinders = false;
+	private boolean _rearRangeFinderCheck = false;
 	private AbsoluteDirection _rangeDirection;
 
 	private int outputRange = 25;
@@ -78,6 +79,11 @@ public class DriveStraight extends Command {
 
 	public DriveStraight setGradualTurn() {
 		outputRange = 5;
+		return this;
+	}
+
+	public DriveStraight setRearRangeFinderCheck() {
+		_rearRangeFinderCheck = true;
 		return this;
 	}
 
@@ -145,6 +151,10 @@ public class DriveStraight extends Command {
 
 		if (_visionTrack) {
 			Vision.getInstance().setCommand(this);
+		}
+
+		if (_rearRangeFinderCheck) {
+			_distance -= RangeFinder.getInstance().getDistanceBack();
 		}
 	}
 

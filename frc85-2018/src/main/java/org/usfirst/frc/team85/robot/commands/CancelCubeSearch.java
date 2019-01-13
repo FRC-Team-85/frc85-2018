@@ -10,5 +10,6 @@ public class CancelCubeSearch extends CommandGroup {
 	public CancelCubeSearch() {
 		addSequential(new ActivateIntake(0.0));
 		addSequential(new FullyRetractIntake());
+		addSequential(new LiftClear(true));
 	}
 }

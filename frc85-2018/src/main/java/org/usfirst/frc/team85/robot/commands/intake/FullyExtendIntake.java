@@ -8,7 +8,7 @@ public class FullyExtendIntake extends CommandGroup {
 
 	public FullyExtendIntake() {
 		addSequential(new ProtectIntake(false));
-		addSequential(new Wait(.3));
+		addSequential(new Wait(.2));
 		addSequential(new ApplyIntake(true));
 	}
 }

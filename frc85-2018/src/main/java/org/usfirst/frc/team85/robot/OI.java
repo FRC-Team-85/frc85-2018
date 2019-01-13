@@ -6,8 +6,8 @@ import org.usfirst.frc.team85.robot.commands.CompressorActive;
 import org.usfirst.frc.team85.robot.commands.CubeSearch;
 import org.usfirst.frc.team85.robot.commands.EjectCube;
 import org.usfirst.frc.team85.robot.commands.OpenCubeSearch;
+import org.usfirst.frc.team85.robot.commands.drivetrain.SetTransmissionHigh;
 import org.usfirst.frc.team85.robot.commands.drivetrain.SpinExactDegrees;
-import org.usfirst.frc.team85.robot.commands.drivetrain.ToggleTransmission;
 import org.usfirst.frc.team85.robot.commands.gripper.ToggleGripper;
 import org.usfirst.frc.team85.robot.commands.intake.ActivateIntake;
 import org.usfirst.frc.team85.robot.commands.intake.ToggleProtectIntake;
@@ -15,9 +15,7 @@ import org.usfirst.frc.team85.robot.commands.lift.LockLift;
 import org.usfirst.frc.team85.robot.commands.lift.MoveLift;
 import org.usfirst.frc.team85.robot.commands.lift.SetLiftHeight;
 import org.usfirst.frc.team85.robot.sensors.Encoders;
-import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
-import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -58,7 +56,8 @@ public class OI {
 		_liftFastDown = new MoveLift(-Variables.getInstance().getLiftFastManualSpeed());
 
 		JoystickButton manualTrans = new JoystickButton(_leftJoystick, 2);
-		manualTrans.whenPressed(new ToggleTransmission());
+		manualTrans.whenPressed(new SetTransmissionHigh(true));
+		manualTrans.whenReleased(new SetTransmissionHigh(false));
 
 		JoystickButton turnLeft = new JoystickButton(_leftJoystick, 4); // button?
 		JoystickButton turnRight = new JoystickButton(_leftJoystick, 5); // button?
@@ -162,7 +161,7 @@ public class OI {
 			tankDrive();
 		}
 
-		autoTrans();
+		// autoTrans();
 
 		SmartDashboard.putNumber("Power", _power);
 
@@ -263,44 +262,45 @@ public class OI {
 	 * Trys to not tip the robot over
 	 */
 	public double tractionControl() {
-		double leftVelocity = Encoders.getInstance().getLeftVelocity();
-		double rightVelocity = Encoders.getInstance().getRightVelocity();
-		double yaw = IMU.getInstance().getYaw();
-		double pitch = IMU.getInstance().getPitch();
-		double roll = IMU.getInstance().getRoll();
-
-		double lift = Lift.getInstance().getPosition();
-		double turnRate = Math.abs(yaw - _previousYaw);
-
-		_previousYaw = yaw;
-
-		if (Math.abs(roll) > 12) { // If tilting left or right
-			if (lift > 13000) { // Move lift down
-				Lift.getInstance().setDesiredHeight(10000);
-				return 1.0;
-			} else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) || (turnRate > 10)) { // Slow robot
-																											// down
-				/*
-				 * Returns multiplier (For example, 0.90) which the speed (in tank and fps
-				 * drive) is multiplied by it to slow robot down (by 10%)
-				 */
-				return Variables.getInstance().getTractionControlMultiplier();
-			} else {
-				return 1.0;
-			}
-		}
-
-		if (Math.abs(pitch) > 20) { // If tilting forwards or backwards
-			if (lift > 13000) { // Move lift down
-				Lift.getInstance().setDesiredHeight(10000);
-				return 1.0;
-			} else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) {
-				// Slow robot down
-				return Variables.getInstance().getTractionControlMultiplier();
-			} else {
-				return 1.0;
-			}
-		}
+		// double leftVelocity = Encoders.getInstance().getLeftVelocity();
+		// double rightVelocity = Encoders.getInstance().getRightVelocity();
+		// double yaw = IMU.getInstance().getYaw();
+		// double pitch = IMU.getInstance().getPitch();
+		// double roll = IMU.getInstance().getRoll();
+		//
+		// double lift = Lift.getInstance().getPosition();
+		// double turnRate = Math.abs(yaw - _previousYaw);
+		//
+		// _previousYaw = yaw;
+		//
+		// if (Math.abs(roll) > 12) { // If tilting left or right
+		// if (lift > 13000) { // Move lift down
+		// Lift.getInstance().setDesiredHeight(10000);
+		// return 1.0;
+		// } else if ((Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) ||
+		// (turnRate > 10)) { // Slow robot
+		// // down
+		// /*
+		// * Returns multiplier (For example, 0.90) which the speed (in tank and fps
+		// * drive) is multiplied by it to slow robot down (by 10%)
+		// */
+		// return Variables.getInstance().getTractionControlMultiplier();
+		// } else {
+		// return 1.0;
+		// }
+		// }
+		//
+		// if (Math.abs(pitch) > 20) { // If tilting forwards or backwards
+		// if (lift > 13000) { // Move lift down
+		// Lift.getInstance().setDesiredHeight(10000);
+		// return 1.0;
+		// } else if (Math.abs(leftVelocity) > 10 && Math.abs(rightVelocity) > 10) {
+		// // Slow robot down
+		// return Variables.getInstance().getTractionControlMultiplier();
+		// } else {
+		// return 1.0;
+		// }
+		// }
 		return 1.0;
 	}
 
@@ -326,5 +326,13 @@ public class OI {
 		} else {
 			return 0;
 		}
+	}
+
+	public Joystick getLiftController() {
+		return _liftOperatorStation;
+	}
+	
+	public Joystick getMiscController() {
+		return _miscOperatorStation;
 	}
 }

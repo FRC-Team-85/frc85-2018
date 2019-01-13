@@ -9,6 +9,8 @@ import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
+import org.usfirst.frc.team85.robot.subsystems.Intake;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -38,7 +40,14 @@ public class Diagnostics {
 					+ "Left Intake Limit,Right Intake Limit,"
 					+ "Lift Position,Left One,Left Two, Right One,Right Two,Lower Lift Limit,Upper Lift Limit,"
 					+ "Compressor,Total Solenoid Activations,Initial Yaw,Initial Pitch,Initial Roll,"
-					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration,Front,Back,Left,Right,Battery Voltage");
+					+ "Yaw,Pitch,Roll,X Acceleration,Y Acceleration,Z Acceleration,Front,Back,Left,Right,Battery Voltage,"
+					+ "OS_LIFT_PLATFORM_SWITCH,OS_LIFT_GROUND,OS_LIFT_LOCK,OS_LIFT_LOW_SCALE,"
+					+ "OS_LIFT_MEDIUM_SCALE,OS_LIFT_HIGH_SCALE,OS_LIFT_DOUBLE_SCALE,"
+					+ "OS_MISC_TOGGLE_GRIPPER,OS_MISC_INTAKE_PROTECT,OS_MISC_INTAKE_FORWARD,OS_MISC_INTAKE_REVERSE,"
+					+ "OS_MISC_COMPRESSOR_ON,OS_MISC_COMPRESSOR_OFF,OS_MISC_CUBE_SEARCH,OS_MISC_EXHANGE_BUTTON,"
+					+ "OS_MISC_LIFT_CLIMB,OS_MISC_OPEN_CUBE_SEARCH,"
+					+ "Gripper Open,Intake Applied,Intake Protected,Lift Locked,"
+					+ "Lift Up,Lift Down,Lift Fast Up,Lift Fast Down");
 			out.newLine();
 		} catch (Exception ex) {
 			System.out.println("Error creating log file: " + ex.toString());
@@ -106,12 +115,51 @@ public class Diagnostics {
 
 			String voltage = Double.toString(RobotController.getBatteryVoltage());
 
+			String OS_LIFT_PLATFORM_SWITCH = Boolean.toString(OI.getInstance().getLiftController().getRawButton(1));
+			String OS_LIFT_GROUND = Boolean.toString(OI.getInstance().getLiftController().getRawButton(2));
+			String OS_LIFT_LOCK = Boolean.toString(OI.getInstance().getLiftController().getRawButton(3));
+			String OS_LIFT_LOW_SCALE = Boolean.toString(OI.getInstance().getLiftController().getRawButton(4));
+			String OS_LIFT_MEDIUM_SCALE = Boolean.toString(OI.getInstance().getLiftController().getRawButton(5));
+			String OS_LIFT_HIGH_SCALE = Boolean.toString(OI.getInstance().getLiftController().getRawButton(6));
+			String OS_LIFT_DOUBLE_SCALE = Boolean.toString(OI.getInstance().getLiftController().getRawButton(7));
+
+			String OS_MISC_TOGGLE_GRIPPER = Boolean.toString(OI.getInstance().getLiftController().getRawButton(1));
+			String OS_MISC_INTAKE_PROTECT = Boolean.toString(OI.getInstance().getLiftController().getRawButton(2));
+			String OS_MISC_INTAKE_FORWARD = Boolean.toString(OI.getInstance().getLiftController().getRawButton(3));
+			String OS_MISC_INTAKE_REVERSE = Boolean.toString(OI.getInstance().getLiftController().getRawButton(4));
+			String OS_MISC_COMPRESSOR_ON = Boolean.toString(OI.getInstance().getLiftController().getRawButton(5));
+			String OS_MISC_COMPRESSOR_OFF = Boolean.toString(OI.getInstance().getLiftController().getRawButton(6));
+			String OS_MISC_CUBE_SEARCH = Boolean.toString(OI.getInstance().getLiftController().getRawButton(9));
+			String OS_MISC_EXHANGE_BUTTON = Boolean.toString(OI.getInstance().getLiftController().getRawButton(10));
+			String OS_MISC_LIFT_CLIMB = Boolean.toString(OI.getInstance().getLiftController().getRawButton(11));
+			String OS_MISC_VISION_SEARCH = Boolean.toString(OI.getInstance().getLiftController().getRawButton(8));
+
+			String gripperOpen = Boolean.toString(Gripper.getInstance().isOpen());
+			String intakeApplied = Boolean.toString(Intake.getInstance().isApplied());
+			String intakeProtect = Boolean.toString(Intake.getInstance().isProtected());
+			String liftLock = Boolean.toString(Lift.getInstance().isLocked());
+
+			double liftJoystickAxis1 = OI.getInstance().getLiftController().getRawAxis(1);
+			double liftJoystickAxis2 = OI.getInstance().getLiftController().getRawAxis(0);
+
+			String liftUp = Boolean.toString(liftJoystickAxis1 == -1);
+			String liftDown = Boolean.toString(liftJoystickAxis1 == 1);
+			String liftFastUp = Boolean.toString(liftJoystickAxis2 == 1);
+			String liftFastDown = Boolean.toString(liftJoystickAxis2 == -1);
+
 			out.append(time + "," + matchTime + "," + LJ + "," + RJ + "," + LV + "," + RV + "," + gear + "," + LF + ","
 					+ LB + "," + RF + "," + RB + "," + LFP + "," + LBP + "," + RFP + "," + RBP + "," + leftLS + ","
 					+ rightLS + "," + Pos + "," + L1 + "," + L2 + "," + R1 + "," + R2 + "," + LLS + "," + ULS + ","
 					+ comp + "," + solenoid + "," + initialYaw + "," + initialPitch + "," + initialRoll + "," + yaw
 					+ "," + pitch + "," + roll + "," + x + "," + y + "," + z + "," + F + "," + B + "," + L + "," + R
-					+ "," + voltage);
+					+ "," + voltage + "," + OS_LIFT_PLATFORM_SWITCH + "," + OS_LIFT_GROUND + "," + OS_LIFT_LOCK + ","
+					+ OS_LIFT_LOW_SCALE + "," + OS_LIFT_MEDIUM_SCALE + "," + OS_LIFT_HIGH_SCALE + ","
+					+ OS_LIFT_DOUBLE_SCALE + "," + OS_MISC_TOGGLE_GRIPPER + "," + OS_MISC_INTAKE_PROTECT + ","
+					+ OS_MISC_INTAKE_FORWARD + "," + OS_MISC_INTAKE_REVERSE + "," + OS_MISC_COMPRESSOR_ON + ","
+					+ OS_MISC_COMPRESSOR_OFF + "," + OS_MISC_CUBE_SEARCH + "," + OS_MISC_EXHANGE_BUTTON + ","
+					+ OS_MISC_LIFT_CLIMB + "," + OS_MISC_VISION_SEARCH + "," + gripperOpen + "," + intakeApplied + ","
+					+ intakeProtect + "," + liftLock + "," + liftUp + "," + liftDown + "," + liftFastUp + ","
+					+ liftFastDown);
 
 			out.newLine();
 		} catch (Exception ex) {

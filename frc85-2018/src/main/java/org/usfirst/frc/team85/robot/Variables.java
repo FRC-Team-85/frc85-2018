@@ -5,6 +5,7 @@ import org.usfirst.frc.team85.robot.sensors.IMU;
 import org.usfirst.frc.team85.robot.sensors.LimitSwitches;
 import org.usfirst.frc.team85.robot.sensors.RangeFinder;
 import org.usfirst.frc.team85.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team85.robot.subsystems.Gripper;
 import org.usfirst.frc.team85.robot.subsystems.Lift;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -209,6 +210,8 @@ public class Variables {
 	}
 
 	public void outputVariables() {
+		SmartDashboard.putBoolean("Gripper", !Gripper.getInstance().isOpen());
+
 		SmartDashboard.putNumber("DriveTrain Total Current", DriveTrain.getInstance().getTotalCurrent());
 		SmartDashboard.putNumber("DriveTrain Joystick Power", OI.getInstance().getPower());
 		SmartDashboard.putNumber("Lift Encoder Values", Lift.getInstance().getPosition());

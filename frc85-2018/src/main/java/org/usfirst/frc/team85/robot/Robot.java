@@ -74,6 +74,9 @@ public class Robot extends IterativeRobot {
 			_autonomous.cancel();
 		}
 		Encoders.getInstance().driveEncoderReset();
+		Globals.getInstance().getCompressor().start();
+		Gripper.getInstance().close();
+		Intake.getInstance().apply(false);
 	}
 
 	@Override

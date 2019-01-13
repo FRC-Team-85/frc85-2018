@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class OpenCubeSearch extends CommandGroup {
 
 	public OpenCubeSearch() {
+		addSequential(new LiftClear(false));
 		addSequential(new ProtectIntake(false));
 		addSequential(new OpenGripper());
 		addSequential(new ActivateIntake(1.0));
@@ -22,11 +23,13 @@ public class OpenCubeSearch extends CommandGroup {
 		addSequential(new ApplyIntake(true));
 
 		addSequential(new IntakeLimitWait());
-		addSequential(new Wait(.05));
+		addSequential(new Wait(.1));
 		addSequential(new CloseGripper());
 		addSequential(new Wait(.05));
 		addSequential(new ActivateIntake(0.0));
 		addSequential(new Wait(.2));
 		addSequential(new FullyRetractIntake());
+		addSequential(new Wait(.05));
+		addSequential(new LiftClear(true));
 	}
 }
